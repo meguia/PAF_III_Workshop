@@ -39,12 +39,14 @@ $e^x = e^0 + e^0 x + \frac{e^0}{2!} x^2 + \frac{e^0}{3!} x^3 + \frac{e^0}{4!} x^
 
 $e^x = 1 + x + \frac{1}{2!} x^2 + \frac{1}{3!} x^3 + \frac{1}{4!} x^4 + \frac{1}{5!} x^5 + \frac{1}{6!} x^6 + \frac{1}{7!} x^7 + ...$ 
 
-$e^{ix} = e^0 + i e^0 x + \frac{i^2 e^0}{2!} x^2 + \frac{i^3 e^0}{3!} x^3 + \frac{i ^4 e^0}{4!} x^4 + \frac{i^5 e^0}{5!} x^5 + \frac{i^6 e^0}{6!} x^6 + \frac{i^7 e^0}{7!} x^7 + ...$ 
+do the substitution $x=i\theta$
 
-$e^{ix} = 1 + ix - \frac{1}{2!} x^2 - i\frac{1}{3!} x^3 + \frac{1}{4!} x^4 + i\frac{1}{5!} x^5 - \frac{1}{6!} x^6 - i\frac{1}{7!} x^7 + ...$
+$e^{i\theta} = 1 + i\theta - \frac{1}{2!} \theta^2 - i\frac{1}{3!} \theta^3 + \frac{1}{4!} \theta^4 + i\frac{1}{5!} \theta^5 - \frac{1}{6!} \theta^6 - i\frac{1}{7!} \theta^7 + ...$
 
-$e^{ix} = 1  - \frac{1}{2!} x^2 + \frac{1}{4!} x^4  - \frac{1}{6!} x^6  + ...$
-$+ ix - i\frac{1}{3!} x^3 + i\frac{1}{5!} x^5 - i\frac{1}{7!} x^7 + ...$
+$e^{i\theta} = \left( 1  - \frac{1}{2!} \theta^2 + \frac{1}{4!} \theta^4  - \frac{1}{6!} \theta^6  + ... \right)
++ i \left( \theta - \frac{1}{3!} \theta^3 + \frac{1}{5!} \theta^5 - \frac{1}{7!} \theta^7 + ... \right)$
+
+$e^{i\theta} = \cos(\theta) + i \sin(\theta)$
 
 
 
@@ -62,12 +64,18 @@ Every complex number $z$ can be expressed through their modulus $|z|$ and angle 
 as:
 
 $z = |z| e^{i\theta}$
+
+using Euler
+
+$z = |z| \cos(\theta) + i |z| \sin(\theta)$
+
+the real part is the projection on the real axis $|z| \cos(\theta)$ and the imaginary part is the projection on the imaginary axis $|z| \sin(\theta)$
 """
 
 # ╔═╡ f46c59db-3ddc-4683-aaa2-4e443558901e
 md"""
 |z| $(@bind A Slider(0:0.01:2,default=1.0;show_value=true)) \
-θ $(@bind θ Slider(0:0.01:6*pi,default=0.0;show_value=true))
+θ $(@bind θ Slider(0:0.01:6.28,default=0.0;show_value=true))
 """
 
 # ╔═╡ 4fdc6730-94d7-4b83-b346-d620c7e92bb6
@@ -84,17 +92,32 @@ end
 
 # ╔═╡ 83f8450d-3225-4f37-ba5d-9f510cf0d497
 md"""
-# Oscillations
+# Elementary Oscillations (Pure Tones)
 
 Elementary Oscillations (Pure Tones) can be expressed as a function of time as
 
 $s(t) = A e^{i\omega t}$
 
-This is a complex function of modulus $A$ and angle $\theta = \omega t$
+This is a complex function of modulus $A$ and angle $\theta = \omega t$. In the context of the study of Oscillations this angle is also called **phase**
+
+This can be seen represented as a point moving at constant speed ($\omega$ radians per second) counterclockwise on a circle of radius $A$. 
+
+Or it can also be seen as an uniform rotation of the whole plane.
 
 The real part of this function is
 
 $Re(s(t)) = A \cos(\omega t)$
+
+And it can be seen as the "shadow" on the ground of the moving point.
+And the imaginary part is the "shadow" on the wall:
+
+$Im(s(t)) = A \sin(\omega t)$
+
+Elementary Oscillations are eigenfunctions of time-shifts: Shifting only re-phases them.
+
+As a consequence any time-invariant linear process (a filter) make no change on PT
+
+A pure tone is that constant-rate U(1) rotation (the circle group).
 
 """
 
@@ -137,7 +160,7 @@ md"""
 """
 
 # ╔═╡ c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
-@bind t_2 Clock(0.1,true,false,101,false)
+@bind t_2 Clock(0.1,true,false,401,false)
 
 # ╔═╡ 0e34247d-671a-46b3-be5b-3f4545d848f0
 md"""
@@ -151,7 +174,7 @@ md"""
 
 # ╔═╡ 52f0eb33-18b6-452d-a250-65a54d96080f
 begin
-	t2 = (t_2-1)*(2*pi)/100
+	t2 = (t_2-1)*(4*pi)/400
 	Amps = [A1, A2, A3]
 	ωs = [1,2,3]
 	ϕs = [ϕ1,ϕ2,ϕ3]
@@ -160,51 +183,83 @@ begin
 	Amax = 6
 	p1b = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
 	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel="Amplitude")
-	#plot!(Amp*cos.(0:pi/20:2*pi),Amp*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
 	plot!([0,sum(xs)],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
 	plot!([0,xs[1]],[0,ys[1]],c=:red,label="")
 	plot!([xs[1],xs[1]+xs[2]],[ys[1],ys[1]+ys[2]],c=:red,label="")
 	plot!([xs[1]+xs[2],sum(xs)],[ys[1]+ys[2],sum(ys)],c=:red,label="")
 	plot!([0,0],[0,sum(ys)],c=:blue,label="")
 	plot!([0,Amax],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
-	plot!(Amps[1]*cos.(0:pi/20:2*pi),Amps[1]*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
-	plot!(xs[1].+Amps[2]*cos.(0:pi/20:2*pi),ys[1].+Amps[2]*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
-	plot!(xs[2].+xs[1].+Amps[3]*cos.(0:pi/20:2*pi),ys[1].+ys[2].+Amps[3]*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
+	plot!(Amps[1]*cos.(0:pi/20:2*pi),Amps[1]*sin.(0:pi/20:2*pi),c=:green,label="")
+	plot!(xs[1].+Amps[2]*cos.(0:pi/20:2*pi),ys[1].+Amps[2]*sin.(0:pi/20:2*pi),c=:green,label="")
+	plot!(xs[2].+xs[1].+Amps[3]*cos.(0:pi/20:2*pi),ys[1].+ys[2].+Amps[3]*sin.(0:pi/20:2*pi),c=:green,label="")
 	scatter!([xs[1]],[ys[1]],c=:red,ms=4,alpha=0.6,label="")
 	scatter!([xs[1]+xs[2]],[ys[1]+ys[2]],c=:red,ms=4,alpha=0.6,label="")
 	scatter!([sum(xs)],[sum(ys)],c=:red,ms=5,label="")
 	scatter!([0],[sum(ys)],c=:blue,ms=5,label="")
-	p2b = plot(t1b,sum(Amps'.*sin.(t1b*ωs' .+ ϕs'),dims=2),label="",ls=:dash,c=:green,ylims=(-Amax,Amax))
-	plot!([0,2*pi],[0,0],ls=:dash,c=:black,label="",title=latexify("t=$(round(t2,digits=2))"))
-	scatter!([t2],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,2*pi))
+	t2b = (0:pi/50:4*pi)
+	p2b = plot(t2b,sum(Amps'.*sin.(t2b*ωs' .+ ϕs'),dims=2),label="",c=:blue,ylims=(-Amax,Amax))
+	plot!([0,4*pi],[0,0],ls=:dash,c=:black,label="",title=latexify("t=$(round(t2,digits=2))"))
+	scatter!([t2],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,4*pi))
 	plot!([0,t2],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
 	plot(p1b,p2b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
 end	
 
 # ╔═╡ 09a6bcc2-4a05-435f-92d0-b78dc7a5c321
 begin
-	xs0 = Amps.*cos.(ϕs)
-	ys0 = Amps.*sin.(ϕs)
-	p3a = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
-	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel="Amplitude")
-	plot!([0,xs0[1]],[0,ys0[1]],c=:red,label="")
-	plot!([xs0[1],xs0[1]+xs0[2]],[ys0[1],ys0[1]+ys0[2]],c=:red,label="")
-	plot!([xs0[1]+xs0[2],sum(xs0)],[ys0[1]+ys0[2],sum(ys0)],c=:red,label="")
-	plot!(Amps[1]*cos.(0:pi/20:2*pi),Amps[1]*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
-	plot!(xs0[1].+Amps[2]*cos.(0:pi/20:2*pi),ys0[1].+Amps[2]*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
-	plot!(xs0[2].+xs0[1].+Amps[3]*cos.(0:pi/20:2*pi),ys0[1].+ys0[2].+Amps[3]*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
-	scatter!([xs0[1]],[ys0[1]],c=:red,ms=4,alpha=0.6,label="")
-	scatter!([xs0[1]+xs0[2]],[ys0[1]+ys0[2]],c=:red,ms=4,alpha=0.6,label="")
-	scatter!([sum(xs0)],[sum(ys0)],c=:red,ms=5,label="")
-	p3b = plot(t1b,sum(Amps'.*sin.(t1b*ωs' .+ ϕs'),dims=2),label="",c=:green,ylims=(-14,Amax),xlims=(0,2*pi))
-	plot!([0,2*pi],[0,0],ls=:dash,c=:black,label="")
-	plot!(t1b,Amps'.*sin.(t1b*ωs' .+ ϕs').+[-12,-8,-4]',ls=:dash,c=:blue,label="")
-	plot(p3a,p3b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	p3a = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-16,6))
+	plot!([0,0],[-16,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel="Amplitude")
+	plot!([0,sum(xs)],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
+	plot!([0,xs[1]],[0,ys[1]],c=:red,label="")
+	plot!([0,Amax],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
+	plot!([xs[1],xs[1]+xs[2]],[ys[1],ys[1]+ys[2]],c=:red,label="")
+	plot!([xs[1]+xs[2],sum(xs)],[ys[1]+ys[2],sum(ys)],c=:red,label="")
+	plot!([0,0],[0,sum(ys)],c=:blue,label="")
+	plot!(Amps[1]*cos.(0:pi/20:2*pi),Amps[1]*sin.(0:pi/20:2*pi),c=:green,label="")
+	plot!(xs[1].+Amps[2]*cos.(0:pi/20:2*pi),ys[1].+Amps[2]*sin.(0:pi/20:2*pi),c=:green,label="")
+	plot!(xs[2].+xs[1].+Amps[3]*cos.(0:pi/20:2*pi),ys[1].+ys[2].+Amps[3]*sin.(0:pi/20:2*pi),c=:green,label="")
+	scatter!([xs[1]],[ys[1]],c=:red,ms=4,alpha=0.6,label="")
+	scatter!([xs[1]+xs[2]],[ys[1]+ys[2]],c=:red,ms=4,alpha=0.6,label="")
+	scatter!([sum(xs)],[sum(ys)],c=:red,ms=5,label="")
+	scatter!([0],[sum(ys)],c=:blue,ms=5,label="")
+	for n=1:3
+		offset = -2-4*n
+		plot!([-Amax,Amax],[offset,offset],ls=:dash,c=:gray,label="")
+		plot!(Amps[n]*cos.(0:pi/20:2*pi),Amps[n]*sin.(0:pi/20:2*pi).+offset,c=:green,label="")
+		plot!([0,xs[n]],[0,ys[n]].+offset,c=:red,label="")
+		scatter!([xs[n]],[ys[n]].+offset,c=:red,ms=4,label="")
+		plot!([0,0],[0,ys[n]].+offset,c=:green,label="")
+		scatter!([0],[ys[n]+offset],c=:green,ms=5,label="")
+		plot!([0,Amax],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
+		plot!([0,xs[n]],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
+	end	
+	p3b = plot(t2b,sum(Amps'.*sin.(t2b*ωs' .+ ϕs'),dims=2),label="",c=:blue,xlims=(0,4*pi))
+	scatter!([t2],[sum(ys)],c=:blue,ms=5,label="",ylims=(-16,6))
+	for n=0:3
+		if n>0
+			offset = -2-4*n
+			plot!([t2,t2],[0,ys[n]].+offset,c=:green,label="")
+			plot!([0,4*pi],[0,0].+offset,ls=:dash,c=:black,label="")
+			plot!([0,t2],[ys[n],ys[n]].+offset,c=:green,ls=:dash,label="")
+		else
+			plot!([0,4*pi],[0,0],ls=:dash,c=:black,label="")
+			plot!([t2,t2],[0,sum(ys)],c=:blue,label="")
+			plot!([0,t2],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
+		end	
+	end	
+	plot!(t2b,Amps'.*sin.(t2b*ωs' .+ ϕs').+[-6,-10,-14]',c=:green,label="")
+	scatter!([t2,t2,t2],ys.+[-6,-10,-14],c=:green,ms=5,label="")
+	plot(p3a,p3b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,700))
 end	
 
 # ╔═╡ b5e1f95c-dbb9-4f07-835e-f789dd08d337
 md"""
- any smooth curve can be approximated to arbitrary accuracy with a sufficient number of epicycles
+# Periodic Oscillations
+
+Any periodic motion can be choreographed by stacking several constant-speed rotations (frequencies at multiples of a base rate).
+
+The set of radii & starting angles = the spectrum (the ingredient list).
+
+Any smooth curve can be approximated to arbitrary accuracy with a sufficient number of epicycles
 """
 
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
