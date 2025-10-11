@@ -36,26 +36,60 @@ If we define the position of a particle as a function of time $s(t)$.
 
 The instantaneous velocity is, by definition, its first derivative $v(t) = s^{\prime}(t)$. 
 
-On the number line, $s(t)$ is a signed position. 
+On the number line, we can draw an arrow from $0$ to $s(t)$ to indicate the position (red)
 
-The velocity $v(t)$ is the rate of change of that distance at time t.
+The velocity $v(t)$ is the rate of change of that distance at time t and it can also be indicade by an arrow (blue)
 
+Let start with the simples case: constant velocity
+
+$s(t) = s(0) + vt$ 
+
+where $s(0)$ is the position at the initial time $t=0$
+
+"""
+
+# ╔═╡ e5e55559-3aab-4fd4-b7a2-ad3a512bb376
+md"""
+v $(@bind v01 Slider(-1.0:0.1:1.0,default=1.0;show_value=true)) \
 """
 
 # ╔═╡ b3488a41-98c0-4816-91e8-8a9d867689fd
 begin
-	@bind t0_1 Clock(0.1,true,false,61,false)
+	@bind t0_1 Clock(0.1,true,false,floor(Int,50/(abs(v01)+0.1)),false)
 end
 
 # ╔═╡ a321b881-11e7-408c-a71e-8ba2ddb632ff
 begin
 	s0 = 1.0
 	t01 = (t0_1-1)*0.1
-	v01 = 1.0
 	s01 = s0+t01*v01
-	plot_velocity(t01,s01,v01,min(s01,-1),max(s01+v01,11))
+	plot_velocity(t01,s01,v01,min(s01+v01,-2),max(s01+v01,7))
 	annotate!((0.0,-0.3,text(latexstring("s(t)=1+vt"),15,:black,:left)))
 end	
+
+# ╔═╡ cb996baa-8ee5-4dd9-9d61-463ae320eafe
+md"""
+### Exponential growth
+
+There is a unique function of time for the position $s(t)$ whose instantaneous velocity equals the position itself.
+
+$s(t) = e^t$
+
+$v(t)= s^{\prime}(t) = e^t$
+
+At $t=0$, $e^0=1$. Position is $1$. Velocity is also $1$.
+
+They always match in length and direction. This property characterizes the exponential.
+
+More generally, if 
+
+$s(t)=e^{at}$ 
+
+then the velocityt is proportional to the position
+
+$v(t)=ae^{at} = as(t)$
+
+"""
 
 # ╔═╡ 667886da-feaf-4bdc-b2d7-9860ce651b8a
 md"""
@@ -75,6 +109,13 @@ begin
 	plot_velocity(t02,s02,v02,min(s02,-1),max(s02+v02,11))
 	annotate!((0.0,-0.3,text(latexstring("s(t)=e^{$(a1)t} \\ \\ \\ v(t)=$(a1)e^{$(a1)t}"),15,:black,:left)))
 end	
+
+# ╔═╡ ef4720b7-dee8-4617-b121-1e939b3061ad
+md"""
+### Exponential decay. Negative rate
+
+If we now choose $a<0$ the velocity points opposite to the position and the motion shrinks towards $0$
+"""
 
 # ╔═╡ 523b78c2-02b2-4736-8f89-2f0430a88b02
 md"""
@@ -128,18 +169,21 @@ input[type*="range"] {
 """
 
 # ╔═╡ Cell order:
+# ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─240f065d-067b-4888-b9db-0dcfae91b81d
 # ╟─b3488a41-98c0-4816-91e8-8a9d867689fd
 # ╟─a321b881-11e7-408c-a71e-8ba2ddb632ff
+# ╟─e5e55559-3aab-4fd4-b7a2-ad3a512bb376
+# ╟─cb996baa-8ee5-4dd9-9d61-463ae320eafe
 # ╟─3bfe1b5b-0aa0-4171-9469-99401c09afda
 # ╟─3870562d-e580-4f5d-83d5-804da16432ff
 # ╟─667886da-feaf-4bdc-b2d7-9860ce651b8a
 # ╟─b389d61c-95e3-488b-887d-86edc2d1da9b
+# ╟─ef4720b7-dee8-4617-b121-1e939b3061ad
 # ╟─dd520bf5-dd7c-4c15-930b-bf7c4c276111
 # ╟─523b78c2-02b2-4736-8f89-2f0430a88b02
 # ╟─0d5cca05-aaa7-47ce-91b5-1ede5f1b8dde
-# ╠═6770a7ed-aeb2-40cd-9ec0-c6a48cde1ee8
-# ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-# ╠═f701ab61-2512-4f2a-a182-a6f2b23e0bd2
+# ╟─6770a7ed-aeb2-40cd-9ec0-c6a48cde1ee8
+# ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
