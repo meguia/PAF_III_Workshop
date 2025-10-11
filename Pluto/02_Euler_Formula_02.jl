@@ -71,23 +71,26 @@ end
 md"""
 ### Exponential growth
 
-There is a unique function of time for the position $s(t)$ whose instantaneous velocity equals the position itself.
+There is a unique function of time whose instantaneous velocity equals its position.
+It is the exponential.
 
 $s(t) = e^t$
 
 $v(t)= s^{\prime}(t) = e^t$
 
-At $t=0$, $e^0=1$. Position is $1$. Velocity is also $1$.
+At $t=0$, $e^0=1$. Position is $1$. Velocity is also $1$. 
 
 They always match in length and direction. This property characterizes the exponential.
 
-More generally, if 
+More generally, if we set a constant rate $\alpha$:
 
-$s(t)=e^{at}$ 
+$s(t)=e^{\alpha t}$ 
 
 then the velocityt is proportional to the position
 
-$v(t)=ae^{at} = as(t)$
+$v(t)=\alpha e^{\alpha t} = \alpha s(t)$
+
+The motion growths exponentially.
 
 """
 
@@ -112,9 +115,10 @@ end
 
 # ╔═╡ ef4720b7-dee8-4617-b121-1e939b3061ad
 md"""
-### Exponential decay. Negative rate
+### Exponential decay (negative rate)
 
-If we now choose $a<0$ the velocity points opposite to the position and the motion shrinks towards $0$
+If we now choose $a<0$ the velocity points opposite to the position on the line.
+The motion shrinks towards $0$ with an exponential envelope.
 """
 
 # ╔═╡ 523b78c2-02b2-4736-8f89-2f0430a88b02
@@ -136,6 +140,24 @@ begin
 	annotate!((0.0,-0.3,text(latexstring("s(t)=e^{$(a2)t} \\ \\ \\ v(t)=$(a2)e^{$(a2)t}"),15,:black,:left)))
 end	
 
+# ╔═╡ 976c393e-a42e-44fc-8029-932a43565a04
+md"""
+### Imaginary exponent. Rotation in complex plane
+
+Growth and decay (stretching and squishing) can be described with real numbers and take place in the line.
+
+What happen if we generalize to the complex domain?
+
+We start by the simplest example:
+
+$s(t) = e^{it}$
+
+$v(t) = s^{\prime}(t) = ie^{it} = i s(t)$
+
+At $t=0$: $s(t) = 1$ and $v(t) = i$, then the "velocity" is pointing $90$ degrees, out of the line in the complex plane.
+At all times $v(t)=is(t)$ and multiplying by $i$ corresponds to a rotation of quarter of turn in the complex plane. So the velocity is always perpendicular to the position. Therefore the motion takes place in the **unit circle** (in green), courterclockwise at constant speed. At any time the angle in radians is equal to the elapsed time. The real part of the position is $cos(t)$ and the imaginary part is $sin(t)$. 
+"""
+
 # ╔═╡ 0d5cca05-aaa7-47ce-91b5-1ede5f1b8dde
 begin
 	@bind t0_4 Clock(0.1,true,false,61,true)
@@ -143,17 +165,53 @@ end
 
 # ╔═╡ 6770a7ed-aeb2-40cd-9ec0-c6a48cde1ee8
 begin
-	tl = 0:pi/100:2*pi
 	t04 = (t0_4-1)*pi/30
-	s04 = exp(im*t04)
-	v04 = im*exp(im*t04)
-	tlabel4 = latexstring("t=$(round(t04,digits=2))")
-	pp4 = plot_complexplane(-3, 3, -2, 2; arrow_to=s04,width=800,height=600)
-	plot!(pp4, [real(s04),real(s04+v04)],[imag(s04),imag(s04+v04)],c=:blue,lw=3, arrow=true)
-	scatter!(pp4,[real(s04)],[imag(s04)],c=:gray,msw=1)
-	plot!(pp4,cos.(tl),sin.(tl),ls=:dash)
-	annotate!(pp4,(0.5,1.8,text(tlabel4,12,:black)))
-	annotate!((-2.8,-1.8,text(latexstring("s(t)=e^{it} \\ \\ \\ v(t)=ie^{it}"),15,:black,:left)))
+	plot_velocity_complex(t04,im,3,2)
+end
+
+# ╔═╡ 3416f2c9-f202-44c1-b46f-8fc127eb05cd
+md"""
+### Complex exponent. Rotation and stretching/squeezing
+
+We now generalize to a complex rate $z=\alpha + i\omega$
+
+$s(t) = e^{zt} = e^{(\alpha+i\omega)t} = e^{\alpha t}e^{i\omega t}$
+
+$v(t) = s^{\prime}(t) = z s(t)$
+
+At $t=0$: $s(t)=1$ and $v(t)=\alpha + i\omega$. 
+
+The velocity has a real part that is radial: inward if $\alpha<0$ or outward (if $\alpha>0$), relative to the unit circle.
+The real part will be responsible of the stretching/squeezing in the complex plane. 
+The imaginary part is tangential and corresponds to a pure rotation (counterclockwise if $\omega$ is positive). 
+
+It is more simple to describe the motion in the polar form $s(t)=r(t)e^{\theta(t)}$
+
+The motion will take place in a spiral (inward if $\alpha<0$ and outward if $\alpha>0$). The radius of the position will be at any moment:
+
+$r(t)=e^{\alpha t}$
+
+The imaginary part $\omega$ sets the angular velocity of the motion (radians per second). The angle will be always
+
+$\theta(t) = \omega t$
+
+"""
+
+# ╔═╡ 9981a256-a8a2-4c3d-94ce-c4a6b8e4cbe8
+md"""
+ω $(@bind ω Slider(0.7:0.1:2.0,default=1.0;show_value=true)) \
+α $(@bind a3 Slider(-0.3:0.1:0.3,default=0.0;show_value=true)) \
+"""
+
+# ╔═╡ 8088bb52-c94d-4816-b0cd-1cb62158b698
+begin
+	@bind t0_5 Clock(0.1,true,false,floor(Int,120/ω)+ceil(Int,abs(a3)),false)
+end
+
+# ╔═╡ 2d9a9e10-5f64-409f-82aa-bfe8442e9c02
+begin
+	t05 = (t0_5-1)*pi/30
+	plot_velocity_complex(t05,a3+ω*im,3,2;drawpath=true)
 end
 
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
@@ -182,8 +240,13 @@ input[type*="range"] {
 # ╟─ef4720b7-dee8-4617-b121-1e939b3061ad
 # ╟─dd520bf5-dd7c-4c15-930b-bf7c4c276111
 # ╟─523b78c2-02b2-4736-8f89-2f0430a88b02
+# ╟─976c393e-a42e-44fc-8029-932a43565a04
 # ╟─0d5cca05-aaa7-47ce-91b5-1ede5f1b8dde
 # ╟─6770a7ed-aeb2-40cd-9ec0-c6a48cde1ee8
+# ╟─3416f2c9-f202-44c1-b46f-8fc127eb05cd
+# ╟─8088bb52-c94d-4816-b0cd-1cb62158b698
+# ╟─2d9a9e10-5f64-409f-82aa-bfe8442e9c02
+# ╟─9981a256-a8a2-4c3d-94ce-c4a6b8e4cbe8
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795

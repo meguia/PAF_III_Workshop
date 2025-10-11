@@ -181,7 +181,7 @@ function plot_complexplane(xmin::Real, xmax::Real, ymin::Real, ymax::Real;
     dx = x2 - x1
     dy = y2 - y1
 
-    # --- helpers ---
+    #  helper to count grid lines with given step 
     count_lines(a,b,step) = max(Int(floor(b/step) - ceil(a/step) + 1), 0)
 
     function choose_grid_step(a,b; allow_decimals::Bool=true)
@@ -225,7 +225,7 @@ function plot_complexplane(xmin::Real, xmax::Real, ymin::Real, ymax::Real;
     vx = grid_vals(x1, x2, sx)  # vertical lines x = const
     hy = grid_vals(y1, y2, sy)  # horizontal lines y = const
 
-    # --- base plot ---
+    # base plot
     p = plot(; size=(width, height), legend=false,
              xlims=(x1, x2), ylims=(y1, y2),
              aspect_ratio=:equal, axis=false, framestyle=:none,
@@ -255,7 +255,7 @@ function plot_complexplane(xmin::Real, xmax::Real, ymin::Real, ymax::Real;
         end
     end
 
-    # --- Integer labels along axes (with small nudges to avoid grid overlap) ---
+    # Integer labels along axes (with small nudges to avoid grid overlap) 
     # Real-axis labels: just below y=0, nudged slightly right
     if has_x0
         Lr, Rr = ceil(Int, x1), floor(Int, x2)
@@ -272,7 +272,7 @@ function plot_complexplane(xmin::Real, xmax::Real, ymin::Real, ymax::Real;
         end
     end
 
-    # Imag-axis labels: just to the right of x=0, nudged slightly up
+    # Imaginary axis labels: just to the right of x=0, nudged slightly up
     if has_y0
         Li, Ri = ceil(Int, y1), floor(Int, y2)
         if Ri ≥ Li
@@ -310,4 +310,42 @@ function plot_velocity(time,position,velocity,xmin,xmax;centerpos=2.5,voffset=0)
 	annotate!(pp,(position+velocity/2,-0.07,text(latexstring("Velocity=$(round(velocity,digits=2))"),14,:blue)))
 	annotate!(pp,(0,0.2,text(tlabel,12,:black)))
 	return pp
-end;
+end
+
+function plot_velocity_complex(time,rate,width,height;drawpath=false)
+	tl = 0:pi/100:2*pi
+	tp = 0:pi/100:time
+	position = exp(rate*time)
+	velocity = rate*exp(rate*time)
+	tlabel = latexstring("t=$(round(time,digits=2))")
+	rlabel = latexstring("r=$(round(abs(position),digits=2))")
+	alabel = latexstring("\\theta=$(round(time*imag(rate),digits=2))")
+	size = 10^ceil(log10(abs(position)))
+	xmax = max(width,size)
+	ymax = max(height,height*size/width)
+	pp = plot_complexplane(-xmax, xmax, -ymax, ymax; arrow_to=position,width=800,height=600)
+	plot!(pp, [real(position),real(position+velocity)],[imag(position),imag(position+velocity)],c=:blue,lw=3, arrow=true)
+	scatter!(pp,[real(position)],[imag(position)],c=:gray,msw=1)
+	plot!(pp,cos.(tl),sin.(tl),ls=:dash,c=:green)
+	if drawpath
+		pt = exp.(rate*tp)
+		plot!(pp,real(pt),imag(pt),ls=:dash,c=:black)
+	end	
+	annotate!(pp,(xmax/3,0.9*ymax,text(tlabel,12,:black)))
+	annotate!(pp,(xmax/3,0.8*ymax,text(rlabel,12,:black)))
+	annotate!(pp,(xmax/3,0.7*ymax,text(alabel,12,:black)))
+	if imag(rate) == 1
+		expstr = "i"
+	else
+		expstr = "$(round(imag(rate),digits=2))i"
+	end
+	if real(rate) == 0
+		annotate!(pp,(-0.9*xmax,-0.8*ymax,text(latexstring("s(t)=e^{",expstr,"t}"),15,:black,:left)))
+		annotate!(pp,(-0.9*xmax,-0.9*ymax,text(latexstring("v(t)=",expstr,"e^{",expstr,"t}"),15,:black,:left)))
+	else
+		zstr = "($(round(real(rate),digits=2))+"*expstr*")"
+		annotate!(pp,(-0.9*xmax,-0.8*ymax,text(latexstring("s(t)=e^{",zstr,"t}"),15,:black,:left)))
+		annotate!(pp,(-0.9*xmax,-0.9*ymax,text(latexstring("v(t)=",zstr,"e^{",zstr,"t}"),15,:black,:left)))
+	end	
+	return pp
+end	
