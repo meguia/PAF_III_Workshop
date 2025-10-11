@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.10
+# v0.20.18
 
 using Markdown
 using InteractiveUtils
@@ -60,21 +60,21 @@ md"""
 
 # ╔═╡ 86558140-3c35-4e7d-b534-4e71389b81f3
 md"""
-Every complex number $z$ can be expressed through their modulus $|z|$ and angle $\theta$ 
+Every complex number $z$ can be expressed through their radius (or modulus) $r$ and angle $\theta$ 
 as:
 
-$z = |z| e^{i\theta}$
+$z = r e^{i\theta}$
 
 using Euler
 
-$z = |z| \cos(\theta) + i |z| \sin(\theta)$
+$z = r \cos(\theta) + i r \sin(\theta)$
 
-the real part is the projection on the real axis $|z| \cos(\theta)$ and the imaginary part is the projection on the imaginary axis $|z| \sin(\theta)$
+the real part is the projection on the real axis $r \cos(\theta)$ and the imaginary part is the projection on the imaginary axis $r \sin(\theta)$
 """
 
 # ╔═╡ f46c59db-3ddc-4683-aaa2-4e443558901e
 md"""
-|z| $(@bind A Slider(0:0.01:2,default=1.0;show_value=true)) \
+r $(@bind A Slider(0:0.01:2,default=1.0;show_value=true)) \
 θ $(@bind θ Slider(0:0.01:6.28,default=0.0;show_value=true))
 """
 
@@ -89,6 +89,11 @@ begin
 	plot!([0,x0],[y0,y0],ls=:dash,c=:red,label="")
 	scatter!([x0],[y0],c=:red,ms=5,label="")
 end	
+
+# ╔═╡ 240f065d-067b-4888-b9db-0dcfae91b81d
+md"""
+# RADIANS
+"""
 
 # ╔═╡ 83f8450d-3225-4f37-ba5d-9f510cf0d497
 md"""
@@ -164,12 +169,12 @@ md"""
 
 # ╔═╡ 0e34247d-671a-46b3-be5b-3f4545d848f0
 md"""
-ω = 1 $(@bind A1 Slider(0:0.02:2,default=1.0;show_value=true)) 
-ϕ1 $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-ω = 2 $(@bind A2 Slider(0:0.02:2,default=0.0;show_value=true)) 
-ϕ2 $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-ω = 3 $(@bind A3 Slider(0:0.02:2,default=0.0;show_value=true))
-ϕ3 $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) 
+ω = 1 | A = $(@bind A1 Slider(0:0.02:2,default=1.0;show_value=true)) 
+θ₀  = $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 2 | A = $(@bind A2 Slider(0:0.02:2,default=1.0;show_value=true)) 
+θ₀ = $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 3 | A = $(@bind A3 Slider(0:0.02:2,default=1.0;show_value=true)) 
+θ₀ = $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
 """
 
 # ╔═╡ 52f0eb33-18b6-452d-a250-65a54d96080f
@@ -269,7 +274,7 @@ main {
     max-width: 1000px;
 }
 input[type*="range"] {
-	width: 40%;
+	width: 25%;
 }
 </style>
 """
@@ -2024,7 +2029,8 @@ version = "1.9.2+0"
 # ╟─66ed5572-84d7-4780-a983-161b854a9cc1
 # ╟─86558140-3c35-4e7d-b534-4e71389b81f3
 # ╟─4fdc6730-94d7-4b83-b346-d620c7e92bb6
-# ╟─f46c59db-3ddc-4683-aaa2-4e443558901e
+# ╠═f46c59db-3ddc-4683-aaa2-4e443558901e
+# ╟─240f065d-067b-4888-b9db-0dcfae91b81d
 # ╟─83f8450d-3225-4f37-ba5d-9f510cf0d497
 # ╟─8ba30273-6d98-439f-910c-f0bd589d543d
 # ╟─a0af0068-1933-4760-9fc1-c7959b3f74b8
@@ -2036,6 +2042,6 @@ version = "1.9.2+0"
 # ╟─09a6bcc2-4a05-435f-92d0-b78dc7a5c321
 # ╟─b5e1f95c-dbb9-4f07-835e-f789dd08d337
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
-# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╠═18267cb1-99b8-4ed4-8558-1de0bdae4795
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
