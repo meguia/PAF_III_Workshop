@@ -90,7 +90,7 @@ then the velocityt is proportional to the position
 
 $v(t)=\alpha e^{\alpha t} = \alpha s(t)$
 
-The motion growths exponentially.
+The motion growths exponentially if $\alpha>0$.
 
 """
 
@@ -154,18 +154,25 @@ $s(t) = e^{it}$
 
 $v(t) = s^{\prime}(t) = ie^{it} = i s(t)$
 
-At $t=0$: $s(t) = 1$ and $v(t) = i$, then the "velocity" is pointing $90$ degrees, out of the line in the complex plane.
-At all times $v(t)=is(t)$ and multiplying by $i$ corresponds to a rotation of quarter of turn in the complex plane. So the velocity is always perpendicular to the position. Therefore the motion takes place in the **unit circle** (in green), courterclockwise at constant speed. At any time the angle in radians is equal to the elapsed time. The real part of the position is $cos(t)$ and the imaginary part is $sin(t)$. 
+At $t=0$: $s(t) = 1$ and $v(t) = i$
+
+Then the "velocity" is pointing a quarter of turn, perpendicular to the position, out of the line in the complex plane.
+
+At all times $v(t)=is(t)$ and multiplying by $i$ corresponds to a rotation of quarter of turn in the complex plane. 
+
+So the velocity is **always** perpendicular to the position. Therefore the motion takes place in the **unit circle** (in green), courterclockwise at constant speed. At any time the angle in radians is equal to the elapsed time. 
+
+The real part of the position is $cos(t)$ and the imaginary part is $sin(t)$. 
 """
 
 # ╔═╡ 0d5cca05-aaa7-47ce-91b5-1ede5f1b8dde
 begin
-	@bind t0_4 Clock(0.1,true,false,61,true)
+	@bind t0_4 Clock(0.1,true,false,61,false)
 end
 
 # ╔═╡ 6770a7ed-aeb2-40cd-9ec0-c6a48cde1ee8
 begin
-	t04 = (t0_4-1)*pi/30
+	t04 = mod(t0_4,61)*pi/30
 	plot_velocity_complex(t04,im,3,2)
 end
 
