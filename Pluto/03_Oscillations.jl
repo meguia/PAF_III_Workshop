@@ -20,7 +20,7 @@ end
 import Pkg; Pkg.activate()
 
 # ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot, WAV
+using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 include("../iii_utils.jl");
@@ -110,123 +110,12 @@ Changes in $A_k$ and $\phi_k$ don't affect the base period, that stays $2\pi$
 # ╔═╡ c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
 @bind t_2 Clock(0.1,true,false,401,false)
 
-# ╔═╡ 0e34247d-671a-46b3-be5b-3f4545d848f0
-md"""
-ω = 1 | A₁ = $(@bind A1 Slider(0:0.02:2,default=1.0;show_value=true)) 
-ϕ₁  = $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-ω = 2 | A₂ = $(@bind A2 Slider(0:0.02:2,default=1.0;show_value=true)) 
-ϕ₂ = $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-ω = 3 | A₃ = $(@bind A3 Slider(0:0.02:2,default=1.0;show_value=true)) 
-ϕ₃ = $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-"""
-
-# ╔═╡ 52f0eb33-18b6-452d-a250-65a54d96080f
-begin
-	t2 = (t_2-1)*(4*pi)/400
-	Amps = [A1, A2, A3]
-	ωs = [1,2,3]
-	ϕs = [ϕ1,ϕ2,ϕ3]
-	xs = Amps.*cos.(ωs*t2 .+ ϕs)
-	ys = Amps.*sin.(ωs*t2 .+ ϕs)
-	Amax = 6
-	p1b = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
-	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel="Amplitude")
-	plot!([0,sum(xs)],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
-	plot!([0,xs[1]],[0,ys[1]],c=:red,label="")
-	plot!([xs[1],xs[1]+xs[2]],[ys[1],ys[1]+ys[2]],c=:red,label="")
-	plot!([xs[1]+xs[2],sum(xs)],[ys[1]+ys[2],sum(ys)],c=:red,label="")
-	plot!([0,0],[0,sum(ys)],c=:blue,label="")
-	plot!([0,Amax],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
-	plot!(Amps[1]*cos.(0:pi/20:2*pi),Amps[1]*sin.(0:pi/20:2*pi),c=:green,label="")
-	plot!(xs[1].+Amps[2]*cos.(0:pi/20:2*pi),ys[1].+Amps[2]*sin.(0:pi/20:2*pi),c=:green,label="")
-	plot!(xs[2].+xs[1].+Amps[3]*cos.(0:pi/20:2*pi),ys[1].+ys[2].+Amps[3]*sin.(0:pi/20:2*pi),c=:green,label="")
-	scatter!([xs[1]],[ys[1]],c=:red,ms=4,alpha=0.6,label="")
-	scatter!([xs[1]+xs[2]],[ys[1]+ys[2]],c=:red,ms=4,alpha=0.6,label="")
-	scatter!([sum(xs)],[sum(ys)],c=:red,ms=5,label="")
-	scatter!([0],[sum(ys)],c=:blue,ms=5,label="")
-	t2b = (0:pi/50:4*pi)
-	p2b = plot(t2b,sum(Amps'.*sin.(t2b*ωs' .+ ϕs'),dims=2),label="",c=:blue,ylims=(-Amax,Amax))
-	plot!([0,4*pi],[0,0],ls=:dash,c=:black,label="",title=latexify("t=$(round(t2,digits=2))"))
-	scatter!([t2],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,4*pi))
-	plot!([0,t2],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
-	plot(p1b,p2b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
-end	
-
-# ╔═╡ 09a6bcc2-4a05-435f-92d0-b78dc7a5c321
-begin
-	p3a = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-16,6))
-	plot!([0,0],[-16,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel="Amplitude")
-	plot!([0,sum(xs)],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
-	plot!([0,xs[1]],[0,ys[1]],c=:red,label="")
-	plot!([0,Amax],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
-	plot!([xs[1],xs[1]+xs[2]],[ys[1],ys[1]+ys[2]],c=:red,label="")
-	plot!([xs[1]+xs[2],sum(xs)],[ys[1]+ys[2],sum(ys)],c=:red,label="")
-	plot!([0,0],[0,sum(ys)],c=:blue,label="")
-	plot!(Amps[1]*cos.(0:pi/20:2*pi),Amps[1]*sin.(0:pi/20:2*pi),c=:green,label="")
-	plot!(xs[1].+Amps[2]*cos.(0:pi/20:2*pi),ys[1].+Amps[2]*sin.(0:pi/20:2*pi),c=:green,label="")
-	plot!(xs[2].+xs[1].+Amps[3]*cos.(0:pi/20:2*pi),ys[1].+ys[2].+Amps[3]*sin.(0:pi/20:2*pi),c=:green,label="")
-	scatter!([xs[1]],[ys[1]],c=:red,ms=4,alpha=0.6,label="")
-	scatter!([xs[1]+xs[2]],[ys[1]+ys[2]],c=:red,ms=4,alpha=0.6,label="")
-	scatter!([sum(xs)],[sum(ys)],c=:red,ms=5,label="")
-	scatter!([0],[sum(ys)],c=:blue,ms=5,label="")
-	for n=1:3
-		offset = -2-4*n
-		plot!([-Amax,Amax],[offset,offset],ls=:dash,c=:gray,label="")
-		plot!(Amps[n]*cos.(0:pi/20:2*pi),Amps[n]*sin.(0:pi/20:2*pi).+offset,c=:green,label="")
-		plot!([0,xs[n]],[0,ys[n]].+offset,c=:red,label="")
-		scatter!([xs[n]],[ys[n]].+offset,c=:red,ms=4,label="")
-		plot!([0,0],[0,ys[n]].+offset,c=:green,label="")
-		scatter!([0],[ys[n]+offset],c=:green,ms=5,label="")
-		plot!([0,Amax],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
-		plot!([0,xs[n]],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
-	end	
-	p3b = plot(t2b,sum(Amps'.*sin.(t2b*ωs' .+ ϕs'),dims=2),label="",c=:blue,xlims=(0,4*pi))
-	scatter!([t2],[sum(ys)],c=:blue,ms=5,label="",ylims=(-16,6))
-	for n=0:3
-		if n>0
-			offset = -2-4*n
-			plot!([t2,t2],[0,ys[n]].+offset,c=:green,label="")
-			plot!([0,4*pi],[0,0].+offset,ls=:dash,c=:black,label="")
-			plot!([0,t2],[ys[n],ys[n]].+offset,c=:green,ls=:dash,label="")
-		else
-			plot!([0,4*pi],[0,0],ls=:dash,c=:black,label="")
-			plot!([t2,t2],[0,sum(ys)],c=:blue,label="")
-			plot!([0,t2],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
-		end	
-	end	
-	plot!(t2b,Amps'.*sin.(t2b*ωs' .+ ϕs').+[-6,-10,-14]',c=:green,label="")
-	scatter!([t2,t2,t2],ys.+[-6,-10,-14],c=:green,ms=5,label="")
-	plot(p3a,p3b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,700))
-end	
-
-# ╔═╡ 2213d433-ba9d-442d-b783-c63a1b1aeb48
-@bind play CounterButton("Play")
-
-# ╔═╡ 624a94c0-f33e-402d-9401-f7d0c90cb3b0
-begin
-	fs = 44100
-	dt = 1/fs
-	ts = collect(0:dt:2)
-	fbase = 2*pi*220
-	snd = Amps[1]*sin.(ωs[1]*fbase*ts .+ ϕs[1])+Amps[2]*sin.(ωs[2]*fbase*ts .+ ϕs[2])+Amps[3]*sin.(ωs[3]*fbase*ts .+ ϕs[3])
-	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
-end
-
-# ╔═╡ 73860e95-58ae-432c-abf4-99a0dbe2429c
-plot((1:500)/fs,snd[1:500]/maximum(abs.(snd)),size=(1200,300),label="")
-
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
 	# this is a comment
 	stylefile = joinpath(@projectroot,"Pluto","light_33.css")
 	PlutoEditorColorThemes.setcolortheme!(stylefile)
 end
-
-# ╔═╡ fddf6b7c-8d5d-4a5e-8adf-2706e1605dcd
-let 
-	play
-	wavplay("audio.wav")
-end	
 
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
@@ -240,6 +129,36 @@ input[type*="range"] {
 </style>
 """
 
+# ╔═╡ 234a88c7-314b-419e-9092-7d00be674b2b
+sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+
+# ╔═╡ 0e34247d-671a-46b3-be5b-3f4545d848f0
+md"""
+ω = 1 : $sp A₁ = $(@bind A1 Slider(0:0.02:1,default=1.0;show_value=true)) $sp
+ϕ₁  = $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 2 : $sp  A₂ = $(@bind A2 Slider(0:0.02:1,default=0.0;show_value=true)) $sp
+ϕ₂ = $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 3 : $sp A₃ = $(@bind A3 Slider(0:0.02:1,default=0.0;show_value=true)) $sp
+ϕ₃ = $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+"""
+
+# ╔═╡ 5b5f4a93-e1c1-4c55-84fd-544735cd38e5
+begin
+	Amax = 3.5
+	t2 = (t_2-1)*(4*pi)/400
+	Amps = [A1, A2, A3]
+	ωs = [1,2,3]
+	ϕs = [ϕ1,ϕ2,ϕ3]
+	p1b, p2b = plot_ntones(t2,Amps,ωs,ϕs,Amax)
+	plot(p1b,p2b,layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+end	
+
+# ╔═╡ 49bac738-151a-40c0-b64f-8d52dba998d3
+begin
+	p4a, p4b = plot_ntones_vertical(t2,Amps,ωs,ϕs,Amax)
+	plot(p4a,p4b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,700))
+end	
+
 # ╔═╡ Cell order:
 # ╟─83f8450d-3225-4f37-ba5d-9f510cf0d497
 # ╟─8ba30273-6d98-439f-910c-f0bd589d543d
@@ -248,14 +167,11 @@ input[type*="range"] {
 # ╟─7e060b26-118c-445b-be90-8034517ec277
 # ╟─c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
 # ╟─0e34247d-671a-46b3-be5b-3f4545d848f0
-# ╟─52f0eb33-18b6-452d-a250-65a54d96080f
-# ╟─09a6bcc2-4a05-435f-92d0-b78dc7a5c321
-# ╟─2213d433-ba9d-442d-b783-c63a1b1aeb48
-# ╟─73860e95-58ae-432c-abf4-99a0dbe2429c
-# ╠═624a94c0-f33e-402d-9401-f7d0c90cb3b0
-# ╠═b708f59c-905d-45d8-8a48-70b3bb534af5
+# ╠═5b5f4a93-e1c1-4c55-84fd-544735cd38e5
+# ╟─49bac738-151a-40c0-b64f-8d52dba998d3
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-# ╟─fddf6b7c-8d5d-4a5e-8adf-2706e1605dcd
-# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
-# ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
-# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╠═1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╠═b708f59c-905d-45d8-8a48-70b3bb534af5
+# ╠═f701ab61-2512-4f2a-a182-a6f2b23e0bd2
+# ╠═18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╠═234a88c7-314b-419e-9092-7d00be674b2b

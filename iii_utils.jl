@@ -301,6 +301,14 @@ function plot_complexplane(xmin::Real, xmax::Real, ymin::Real, ymax::Real;
     return p
 end
 
+"""
+    plot_velocity(time, position, velocity, xmin, xmax;
+        centerpos=2.5, voffset=0)
+Draw a number line from `xmin` to `xmax` with an arrow at `position`
+indicating the current position, and an arrow starting at `position`
+indicating the velocity. The time `time` is shown at the top, the position
+and velocity values are shown near their respective arrows.
+"""
 function plot_velocity(time,position,velocity,xmin,xmax;centerpos=2.5,voffset=0)
 	tlabel = latexstring("t=$(round(time,digits=2))")
 	pp = plot_numberline(xmin,xmax;arrow_to=position, show_decimals = true)
@@ -312,6 +320,14 @@ function plot_velocity(time,position,velocity,xmin,xmax;centerpos=2.5,voffset=0)
 	return pp
 end
 
+"""
+    plot_velocity_complex(time, rate, width, height; drawpath=false)
+Draw the complex plane over `[-width,width] × [-height,height]` with a thin gray grid.
+Draw the position `s(t)=e^(rate*t)` as a gray dot, and the velocity
+`v(t)=rate*e^(rate*t)` as a blue arrow starting at the position.
+The time `time`, the position magnitude, and the angle are shown at the top.
+If `drawpath` is true, also draw the path traced by the position from t=0 to t=`time`.
+"""
 function plot_velocity_complex(time,rate,width,height;drawpath=false)
 	tl = 0:pi/100:2*pi
 	tp = 0:pi/100:time
@@ -349,3 +365,119 @@ function plot_velocity_complex(time,rate,width,height;drawpath=false)
 	end	
 	return pp
 end	
+
+"""
+    plot_ntones(t, amp, ωs, ϕs, Amax; plot_trace=false)
+Draw the phasor diagram (in the complex plane) for `nt` tones with amplitudes `amp`, frequencies `ωs`,
+and phases `ϕs` at time `t`. The plot is limited to a square of size `Amax`.
+If `plot_trace` is true, also draw the complex plane trace of the sum of the tones
+over the interval [0, 4π].
+Returns two plots: the phasor diagram and the time-domain trace.
+"""
+function plot_ntones(t,amp,ωs,ϕs,Amax;plot_trace=false)
+    tlabel = latexstring("t=$(round(t,digits=2))")
+    xs = amp.*cos.(ωs*t .+ ϕs)
+	ys = amp.*sin.(ωs*t .+ ϕs)
+    nt = length(ωs)
+    p1 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
+	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel=latexstring("Amplitude"))
+	plot!(p1,[0,sum(xs)],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
+    xc = cumsum([0;xs])
+    yc = cumsum([0;ys])
+    for n=1:nt
+        plot!(p1,[xc[n],xc[n+1]],[yc[n],yc[n+1]],c=:red,label="")
+        plot!(p1,[xc[n].+amp[n]*cos.(0:pi/15:2*pi)],[yc[n].+amp[n]*sin.(0:pi/15:2*pi)],c=:green,label="")
+        scatter!(p1,[xc[n]],[yc[n]],c=:red,ms=4,alpha=0.6,label="")
+    end
+	plot!(p1,[0,0],[0,yc[end]],c=:blue,label="")
+	plot!(p1,[0,Amax],[yc[end],yc[end]],ls=:dash,c=:blue,label="")
+	scatter!(p1,[xc[end]],[yc[end]],c=:red,ms=5,label="")
+	scatter!(p1,[0],[yc[end]],c=:blue,ms=5,label="")
+	tb = (0:pi/40:4*pi)
+    p2 = plot([0,4*pi],[0,0],ls=:dash,c=:black,label="",ylims=(-Amax,Amax))
+	plot!(p2,tb,sum(amp'.*sin.(tb*ωs' .+ ϕs'),dims=2),label="",c=:blue,ylims=(-Amax,Amax))
+	scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,4*pi))
+	plot!(p2,[0,t],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
+    annotate!(p2,(0.7*Amax,0.9*Amax,text(tlabel,12,:black,:left)))
+    return p1, p2
+end
+
+"""
+    plot_ntones_vertical(t, amp, ωs, ϕs, Amax)
+The same as `plot_ntones` but with a vertical layout displaying the phasor diagram 
+and time-domain trace for each tone separately.
+"""
+function plot_ntones_vertical(t,amp,ωs,ϕs,Amax)
+    tlabel = latexstring("t=$(round(t,digits=2))")
+    xs = amp.*cos.(ωs*t .+ ϕs)
+	ys = amp.*sin.(ωs*t .+ ϕs)
+    nt = length(ωs)
+    offsetmax = -2-2.1*nt
+    p1 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(offsetmax,Amax))
+	plot!([0,0],[offsetmax,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel=latexstring("Amplitude"))
+	plot!([0,sum(xs)],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
+    xc = cumsum([0;xs])
+    yc = cumsum([0;ys])
+    for n=1:nt
+        plot!(p1,[xc[n],xc[n+1]],[yc[n],yc[n+1]],c=:red,label="")
+        plot!(p1,[xc[n].+amp[n]*cos.(0:pi/15:2*pi)],[yc[n].+amp[n]*sin.(0:pi/15:2*pi)],c=:green,label="")
+        scatter!(p1,[xc[n]],[yc[n]],c=:red,ms=4,alpha=0.6,label="")
+    end
+    plot!(p1,[0,0],[0,yc[end]],c=:blue,label="")
+    plot!(p1,[0,Amax],[yc[end],yc[end]],ls=:dash,c=:blue,label="")
+    scatter!(p1,[xc[end]],[yc[end]],c=:red,ms=5,label="")
+    scatter!(p1,[0],[yc[end]],c=:blue,ms=5,label="")
+    tb = (0:pi/40:4*pi)
+	for n=1:nt
+		offset = -1-2*n
+		plot!(p1,[-Amax,Amax],[offset,offset],ls=:dash,c=:gray,label="")
+		plot!(p1,amp[n]*cos.(0:pi/20:2*pi),amp[n]*sin.(0:pi/20:2*pi).+offset,c=:green,label="")
+		plot!(p1,[0,xs[n]],[0,ys[n]].+offset,c=:red,label="")
+		scatter!(p1,[xs[n]],[ys[n]].+offset,c=:red,ms=4,label="")
+		plot!(p1,[0,0],[0,ys[n]].+offset,c=:green,label="")
+		scatter!(p1,[0],[ys[n]+offset],c=:green,ms=5,label="")
+		plot!(p1,[0,Amax],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
+		plot!(p1,[0,xs[n]],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
+	end	
+    yb = amp'.*sin.(tb*ωs' .+ ϕs')
+	p2 = plot(tb,sum(yb,dims=2),label="",c=:blue,xlims=(0,4*pi),ylims=(offsetmax,Amax))
+	for n=0:nt
+		if n>0
+			offset = -1-2*n
+            plot!(p2,tb,yb[:,n].+offset,label="",c=:green)
+			plot!(p2,[t,t],[0,ys[n]].+offset,c=:green,label="")
+			plot!(p2,[0,4*pi],[0,0].+offset,ls=:dash,c=:black,label="")
+			plot!(p2,[0,t],[ys[n],ys[n]].+offset,c=:green,ls=:dash,label="")
+            scatter!(p2,[t],[ys[n]+offset],c=:green,ms=5,label="")
+		else
+			plot!(p2,[0,4*pi],[0,0],ls=:dash,c=:black,label="")
+			plot!(p2,[t,t],[0,sum(ys)],c=:blue,label="")
+			plot!(p2,[0,t],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
+            scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="")
+		end	
+	end	
+    annotate!(p2,(0.7*4*pi,0.9*Amax,text(tlabel,12,:black,:left)))
+    return p1, p2
+end    
+
+"""
+    plot_fasors(t, amp, ωs, ϕs, Amax)   
+Draw the phasor diagram (in the complex plane) for `nt` tones with amplitudes `amp`, frequencies `ωs`,
+and phases `ϕs` at time `t`. The plot is limited to a square of side length `Amax`.
+"""
+function plot_fasors(t, amp, ωs, ϕs, Amax)
+    xs = amp.*cos.(ωs*t .+ ϕs)
+	ys = amp.*sin.(ωs*t .+ ϕs)
+	pps = []
+    nt = length(ωs)
+	for n=1:nt
+		pp = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
+		plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,axis=false,label="")
+		plot!([0,xs[n]],[0,ys[n]],c=:red,label="")
+		plot!(amp[n]*cos.(0:pi/20:2*pi),amp[n]*sin.(0:pi/20:2*pi),c=:green,label="")
+		scatter!([xs[n]],[ys[n]],c=:red,ms=4,alpha=0.6,label="")
+		annotate!(0.85*Amax,0.9*Amax,text(latexstring("$n")))
+		push!(pps,pp)
+	end
+    return pps
+end

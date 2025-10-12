@@ -234,20 +234,3 @@
  
 }
 
-   .cm-editor .cm-content,
-    .cm-editor .cm-content .cm-variableName,
-    .cm-editor .cm-content .cm-def,
-    .cm-editor .cm-content .cm-property,
-    .cm-editor .cm-content .cm-builtin,
-    .cm-editor .cm-content .cm-function,
-    .cm-editor .cm-content .cm-operator,
-    .cm-editor .cm-content .cm-atom,
-    .cm-editor .cm-content .cm-number,
-    .cm-editor .cm-content .cm-string,
-    .cm-editor .cm-content .cm-keyword,
-    .cm-editor .cm-content .cm-typeName,
-    .cm-editor .cm-content .cm-tagName,
-    .cm-editor .cm-content .cm-bracket,
-    .cm-editor .cm-content .cm-link {
-    color: #000000 !important;
-    }
