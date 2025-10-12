@@ -1,0 +1,253 @@
+/*
+    Light theme for Pluto.jl
+*/
+:root {
+    --image-filters: none;
+    --out-of-focus-opacity: 0.8;
+
+    /* Color scheme */
+    --main-bg-color: hsl(0, 0%, 91%);
+    --rule-color: rgba(0, 0, 0, 0.12);
+    --kbd-border-color: #d1d5db;
+    --header-bg-color: hsl(0deg 0% 98%);
+    --header-border-color: #d4dced;
+    --ui-button-color: rgb(31, 41, 55);
+    --cursor-color: black;
+
+    /* Cells */
+    --normal-cell: 40, 40, 40;
+    --error-color: 200, 50, 50;
+    --normal-cell-color: rgba(var(--normal-cell), 0.16);
+    --dark-normal-cell-color: rgba(var(--normal-cell), 0.2);
+    --selected-cell-color: rgb(37 99 235 / 18%);
+    --code-differs-cell-color: #f1f5f9;
+    --error-cell-color: rgba(var(--error-color), 0.10);
+    --bright-error-cell-color: rgba(var(--error-color), 0.20);
+    --light-error-cell-color: rgba(var(--error-color), 0);
+    
+    
+    /* Frontmatter styling */
+    --frontmatter-button-bg-color: #29447a;
+    --frontmatter-outline-color: rgb(31 41 55);
+    --frontmatter-input-bg-color: #bab3b3;
+    --frontmatter-input-border-color: #808892;
+
+     /*Pluto output styling */
+    --pluto-schema-types-color: rgba(0, 0, 0, 0.6);
+    --pluto-schema-types-border-color: rgba(0, 0, 0, 0.12);
+    --pluto-dim-output-color: hsl(0 0% 35%);
+    --pluto-output-color: hsl(220deg 14% 20%);
+    --pluto-output-h-color: hsl(215deg 28% 17%);
+    --pluto-output-bg-color: var(--main-bg-color);
+    --a-underline: #1d4ed8;
+    --blockquote-color: inherit;
+    --blockquote-bg: #b1b2b2;
+    --admonition-title-color: white;
+    --jl-message-color: rgb(21 128 61);
+    --jl-message-accent-color: rgb(187 247 208);
+    --jl-info-color: rgb(30 64 175);
+    --jl-info-accent-color: rgb(191 219 254);
+    --jl-warn-color: rgb(161 98 7);
+    --jl-warn-accent-color: rgb(254 240 138);
+    --jl-danger-color: rgb(153 27 27);
+    --jl-danger-accent-color: rgb(254 202 202);
+    --jl-debug-color: hsl(280deg 30% 32%);
+    --jl-debug-accent-color: hsl(280deg 70% 86%);
+    
+    --table-border-color: rgba(0, 0, 0, 0.12);
+    --table-bg-hover-color: rgba(59, 130, 246, 0.10);
+    --pluto-tree-color: rgb(55 65 81 / 65%);
+
+   
+    --disabled-cell-bg-color: rgba(0, 0, 0, 0.06);
+    --selected-cell-bg-color: rgb(37 99 235 / 20%);
+    --hover-scrollbar-color-1: rgba(0, 0, 0, 0.20);
+    --hover-scrollbar-color-2: rgba(0, 0, 0, 0.08);
+    --skip-as-script-background-color: #d1d5db;
+    --depends-on-skip-as-script-background-color: #a3a3a3;
+
+    
+    --shoulder-hover-bg-color: rgba(0, 0, 0, 0.05);
+    
+    /* Logs */
+    --pluto-logs-bg-color:  hsl(0, 0%, 91%);
+    --pluto-logs-key-color: rgba(145, 76, 76, 0.6);
+    --pluto-logs-progress-fill: #16a34a;
+    --pluto-logs-progress-bg: #e5e7eb;
+    --pluto-logs-progress-border: hsl(215deg 28% 17%);
+    --pluto-logs-info-color: #e5e7eb;
+    --pluto-logs-info-accent-color: inherit;
+    --pluto-logs-warn-color: rgb(252 211 77);
+    --pluto-logs-warn-accent-color: rgb(120 53 15);
+    --pluto-logs-danger-color: rgb(254 202 202);
+    --pluto-logs-danger-accent-color: rgb(153 27 27);
+    --pluto-logs-debug-color: hsl(280deg 30% 92%);
+    --pluto-logs-debug-accent-color: hsl(280deg 60% 38%);
+
+   /* Navigation */
+    --nav-h1-text-color: black;
+    --nav-filepicker-color: #374151;
+    --nav-filepicker-border-color: #bb9696;
+    --nav-process-status-bg-color: rgb(116, 130, 160);
+    --nav-process-status-color: rgb(31, 41, 55);
+
+    /*
+    
+    --restart-recc-header-color: rgb(37 99 235 / 30%);
+    --restart-recc-accent-color: rgb(37 99 235);
+    --restart-req-header-color: rgb(225 29 72 / 30%);
+    --dead-process-header-color: rgba(250, 75, 21, 0.18);
+    --loading-header-color: hsl(0deg 0% 80% / 40%);
+    --disconnected-header-color: rgba(217, 119, 6, 0.30);
+    --binder-loading-header-color: hsl(51deg 80% 90% / 50%);
+    */
+    
+    --loading-grad-color-1: #60a5fa;
+    --loading-grad-color-2: #bfdbfe;
+
+    --overlay-button-bg: #b8a5a5;
+    --overlay-button-border: #9e9e9e70;
+    --overlay-button-border-save: #c7a74670;
+    --overlay-button-color: #111827;
+    
+    --input-context-menu-border-color: rgba(0, 0, 0, 0.12);
+    --input-context-menu-bg-color: rgb(248, 250, 252);
+    --input-context-menu-soon-color: #6b728044;
+    --input-context-menu-hover-bg-color: rgba(0, 0, 0, 0.06);
+    --input-context-menu-li-color: #374151;
+
+    /* Pkg status */
+    --pkg-popup-bg: #f3e8ff;
+    --pkg-popup-border-color: #d6d3d1;
+    --pkg-popup-buttons-bg-color: var(--input-context-menu-bg-color);
+    --black: black;
+    --white: white;
+    --pkg-terminal-bg-color: #f3f4f6;
+    --pkg-terminal-border-color: #c3c3c388;
+
+    /* run area */
+    --pluto-runarea-bg-color: rgb(243, 244, 246);
+    --pluto-runarea-span-color: hsl(220, 9%, 35%);
+
+    /* drop ruler */
+    --dropruler-bg-color: rgba(0, 0, 0, 0.08);
+
+    /* jlerror */
+    --jlerror-header-color: #7f1d1d;
+    --jlerror-mark-bg-color: rgb(0 0 0 / 6%);
+    --jlerror-a-bg-color: rgba(254, 226, 226, 1);
+    --jlerror-a-border-left-color: #fecaca;
+    --jlerror-mark-color: #7f1d1d;
+
+    /* helpbox */
+    --helpbox-bg-color: rgb(193, 193, 193);
+    --helpbox-box-shadow-color: #00000017;
+    --helpbox-header-bg-color: #b6b6b6;
+    --helpbox-header-tab-bg-color: #979a9f;
+    --helpbox-header-color: rgb(31 41 55);
+    --helpbox-search-bg-color: #ffffff;
+    --helpbox-search-border-color: #d1d5db;
+    --helpbox-notfound-search-color: rgb(107, 114, 128);
+    --helpbox-text-color: rgb(31, 41, 55);
+    --code-section-bg-color: rgb(189, 189, 189);
+    --code-section-border-color: #e5e7eb;
+    --process-item-bg: #f3f4f6;
+    --process-busy: #f59e0b;
+    --process-finished: hsl(142deg 40% 40%);
+    --process-undefined: rgb(156, 163, 175);
+    --process-failed: hsl(0, 70%, 45%);
+    --process-notify-bg: hsl(0 0% 96%);
+
+    /* footer */
+    --footer-color: #374151;
+    --footer-bg-color: var(--header-bg-color);
+    --footer-atag-color: #2563eb;
+    --footer-input-border-color: #9ca3af;
+    --footer-filepicker-button-color: white;
+    --footer-filepicker-focus-color: #111827;
+    --footnote-border-color: rgba(37, 99, 235, 0.20);
+
+    /* undo delete cell */
+    --undo-delete-box-shadow-color: rgba(17, 24, 39, 0.1);
+
+    /* codemirror hints */
+    --cm-color-editor-tooltip-border: rgba(0, 0, 0, 0.12);
+    --cm-color-editor-li-aria-selected-bg: #898e99;
+    --cm-color-editor-li-aria-selected: #0f172a;
+    --cm-color-editor-li-notexported: rgba(0, 0, 0, 0.45);
+    --code-background: hsl(0, 19%, 93%);
+    --cm-color-code-differs-gutters: rgb(245 208 66 / 18%);
+    --cm-color-line-numbers: #494d52;
+    --cm-selection-background: hsl(217deg 91% 60% / 20%);
+    --cm-selection-background-blurred: hsl(217deg 91% 60% / 12%);
+    --cm-highlighted: #00000008;
+
+    /* code highlighting */
+    --cm-color-editor-text: #111827;
+    --cm-color-comment:     #8cc08c;
+    --cm-color-atom:        #4e1016;
+    --cm-color-number:      #4a2c03;
+    --cm-color-property:    #032448;
+    --cm-color-keyword:     #511050;
+    --cm-color-string:      #0e471b;
+    --cm-color-var:         #111827;
+    --cm-color-var2:        #0c2a4a;
+    --cm-color-macro:       #b58800;
+    --cm-color-builtin:     #251346;
+    --cm-color-function:    #021427;
+    --cm-color-type:        #483703;
+    --cm-color-bracket:     #06112a;
+    --cm-color-tag:         #7b212a;
+    --cm-color-link:        #072b51;
+    --cm-color-error-bg:    #fee2e2;
+    --cm-color-error:       #540e0e;
+    --cm-color-matchingBracket: #111827;
+    --cm-color-matchingBracket-bg: #e8f2ff;
+    --cm-color-placeholder-text: rgb(0 0 0 / 40%);
+    --cm-color-clickable-underline: rgba(0,0,0,0);
+
+    /* Mixed parsers */
+    --cm-color-html:        #0ea5e9;
+    --cm-color-html-accent: #0369a1;
+    --cm-color-css:         #111827;
+    --cm-color-css-accent:  #0284c7;
+    --cm-css-why-doesnt-codemirror-highlight-all-the-text-aaa: #111827;
+    --cm-color-md:          #32353d;
+    --cm-color-md-accent:   #a626a4;
+
+    /* autocomplete menu */
+    --autocomplete-menu-bg-color: var(--input-context-menu-bg-color);
+
+    /* Landing colors 
+    --index-text-color: rgb(55, 65, 81);
+    --index-light-text-color: rgb(42, 52, 72);
+    --index-clickable-text-color: rgb(37, 99, 235);
+    --docs-binding-bg: #f3f4f6;
+    --index-card-bg: #ffffff;
+    --welcome-mywork-bg: var(--header-bg-color);
+    --welcome-newnotebook-bg: rgb(219 234 254);
+    --welcome-recentnotebook-bg: #f3f4f6;
+    --welcome-recentnotebook-border: #e5e7eb;
+    --welcome-open-bg: hsl(215deg 94% 93%);
+    --welcome-card-author-backdrop: #00000014;
+    */
+ 
+}
+
+   .cm-editor .cm-content,
+    .cm-editor .cm-content .cm-variableName,
+    .cm-editor .cm-content .cm-def,
+    .cm-editor .cm-content .cm-property,
+    .cm-editor .cm-content .cm-builtin,
+    .cm-editor .cm-content .cm-function,
+    .cm-editor .cm-content .cm-operator,
+    .cm-editor .cm-content .cm-atom,
+    .cm-editor .cm-content .cm-number,
+    .cm-editor .cm-content .cm-string,
+    .cm-editor .cm-content .cm-keyword,
+    .cm-editor .cm-content .cm-typeName,
+    .cm-editor .cm-content .cm-tagName,
+    .cm-editor .cm-content .cm-bracket,
+    .cm-editor .cm-content .cm-link {
+    color: #000000 !important;
+    }

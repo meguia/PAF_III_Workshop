@@ -1,0 +1,71 @@
+/* 
+This stylesheet overrides the editors in Pluto.jl. The default dark theme is defined at the following URL:
+https://github.com/fonsp/Pluto.jl/blob/53e1981fbc7ad09d91acd8ee37a1bd6228aa5904/frontend/themes/dark.css#L180-L223C10
+
+We used ChatGPT 4o to convert the default color theme to Monokai-like theme
+
+How to use:
+
+Add the following content as a cell to your Pluto notebook:
+
+html"""
+<styles>
+:root{
+    ...
+    ...
+    --cm-color-string: #e6db74;
+    ...
+    ...
+}
+</styles>
+"""
+
+To learn more about styling notebooks with CSS, refer:
+https://featured.plutojl.org/web/css
+*/
+:root {
+    /* Codemirror hints */
+    --cm-color-editor-tooltip-border: rgba(0, 0, 0, 0.2); /* Tooltip border */
+    --cm-color-editor-li-aria-selected-bg: #49483e; /* Selected list item background */
+    --cm-color-editor-li-aria-selected: #f8f8f2; /* Selected list item text */
+    --cm-color-editor-li-notexported: rgba(255, 255, 255, 0.5); /* Non-exported items */
+    --code-background: #272822; /* Monokai-like background */
+    --cm-color-code-differs-gutters: rgba(235, 213, 28, 0.11); /* Diff gutters */
+    --cm-color-line-numbers: #75715e; /* Line numbers */
+    --cm-selection-background: rgba(73, 130, 5, 0.48); /* Selection background */
+    --cm-selection-background-blurred: rgba(39, 40, 34, 0.48); /* Blurred selection */
+    --cm-highlighted: rgba(135, 134, 84, 0.16); /* Highlighted line */
+
+    /* Code highlighting */
+    --cm-color-editor-text: #000000; /* Main editor text */
+    --cm-color-comment: #75715e; /* Comments */
+    --cm-color-atom: #3e00b2; /* Atoms and constants */
+    --cm-color-number: #ffff81; /* Numbers */
+    --cm-color-property: #a6e22e; /* Properties */
+    --cm-color-keyword: #f92672; /* Keywords */
+    --cm-color-string: #e6db74; /* Strings */
+    --cm-color-var: #ff00f7; /* Variables */
+    --cm-color-var2: #66d9ef; /* Function arguments */
+    --cm-color-macro: #fd971f; /* Macros */
+    --cm-color-builtin: #023540; /* Built-ins */
+    --cm-color-function: #0007e1; /* Functions */
+    --cm-color-type: #66d9ef; /* Types */
+    --cm-color-bracket: #595900; /* Brackets */
+    --cm-color-tag: #f92672; /* Tags */
+    --cm-color-link: #ae81ff; /* Links */
+    --cm-color-error-bg: #f92672; /* Error background */
+    --cm-color-error: #f8f8f2; /* Error text */
+    --cm-color-matchingBracket: #f8f8f2; /* Matching brackets text */
+    --cm-color-matchingBracket-bg: #3e3d32; /* Matching brackets background */
+    --cm-color-placeholder-text: rgba(255, 255, 255, 0.3); /* Placeholder text */
+    --cm-color-clickable-underline: #66d9ef; /* Clickable underline */
+
+    /* Mixed parsers */
+    --cm-color-html: #66d9ef; /* HTML */
+    --cm-color-html-accent: #a6e22e; /* HTML Accent */
+    --cm-color-css: #8d8d00; /* CSS */
+    --cm-color-css-accent: #416200; /* CSS Accent */
+    --cm-css-why-doesnt-codemirror-highlight-all-the-text-aaa: #92921c; /* CSS fallback */
+    --cm-color-md: #c3a200; /* Markdown */
+    --cm-color-md-accent: #f92672; /* Markdown Accent */
+}

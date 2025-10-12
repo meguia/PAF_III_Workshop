@@ -20,10 +20,10 @@ end
 import Pkg; Pkg.activate()
 
 # ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-using Plots, PlutoUI, LaTeXStrings, Latexify, Measures
+using Plots, PlutoUI, PlutoEditorColorThemes, LaTeXStrings, ProjectRoot
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
-include("../iii_utils.jl")
+include("../iii_utils.jl");
 
 # ╔═╡ 240f065d-067b-4888-b9db-0dcfae91b81d
 md"""
@@ -172,7 +172,7 @@ end
 
 # ╔═╡ 6770a7ed-aeb2-40cd-9ec0-c6a48cde1ee8
 begin
-	t04 = mod(t0_4,61)*pi/30
+	t04 = mod(t0_4-0.99,60)*pi/30
 	plot_velocity_complex(t04,im,3,2)
 end
 
@@ -221,6 +221,12 @@ begin
 	plot_velocity_complex(t05,a3+ω*im,3,2;drawpath=true)
 end
 
+# ╔═╡ a2d86fe0-6496-4dbb-88d1-2e8ca514a765
+begin
+	stylefile = joinpath(@projectroot,"Pluto","light_33.css")
+	PlutoEditorColorThemes.setcolortheme!(stylefile)
+end
+
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
 <style>
@@ -254,6 +260,7 @@ input[type*="range"] {
 # ╟─8088bb52-c94d-4816-b0cd-1cb62158b698
 # ╟─2d9a9e10-5f64-409f-82aa-bfe8442e9c02
 # ╟─9981a256-a8a2-4c3d-94ce-c4a6b8e4cbe8
-# ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╟─a2d86fe0-6496-4dbb-88d1-2e8ca514a765
 # ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
