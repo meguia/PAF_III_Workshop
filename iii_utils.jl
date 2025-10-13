@@ -481,3 +481,30 @@ function plot_fasors(t, amp, ωs, ϕs, Amax)
 	end
     return pps
 end
+
+function plot_fasor_product(t, a1, a2, ω1, ω2, ϕ1, ϕ2, Amax)
+    s1 = a1*exp(im*(ω1*t + ϕ1))
+    s2 = a2*exp(-im*(ω2*t + ϕ2))
+    s = s1*s2
+    xs = [real(s1), real(s2), real(s)]
+    ys = [imag(s1), imag(s2), imag(s)]
+	p1 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
+	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,axis=false,label="")
+	plot!([0,xs[1]],[0,ys[1]],c=:red,label="")
+    plot!(a1*cos.(0:pi/20:2*pi),a1*sin.(0:pi/20:2*pi),c=:green,label="")
+	scatter!([xs[1]],[ys[1]],c=:red,ms=4,alpha=0.6,label="")
+	annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ω1)))"),12,:black,:right))
+    p2 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
+	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,axis=false,label="")
+	plot!([0,xs[2]],[0,ys[2]],c=:red,label="")
+    plot!(a2*cos.(0:pi/20:2*pi),a2*sin.(0:pi/20:2*pi),c=:green,label="")
+	scatter!([xs[2]],[ys[2]],c=:red,ms=4,alpha=0.6,label="")
+	annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ω2)))"),12,:black,:right))
+    p3 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
+	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,axis=false,label="")
+	plot!([0,xs[3]],[0,ys[3]],c=:red,label="")
+    plot!(a1*a2*cos.(0:pi/20:2*pi),a1*a2*sin.(0:pi/20:2*pi),c=:green,label="")
+	scatter!([xs[3]],[ys[3]],c=:red,ms=4,alpha=0.6,label="")
+	annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ω1-ω2)))"),12,:black,:right))
+    return p1, p2, p3
+end
