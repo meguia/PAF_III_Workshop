@@ -17,7 +17,8 @@ macro bind(def, element)
 end
 
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-import Pkg; Pkg.activate()
+# ╠═╡ show_logs = false
+import Pkg; Pkg.activate();
 
 # ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
 using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot
@@ -185,14 +186,14 @@ end
 # ╟─7e060b26-118c-445b-be90-8034517ec277
 # ╟─c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
 # ╟─0e34247d-671a-46b3-be5b-3f4545d848f0
-# ╠═5b5f4a93-e1c1-4c55-84fd-544735cd38e5
+# ╟─5b5f4a93-e1c1-4c55-84fd-544735cd38e5
 # ╟─49bac738-151a-40c0-b64f-8d52dba998d3
-# ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─bf3be160-d8f8-4302-8ece-b4f9826c94be
 # ╟─444dc569-d181-4dbf-8764-afc34c495cfa
 # ╟─289b5138-824a-4321-9f24-35597c6f7f6f
-# ╠═1f093de0-9501-11ef-30d2-4f854ecfb2e5
-# ╠═b708f59c-905d-45d8-8a48-70b3bb534af5
-# ╠═f701ab61-2512-4f2a-a182-a6f2b23e0bd2
-# ╠═18267cb1-99b8-4ed4-8558-1de0bdae4795
-# ╠═234a88c7-314b-419e-9092-7d00be674b2b
+# ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
+# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
+# ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
+# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╟─234a88c7-314b-419e-9092-7d00be674b2b
