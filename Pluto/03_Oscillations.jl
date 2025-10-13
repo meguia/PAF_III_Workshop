@@ -110,6 +110,9 @@ Changes in $A_k$ and $\phi_k$ don't affect the base period, that stays $2\pi$
 # ╔═╡ c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
 @bind t_2 Clock(0.1,true,false,401,false)
 
+# ╔═╡ 444dc569-d181-4dbf-8764-afc34c495cfa
+@bind t_3 Clock(0.1,true,false,401,false)
+
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
 	# this is a comment
@@ -155,8 +158,23 @@ end
 
 # ╔═╡ 49bac738-151a-40c0-b64f-8d52dba998d3
 begin
-	p4a, p4b = plot_ntones_vertical(t2,Amps,ωs,ϕs,Amax)
-	plot(p4a,p4b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,700))
+	p1c, p2c = plot_ntones_vertical(t2,Amps,ωs,ϕs,Amax)
+	plot(p1c,p2c, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,700))
+end	
+
+# ╔═╡ bf3be160-d8f8-4302-8ece-b4f9826c94be
+md"""
+ω = 1 : $sp A₁ = $(@bind A1p Slider(0:0.02:1,default=1.0;show_value=true)) $sp
+ϕ₁  = $(@bind ϕ1p Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = -1 : $sp  A₋₁ = $(@bind A1n Slider(0:0.02:1,default=0.0;show_value=true)) $sp
+ϕ₋₁ = $(@bind ϕ1n Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+"""
+
+# ╔═╡ 289b5138-824a-4321-9f24-35597c6f7f6f
+begin
+	t3 = (t_3-1)*(4*pi)/400
+	p1d, p2d = plot_ntones(t3,[A1p,A1n],[1,-1],[ϕ1p,ϕ1n],2.1)
+	plot(p1d,p2d,layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
 end	
 
 # ╔═╡ Cell order:
@@ -170,6 +188,9 @@ end
 # ╠═5b5f4a93-e1c1-4c55-84fd-544735cd38e5
 # ╟─49bac738-151a-40c0-b64f-8d52dba998d3
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
+# ╟─bf3be160-d8f8-4302-8ece-b4f9826c94be
+# ╟─444dc569-d181-4dbf-8764-afc34c495cfa
+# ╟─289b5138-824a-4321-9f24-35597c6f7f6f
 # ╠═1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╠═b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╠═f701ab61-2512-4f2a-a182-a6f2b23e0bd2

@@ -476,7 +476,7 @@ function plot_fasors(t, amp, ωs, ϕs, Amax)
 		plot!([0,xs[n]],[0,ys[n]],c=:red,label="")
 		plot!(amp[n]*cos.(0:pi/20:2*pi),amp[n]*sin.(0:pi/20:2*pi),c=:green,label="")
 		scatter!([xs[n]],[ys[n]],c=:red,ms=4,alpha=0.6,label="")
-		annotate!(0.85*Amax,0.9*Amax,text(latexstring("$n")))
+		annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ωs[n])))"),12,:black,:right))
 		push!(pps,pp)
 	end
     return pps
