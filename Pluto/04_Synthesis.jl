@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.18
+# v0.20.19
 
 using Markdown
 using InteractiveUtils
@@ -17,10 +17,10 @@ macro bind(def, element)
 end
 
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-import Pkg; Pkg.activate()
-
-# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot, WAV
+begin
+	import Pkg; Pkg.activate(Base.current_project()); Pkg.instantiate();
+	using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot, WAV
+end
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 include("../iii_utils.jl");
@@ -40,6 +40,9 @@ Any smooth curve can be approximated to arbitrary accuracy with a sufficient num
 # ╔═╡ 263affc0-a928-4d6f-97e9-48aa6126d1f3
 @bind t_1 Clock(0.1,true,false,401,false)
 
+# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
+
+
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
 	# this is a comment
@@ -50,7 +53,7 @@ end
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
 <style>
-main {
+pluto-notebook {
     max-width: 1000px;
 }
 input[type*="range"] {
@@ -147,7 +150,7 @@ end
 # ╟─c36b7f32-cc93-41ae-88d8-dfc5fb61eaec
 # ╟─624a94c0-f33e-402d-9401-f7d0c90cb3b0
 # ╟─21c750d4-9bc2-4002-a8c8-606856479415
-# ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
+# ╠═45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─fddf6b7c-8d5d-4a5e-8adf-2706e1605dcd
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5

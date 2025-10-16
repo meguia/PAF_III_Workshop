@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.18
+# v0.20.19
 
 using Markdown
 using InteractiveUtils
@@ -18,11 +18,11 @@ end
 
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╠═╡ show_logs = false
-import Pkg; Pkg.activate()
-
-# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-# ╠═╡ show_logs = false
-using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot, WAV
+begin
+	
+	import Pkg; Pkg.activate(Base.current_project()); Pkg.instantiate();
+	using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot, WAV
+end
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 include("../iii_utils.jl");
@@ -100,9 +100,6 @@ $c_k :=  \langle x(t)\overline{E_k(t)} \rangle_T$
 
 """
 
-# ╔═╡ 0ee405e0-f1ae-4648-a061-cd1aac0c0013
-
-
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
 	stylefile = joinpath(@projectroot,"Pluto","light_33.css")
@@ -112,7 +109,7 @@ end
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
 <style>
-main {
+pluto-notebook {
     max-width: 1000px;
 }
 input[type*="range"] {
@@ -144,9 +141,7 @@ end
 # ╟─4f029a92-bcb9-4b11-908c-68688f9d4a6a
 # ╟─fd653582-1eef-4069-a102-315badc98a70
 # ╟─706bd63b-25d8-4fe8-94cf-217e0f60cc09
-# ╠═0ee405e0-f1ae-4648-a061-cd1aac0c0013
-# ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╠═45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 # ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
