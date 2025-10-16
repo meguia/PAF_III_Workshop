@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.18
+# v0.20.19
 
 using Markdown
 using InteractiveUtils
@@ -17,7 +17,8 @@ macro bind(def, element)
 end
 
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-import Pkg; Pkg.activate()
+# ╠═╡ show_logs = false
+import Pkg; Pkg.activate();
 
 # ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
 using Plots, PlutoUI, PlutoEditorColorThemes, LaTeXStrings, ProjectRoot

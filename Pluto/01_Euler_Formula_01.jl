@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.18
+# v0.20.19
 
 using Markdown
 using InteractiveUtils
@@ -116,9 +116,12 @@ begin
 end	
 
 # ╔═╡ 240f065d-067b-4888-b9db-0dcfae91b81d
+# ╠═╡ disabled = true
+#=╠═╡
 md"""
 # RADIANS
 """
+  ╠═╡ =#
 
 # ╔═╡ f57150d3-14af-4c28-b2d7-cc293a3f93c4
 begin

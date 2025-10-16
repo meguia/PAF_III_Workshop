@@ -127,8 +127,7 @@ end
 html"""
 <style>
 main {
-    max-width: 800px !important;
-	margin-right: 50px !important;
+    max-width: 1000px !important;
 }
 input[type*="range"] {
 	width: 25%;
