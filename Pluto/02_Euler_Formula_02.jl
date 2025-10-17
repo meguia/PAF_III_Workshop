@@ -17,6 +17,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
+# ╠═╡ show_logs = false
 begin
 	import Pkg; Pkg.activate(Base.current_project());
 	using Plots, PlutoUI, PlutoEditorColorThemes, LaTeXStrings, ProjectRoot

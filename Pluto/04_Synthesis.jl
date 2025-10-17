@@ -17,6 +17,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
+# ╠═╡ show_logs = false
 begin
 	import Pkg; Pkg.activate(Base.current_project()); Pkg.instantiate();
 	using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot, WAV
@@ -71,12 +72,6 @@ f₀ = $(@bind f0 Slider(100:440,default=220;show_value=true)) $sp
 window (ms) = $sp $(@bind wdw Slider(5:100,default=20;show_value=true)) $sp
 $(@bind play CounterButton("Play"))
 """
-
-# ╔═╡ fddf6b7c-8d5d-4a5e-8adf-2706e1605dcd
-let 
-	play
-	wavplay("audio.wav")
-end	
 
 # ╔═╡ 21c750d4-9bc2-4002-a8c8-606856479415
 par_widget = @bind par PlutoUI.combine() do Child
@@ -150,8 +145,7 @@ end
 # ╟─c36b7f32-cc93-41ae-88d8-dfc5fb61eaec
 # ╟─624a94c0-f33e-402d-9401-f7d0c90cb3b0
 # ╟─21c750d4-9bc2-4002-a8c8-606856479415
-# ╠═45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-# ╟─fddf6b7c-8d5d-4a5e-8adf-2706e1605dcd
+# ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
