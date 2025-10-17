@@ -1,4 +1,12 @@
-using Plots, LaTeXStrings
+begin
+    import Pkg;
+
+    Pkg.activate(Base.current_project());
+    Pkg.instantiate();
+
+    using Plots, LaTeXStrings
+end
+
 gr()  # set GR as the default backend for Plots
 
 """
@@ -95,7 +103,7 @@ function plot_numberline(xmin::Real, xmax::Real;
         end
     end
 
-    # base plot 
+    # base plot
     p = plot(; size=(width, height), legend=false,
              xlims=(x1, x2), ylims=(-0.35, 0.35),
              axis=false, framestyle=:none, margin=5Plots.mm)
@@ -181,7 +189,7 @@ function plot_complexplane(xmin::Real, xmax::Real, ymin::Real, ymax::Real;
     dx = x2 - x1
     dy = y2 - y1
 
-    #  helper to count grid lines with given step 
+    #  helper to count grid lines with given step
     count_lines(a,b,step) = max(Int(floor(b/step) - ceil(a/step) + 1), 0)
 
     function choose_grid_step(a,b; allow_decimals::Bool=true)
@@ -255,7 +263,7 @@ function plot_complexplane(xmin::Real, xmax::Real, ymin::Real, ymax::Real;
         end
     end
 
-    # Integer labels along axes (with small nudges to avoid grid overlap) 
+    # Integer labels along axes (with small nudges to avoid grid overlap)
     # Real-axis labels: just below y=0, nudged slightly right
     if has_x0
         Lr, Rr = ceil(Int, x1), floor(Int, x2)
@@ -346,7 +354,7 @@ function plot_velocity_complex(time,rate,width,height;drawpath=false)
 	if drawpath
 		pt = exp.(rate*tp)
 		plot!(pp,real(pt),imag(pt),ls=:dash,c=:black)
-	end	
+	end
 	annotate!(pp,(xmax/3,0.9*ymax,text(tlabel,12,:black)))
 	annotate!(pp,(xmax/3,0.8*ymax,text(rlabel,12,:black)))
 	annotate!(pp,(xmax/3,0.7*ymax,text(alabel,12,:black)))
@@ -362,9 +370,9 @@ function plot_velocity_complex(time,rate,width,height;drawpath=false)
 		zstr = "($(round(real(rate),digits=2))+"*expstr*")"
 		annotate!(pp,(-0.9*xmax,-0.8*ymax,text(latexstring("s(t)=e^{",zstr,"t}"),15,:black,:left)))
 		annotate!(pp,(-0.9*xmax,-0.9*ymax,text(latexstring("v(t)=",zstr,"e^{",zstr,"t}"),15,:black,:left)))
-	end	
+	end
 	return pp
-end	
+end
 
 """
     plot_ntones(t, amp, ωs, ϕs, Amax; plot_trace=false)
@@ -404,7 +412,7 @@ end
 
 """
     plot_ntones_vertical(t, amp, ωs, ϕs, Amax)
-The same as `plot_ntones` but with a vertical layout displaying the phasor diagram 
+The same as `plot_ntones` but with a vertical layout displaying the phasor diagram
 and time-domain trace for each tone separately.
 """
 function plot_ntones_vertical(t,amp,ωs,ϕs,Amax)
@@ -438,7 +446,7 @@ function plot_ntones_vertical(t,amp,ωs,ϕs,Amax)
 		scatter!(p1,[0],[ys[n]+offset],c=:green,ms=5,label="")
 		plot!(p1,[0,Amax],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
 		plot!(p1,[0,xs[n]],[ys[n],ys[n]].+offset,ls=:dash,c=:green,label="")
-	end	
+	end
     yb = amp'.*sin.(tb*ωs' .+ ϕs')
 	p2 = plot(tb,sum(yb,dims=2),label="",c=:blue,xlims=(0,4*pi),ylims=(offsetmax,Amax))
 	for n=0:nt
@@ -454,14 +462,14 @@ function plot_ntones_vertical(t,amp,ωs,ϕs,Amax)
 			plot!(p2,[t,t],[0,sum(ys)],c=:blue,label="")
 			plot!(p2,[0,t],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
             scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="")
-		end	
-	end	
+		end
+	end
     annotate!(p2,(0.7*4*pi,0.9*Amax,text(tlabel,12,:black,:left)))
     return p1, p2
-end    
+end
 
 """
-    plot_fasors(t, amp, ωs, ϕs, Amax)   
+    plot_fasors(t, amp, ωs, ϕs, Amax)
 Draw the phasor diagram (in the complex plane) for `nt` tones with amplitudes `amp`, frequencies `ωs`,
 and phases `ϕs` at time `t`. The plot is limited to a square of side length `Amax`.
 """

@@ -16,12 +16,11 @@ macro bind(def, element)
     #! format: on
 end
 
-# ╔═╡ 3d2720b5-00e2-47c1-a76d-cae391fa403b
-# ╠═╡ show_logs = false
-import Pkg; Pkg.activate();
-
 # ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-using Plots, PlutoUI,Symbolics, Latexify, LaTeXStrings, Measures, ProjectRoot, PlutoEditorColorThemes
+begin
+	import Pkg; Pkg.activate(Base.current_project());Pkg.instantiate()
+	using Plots, PlutoUI,Symbolics, Latexify, LaTeXStrings, Measures, ProjectRoot, PlutoEditorColorThemes
+end
 
 # ╔═╡ 8fb0fb30-6b05-4fda-8f4c-1716c04317ba
 md"""
@@ -133,7 +132,7 @@ end
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
 <style>
-main {
+pluto-notebook {
     max-width: 1000px;
 }
 input[type*="range"] {
@@ -153,5 +152,4 @@ input[type*="range"] {
 # ╟─240f065d-067b-4888-b9db-0dcfae91b81d
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─f57150d3-14af-4c28-b2d7-cc293a3f93c4
-# ╟─3d2720b5-00e2-47c1-a76d-cae391fa403b
 # ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795

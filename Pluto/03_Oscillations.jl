@@ -18,10 +18,12 @@ end
 
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╠═╡ show_logs = false
-import Pkg; Pkg.activate();
-
-# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot
+begin
+	import Pkg;
+	Pkg.activate(Base.current_project());
+	Pkg.instantiate();
+	using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot
+end
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 include("../iii_utils.jl");
@@ -124,7 +126,7 @@ end
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
 <style>
-main {
+pluto-notebook {
     max-width: 1000px;
 }
 input[type*="range"] {
@@ -192,7 +194,6 @@ end
 # ╟─444dc569-d181-4dbf-8764-afc34c495cfa
 # ╟─289b5138-824a-4321-9f24-35597c6f7f6f
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 # ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
