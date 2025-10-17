@@ -158,7 +158,7 @@ begin
 end	
 
 # ╔═╡ Cell order:
-# ╠═b615a970-8f85-11ef-1c13-e9ed82dd14ce
+# ╟─b615a970-8f85-11ef-1c13-e9ed82dd14ce
 # ╠═8002c179-ca6f-41fc-b13b-46c5423fa3bc
 # ╠═c5b7b753-6fd7-45fa-ac08-50cba417c3ac
 # ╠═98ffe15a-be1f-44bb-94b8-074b8530a65b
@@ -171,6 +171,6 @@ end
 # ╠═65db4e7d-7306-4136-a414-bb69a77f435a
 # ╠═40e6ea0f-444f-4a0d-be52-fd96a8bec76d
 # ╠═f95de1fa-fef7-4620-966e-e31dda738ea1
-# ╠═0a51519a-0faf-4997-b230-b79d18902b69
-# ╠═afb14697-6bef-4f7e-a39a-fd6ad82b668c
+# ╟─0a51519a-0faf-4997-b230-b79d18902b69
+# ╟─afb14697-6bef-4f7e-a39a-fd6ad82b668c
 # ╟─9796cc0f-6386-423f-8e84-aa55d88f4858
