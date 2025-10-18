@@ -4,7 +4,7 @@ begin
     Pkg.activate(Base.current_project());
     Pkg.instantiate();
 
-    using Plots, LaTeXStrings
+    using Plots, LaTeXStrings, Symbolics
 end
 
 gr()  # set GR as the default backend for Plots
@@ -552,4 +552,54 @@ function plot_fasor_product(t, a1, a2, ω1, ω2, ϕ1, ϕ2, Amax)
 	scatter!([xs[3]],[ys[3]],c=:red,ms=4,alpha=0.6,label="")
 	annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ω1-ω2)))"),12,:black,:right))
     return p1, p2, p3
+end
+
+function taylor_plot5(f::Num, x::Num, a::Real,N::Int64,x1::Real,x2::Real,ylimit::Bool)
+	dx = Differential(x);
+    dfdx = expand_derivatives(dx(f))
+	dfdx2 = expand_derivatives(dx(dfdx))
+	dfdx3 = expand_derivatives(dx(dfdx2))
+	dfdx4 = expand_derivatives(dx(dfdx3))
+	dfdx5 = expand_derivatives(dx(dfdx4))
+    f0 = substitute(f,Dict(x=>a))
+	dfdx0 = substitute(dfdx,Dict(x=>a))
+	dfdx20 = substitute(dfdx2,Dict(x=>a))
+	dfdx30 = substitute(dfdx3,Dict(x=>a))
+	dfdx40 = substitute(dfdx4,Dict(x=>a))
+	dfdx50 = substitute(dfdx5,Dict(x=>a))
+    flist = [f0,simplify(dfdx0),simplify(dfdx20),simplify(dfdx30),simplify(dfdx40),simplify(dfdx50)]
+	xlist = ["","(x-a)","\\frac{(x-a)^2}{2!}","\\frac{(x-a)^3}{3!}","\\frac{(x-a)^4}{4!}","\\frac{(x-a)^5}{5!}"]
+	lstring = ""	
+	ftaylor = 0
+	for n = 1:N+1
+		s1 = latexify(flist[n],env=:raw)
+		if (n>1) && !(s1[1]== '-')
+			lstring *= "+"
+		end	
+		lstring *= s1
+		lstring *= xlist[n]
+		ftaylor += flist[n]*(x-a)^(n-1)/factorial(n-1)
+	end
+	lstring *= "+..."
+    fP = Symbolics.value(substitute(f, Dict(x=>a)))
+	farr = [Symbolics.value(substitute(f, Dict(x=>y))) for y in x1:0.01:x2]
+	maxf = maximum(farr[.!isnan.(farr)])
+	minf= minimum(farr[.!isnan.(farr)])
+	margin = 0.1*(maxf-minf)
+	ftaylor_subs = substitute(ftaylor,Dict(a=>a))
+	taylor_plot = plot(f,label=latexify(f,env=:inline))
+	plot!(ftaylor_subs,label=latexstring(lstring))
+	scatter!([par.a],[fP],ms=4,c=:black,label="")
+	xlims!(x1,x2)
+	plot!([x1,x2],[0,0],ls=:dash,c=:black,label="")
+	if ylimit
+		ylims!(x1,x2)
+		plot!([0,0],[x1,x2],ls=:dash,c=:black,label="")
+	else	
+		ylims!(minf-margin,maxf+margin)
+		plot!([0,0],[minf-margin,maxf+margin],ls=:dash,c=:black,label="")
+	end	
+	plot!(background_color_legend = RGBA(0,0,0,0.1))
+	plot!(foreground_color_legend = RGBA(0,0,0,0.3))
+    return taylor_plot, lstring
 end
