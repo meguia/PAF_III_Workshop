@@ -31,19 +31,38 @@ include("../iii_utils.jl");
 md"""
 # Periodic oscillations
 
-Any periodic motion can be choreographed by stacking several constant-speed rotations (frequencies at multiples of a base rate). 
+The Oscillation of angular frequency $\omega=1$, amplitude (or radius) $A_1$ and initial phase $\phi_1$:
 
-The set of radii & starting angles = the spectrum (the ingredient list). 
+$E_1(t) = A_1e^{i\phi_1}e^{it}$
 
-Any smooth curve can be approximated to arbitrary accuracy with a sufficient number of epicycles "
+is periodic with period $T=2\pi$. That means that it repeats itself after an arbitrary numbers of periods $nT$ with $n \in \mathbb{Z}$
+
+$E_1(t+nT) = $E_1(t+n2\pi) = E_1(t)$
+
+We will consider all elementary oscillations of angular frequency $\omega = k$ with $k \in \mathbb{Z}$
+
+$E_k(t) = A_ke^{i\phi_k}e^{ikt}$
+
+All these elementary oscillations have their "own" period $T=2\pi/k$ but they 
+also have period $T=2\pi$, since:
+
+$E_k(t+n2\pi) = A_ke^{i\phi_k}e^{ik(t+n2\pi)} = A_ke^{i\phi_k}e^{ikt}e^{n2\pi} = A_ke^{i\phi_k}e^{ikt} = E_k(t)$ 
+
+because $e^{n2\pi}$ only "adds" $n$ full turns and is equal to 1.
+
+Therefore, if we add an arbitrary number of elementary oscillations $E_k(t)$ that are periodic in $2\pi$, the result will also be periodic in $2\pi$.
 
 """
 
 # ╔═╡ 263affc0-a928-4d6f-97e9-48aa6126d1f3
 @bind t_1 Clock(0.1,true,false,401,false)
 
-# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╔═╡ f795c84a-6531-4ef5-998c-b71f0be9918c
+md"""
+The set of radii & starting angles = the spectrum (the ingredient list). 
 
+Any smooth curve can be approximated to arbitrary accuracy with a sufficient number of epicycles "
+"""
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
@@ -73,6 +92,12 @@ f₀ = $(@bind f0 Slider(100:440,default=220;show_value=true)) $sp
 window (ms) = $sp $(@bind wdw Slider(5:100,default=20;show_value=true)) $sp
 $(@bind play CounterButton("Play"))
 """
+
+# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
+let 
+	play 
+	wavplay("audio.wav")
+end
 
 # ╔═╡ 21c750d4-9bc2-4002-a8c8-606856479415
 par_widget = @bind par PlutoUI.combine() do Child
@@ -144,6 +169,7 @@ end
 # ╟─263affc0-a928-4d6f-97e9-48aa6126d1f3
 # ╟─a2f57914-6a31-4e3b-ab6d-2dadfc76938d
 # ╟─c36b7f32-cc93-41ae-88d8-dfc5fb61eaec
+# ╟─f795c84a-6531-4ef5-998c-b71f0be9918c
 # ╟─624a94c0-f33e-402d-9401-f7d0c90cb3b0
 # ╟─21c750d4-9bc2-4002-a8c8-606856479415
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e

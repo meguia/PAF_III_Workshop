@@ -41,7 +41,8 @@ $s(t) = A e^{i\omega t}$
 
 This is a complex function of radius $A$ and angle $\theta(t) = \omega t$. In the context of the study of Oscillations this angle is also called **phase**
 
-This can be seen represented as a point moving at constant speed ($\omega$ radians per second) counterclockwise on a circle of radius $A$ on the complex plane.
+This can be seen represented as a point rotating at constant angular speed ($\omega$) counterclockwise on a circle of radius $A$ on the complex plane.
+$\omega$ is called the **angular frequency** and expresses how many radians per second the phase $\theta$ advances.
 
 The real part of this function is
 
@@ -76,28 +77,20 @@ begin
 	t1 = (t_1-1)*(2*pi)/100
 	x1 = Amp*cos(ω*t1)
 	y1 = Amp*sin(ω*t1)
-	p1 = plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2))
-	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="",ylabel="Amplitude")
-	plot!(Amp*cos.(0:pi/20:2*pi),Amp*sin.(0:pi/20:2*pi),ls=:dash,c=:green,label="")
-	plot!([0,x1],[y1,y1],ls=:dash,c=:blue,label="")
-	plot!([0,x1],[0,y1],c=:red,label="")
-	plot!([0,0],[0,y1],c=:blue,label="")
-	plot!([0,2],[y1,y1],ls=:dash,c=:blue,label="")
-	scatter!([x1],[y1],c=:red,ms=5,label="")
-	scatter!([0],[y1],c=:blue,ms=5,label="")
-	t1b = (0:pi/50:2*pi)
-	p2 = plot(t1b,Amp*sin.(ω*t1b),label="",ls=:dash,c=:green,ylims=(-2,2),title=latexify("t=$(round(t1,digits=2))"))
-	plot!([0,2*pi],[0,0],ls=:dash,c=:black,label="")
-	scatter!([t1],[y1],c=:blue,ms=5,label="",xlims=(0,2*pi))
-	plot!([0,t1],[y1,y1],c=:blue,ls=:dash,label="")
+	p1, p2 = plot_ntones(t1,[Amp],[1],[0],2.1)
 	plot(p1,p2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
 end	
+
+# ╔═╡ 181f52a6-d355-4d7b-8f4f-46614c6d1647
+md"""
+Plotting the Real and Imaginary parts
+"""
 
 # ╔═╡ 1fe438b6-0208-48ac-86bf-e02da1ba4017
 md"""
 ## Elementary Oscillations with initial phase
 
-Later we will combine Elementary Oscillations and it will be useful to assign the an initial angle for $t=0$, ir **initial phase**.
+Later we will combine Elementary Oscillations and it will be useful to assign the an initial angle for $t=0$, or **initial phase**.
 
 This can be achieved by adding a constant phase $\phi$ to the exponent:
 
@@ -200,8 +193,16 @@ md"""
 # ╔═╡ 289b5138-824a-4321-9f24-35597c6f7f6f
 begin
 	t3 = (t_3-1)*(4*pi)/400
-	p1d, p2d = plot_ntones(t3,[A1p,A1n],[1,-1],[ϕ1p,ϕ1n],2.1)
-	plot(p1d,p2d,layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	l = @layout [[a{0.33w, 0.33h} b{0.66w}]; c{0.33w, 0.66h} _{0.66w}]
+	p1d, p2d, p3d = plot_ntones_twoaxis(t3,[A1p,A1n],[1,-1],[ϕ1p,ϕ1n],2.1)
+	plot(p1d,p2d,p3d,layout=l, left_margin=[10mm -13mm],top_margin=[-10mm 13mm],size=(1200,1200))
+end	
+
+# ╔═╡ c2893d7b-8c84-44cb-8a8f-3b72a93e3450
+begin
+	l2 = @layout [[a{0.33w, 0.33h} b{0.66w}]; c{0.33w, 0.66h} _{0.66w}]
+	plts = plot_ntones_twoaxis(t1,[Amp],[1],[0],2.1)
+	plot(plts...,layout=l, left_margin=[10mm -13mm],top_margin=[-10mm 13mm],size=(1200,1200))
 end	
 
 # ╔═╡ Cell order:
@@ -209,6 +210,8 @@ end
 # ╟─8ba30273-6d98-439f-910c-f0bd589d543d
 # ╟─a0af0068-1933-4760-9fc1-c7959b3f74b8
 # ╟─50f48ea1-228c-493d-9d55-a2ada49248b7
+# ╟─181f52a6-d355-4d7b-8f4f-46614c6d1647
+# ╟─c2893d7b-8c84-44cb-8a8f-3b72a93e3450
 # ╟─1fe438b6-0208-48ac-86bf-e02da1ba4017
 # ╟─7e060b26-118c-445b-be90-8034517ec277
 # ╟─c8bf120f-b2dc-4e90-90e7-12d2fdb1c660

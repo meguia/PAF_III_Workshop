@@ -17,6 +17,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ b615a970-8f85-11ef-1c13-e9ed82dd14ce
+# ╠═╡ show_logs = false
 begin
 	import Pkg;
 	Pkg.activate(Base.current_project());
@@ -167,19 +168,19 @@ input[type*="range"] {
 """
 
 # ╔═╡ Cell order:
-# ╟─b615a970-8f85-11ef-1c13-e9ed82dd14ce
 # ╠═8002c179-ca6f-41fc-b13b-46c5423fa3bc
 # ╟─c5b7b753-6fd7-45fa-ac08-50cba417c3ac
 # ╠═98ffe15a-be1f-44bb-94b8-074b8530a65b
 # ╟─935cb98a-7268-4de1-86f4-24b7dd1b5549
-# ╠═7fb84e83-cdf1-4fad-849d-f55a7898bb5c
-# ╠═904864b4-b6ac-4aa6-a630-26127730bd72
-# ╠═6dddcd75-96df-4fab-be2b-1728f268adf5
-# ╠═65db4e7d-7306-4136-a414-bb69a77f435a
-# ╠═b654e63f-6d00-439a-9c12-3260e38a2b56
-# ╠═7ceea0d1-8939-4b3b-bf2b-a1b1760cfa4a
-# ╠═e77f1171-c489-4a81-849a-16e107b3bb50
-# ╠═f95de1fa-fef7-4620-966e-e31dda738ea1
-# ╠═ca01ea8f-4b35-4971-af37-31fbeaaa6762
+# ╟─7fb84e83-cdf1-4fad-849d-f55a7898bb5c
+# ╟─904864b4-b6ac-4aa6-a630-26127730bd72
+# ╟─b615a970-8f85-11ef-1c13-e9ed82dd14ce
+# ╟─6dddcd75-96df-4fab-be2b-1728f268adf5
+# ╟─65db4e7d-7306-4136-a414-bb69a77f435a
+# ╟─b654e63f-6d00-439a-9c12-3260e38a2b56
+# ╟─7ceea0d1-8939-4b3b-bf2b-a1b1760cfa4a
+# ╟─e77f1171-c489-4a81-849a-16e107b3bb50
+# ╟─f95de1fa-fef7-4620-966e-e31dda738ea1
+# ╟─ca01ea8f-4b35-4971-af37-31fbeaaa6762
 # ╟─0a51519a-0faf-4997-b230-b79d18902b69
 # ╟─afb14697-6bef-4f7e-a39a-fd6ad82b668c
