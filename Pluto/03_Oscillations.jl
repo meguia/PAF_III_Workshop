@@ -26,13 +26,16 @@ begin
 end
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
+# ╠═╡ show_logs = false
 include("../iii_utils.jl");
 
 # ╔═╡ 83f8450d-3225-4f37-ba5d-9f510cf0d497
 md"""
-# Elementary Oscillations (Pure Tones)
+# Oscillations 
 
-Elementary Oscillations (Pure Tones) can be expressed as a function of time as
+## Elementary Oscillations (Pure Tones)
+
+Elementary Oscillations can be expressed as a function of time as
 
 $s(t) = A e^{i\omega t}$
 
@@ -90,15 +93,31 @@ begin
 	plot(p1,p2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
 end	
 
+# ╔═╡ 1fe438b6-0208-48ac-86bf-e02da1ba4017
+md"""
+## Elementary Oscillations with initial phase
+
+Later we will combine Elementary Oscillations and it will be useful to assign the an initial angle for $t=0$, ir **initial phase**.
+
+This can be achieved by adding a constant phase $\phi$ to the exponent:
+
+$s(t) = Ae^{i(\omega t + \phi)}$
+
+Or by using a complex amplitude $C=Ae^{i\phi}$ that incorporates the phase:
+
+$s(t) = Ce^{i\omega t} = Ae^{i\phi} e^{i\omega t}$
+
+"""
+
 # ╔═╡ 7e060b26-118c-445b-be90-8034517ec277
 md"""
-# Sum of Oscillations
+## Sum of Elementary Oscillations
 
 Three elementary oscillations with angular speeds $\omega = 1$, $\omega = 2$, $\omega = 3$ rad/s.
 
-$s(t) = A_1 e^{i(t+\phi_1)} + A_2 e^{i(2t+\phi_2)} + A_3 e^{i(3t+\phi_3)}$
+$s(t) = A_1 e^{i\phi_1}e^{it} + A_2 e^{i\phi_2}e^{i2t} + A_3 e^{i\phi_3}e^{i3t}$
 
-Each term ($k=1, 2, 3$) is a rotating arrow with its own radius $A_k$ and starting angle $\phi_k$.
+Each term ($k=1, 2, 3$) is a rotating arrow with its own radius $A_k$ and initial phase $\phi_k$.
 
 The left panel shows the sum in the complex plane. The right panel shows its projection in the vertical axis as a function of time (waveform).
 
@@ -112,6 +131,11 @@ Changes in $A_k$ and $\phi_k$ don't affect the base period, that stays $2\pi$
 
 # ╔═╡ c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
 @bind t_2 Clock(0.1,true,false,401,false)
+
+# ╔═╡ e23c472d-fcfd-4183-8849-11b14f8aeaca
+md"""
+## Making the Oscillation Real
+"""
 
 # ╔═╡ 444dc569-d181-4dbf-8764-afc34c495cfa
 @bind t_3 Clock(0.1,true,false,401,false)
@@ -185,11 +209,13 @@ end
 # ╟─8ba30273-6d98-439f-910c-f0bd589d543d
 # ╟─a0af0068-1933-4760-9fc1-c7959b3f74b8
 # ╟─50f48ea1-228c-493d-9d55-a2ada49248b7
+# ╟─1fe438b6-0208-48ac-86bf-e02da1ba4017
 # ╟─7e060b26-118c-445b-be90-8034517ec277
 # ╟─c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
 # ╟─0e34247d-671a-46b3-be5b-3f4545d848f0
 # ╟─5b5f4a93-e1c1-4c55-84fd-544735cd38e5
 # ╟─49bac738-151a-40c0-b64f-8d52dba998d3
+# ╟─e23c472d-fcfd-4183-8849-11b14f8aeaca
 # ╟─bf3be160-d8f8-4302-8ece-b4f9826c94be
 # ╟─444dc569-d181-4dbf-8764-afc34c495cfa
 # ╟─289b5138-824a-4321-9f24-35597c6f7f6f

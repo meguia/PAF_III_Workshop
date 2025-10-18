@@ -31,13 +31,13 @@ include("../iii_utils.jl");
 md"""
 # Fourier Series
 
-## Elementary Rotations 
+## Elementary Oscillations 
 
-We will define the k-th elementary rotation
+We will define the k-th elementary oscillation
 
 $E_k(t) = e^{ikt}$
 
-with $k \in \mathbb{Z}$. For simplicity we are keeping the fundamental period $T=2\pi$, but a more general k-th elementary rotation for an arbitrary period $T$ can be defined by setting $\omega_0 = 2\pi/T$ and then $E_k(t) = e^{ik\omega_0 t}$.
+with $k \in \mathbb{Z}$. For simplicity we are keeping the fundamental period $T=2\pi$, but a more general k-th elementary oscillation for an arbitrary period $T$ can be defined by setting $\omega_0 = 2\pi/T$ and then $E_k(t) = e^{ik\omega_0 t}$.
 
 ## Properties 
 
@@ -63,7 +63,7 @@ $E_k \cdot E_k = \langle E_k(t) \overline{E_k(t)}\rangle_T = \langle e^{ikt}e^{-
 
 # ╔═╡ 74ac1574-8b21-499c-891d-70c6e510cfa0
 md"""
-## Elementary Rotations from k=-6 to k=6
+## Elementary Oscillations from k=-6 to k=6
 """
 
 # ╔═╡ 263affc0-a928-4d6f-97e9-48aa6126d1f3
@@ -81,17 +81,17 @@ end
 md"""
 ## Averages 
 
-The average of the elementary rotation over a full period is zero except for $k=0$
+The average of the elementary oscillation over a full period is zero except for $k=0$
 
 $\langle E_k(t) \rangle_T = 0 \quad for \quad k\neq 0$
 
 ## Orthogonality 
 
-The scalar product of two elementary rotations:
+The scalar product of two elementary oscillations:
 
 $E_k \cdot E_j = \langle E_k(t)\overline{E_j(t)} \rangle_T = \langle E_{k-j}(t) \rangle_T = 0 \quad if \quad k\neq j$
 
-Therefore, all elementary rotations are orthogonal. Only equal indices survive.
+Therefore, all elementary oscillations are orthogonal. Only equal indices survive.
 """
 
 # ╔═╡ 2924bbc2-e3d5-4a80-a8e0-f44f7e7fb6aa
@@ -99,11 +99,11 @@ Therefore, all elementary rotations are orthogonal. Only equal indices survive.
 
 # ╔═╡ 706bd63b-25d8-4fe8-94cf-217e0f60cc09
 md"""
-## Measuring “how much” of each rotation
+## Measuring “how much” of each oscillation
 
 Let $x(t)$ be any $T$-periodic function. To measure the k-th ingredient, first freeze it.
 
-Multiply by the conjugate rotation: 
+Multiply by the conjugate oscillation: 
 $x(t) \cdot E_{-k}(t)$
 
 The k-th component stops spinning and becomes steady.
@@ -155,8 +155,8 @@ begin
 end	
 
 # ╔═╡ Cell order:
-# ╟─83f8450d-3225-4f37-ba5d-9f510cf0d497
-# ╟─74ac1574-8b21-499c-891d-70c6e510cfa0
+# ╠═83f8450d-3225-4f37-ba5d-9f510cf0d497
+# ╠═74ac1574-8b21-499c-891d-70c6e510cfa0
 # ╟─263affc0-a928-4d6f-97e9-48aa6126d1f3
 # ╟─a2f57914-6a31-4e3b-ab6d-2dadfc76938d
 # ╟─8338e09a-6751-4aaf-b5a1-8c651e6c5cb8

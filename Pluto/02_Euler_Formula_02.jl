@@ -19,19 +19,23 @@ end
 # ╔═╡ 45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╠═╡ show_logs = false
 begin
-	import Pkg; Pkg.activate(Base.current_project());
+	import Pkg; Pkg.activate(Base.current_project());Pkg.instantiate()
 	using Plots, PlutoUI, PlutoEditorColorThemes, LaTeXStrings, ProjectRoot
 end
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
+# ╠═╡ show_logs = false
 include("../iii_utils.jl");
+
+# ╔═╡ 3a648014-0a41-4c5e-a4af-5dec0e549e79
+
+md"""
+# Euler Formula (Geometrical Interpretation)
+"""
 
 # ╔═╡ 240f065d-067b-4888-b9db-0dcfae91b81d
 md"""
-# Euler Formula
-## Geometrical Interpretation
-
-### Position and velocity. 
+## Position and velocity. 
 
 If we define the position of a particle as a function of time $s(t)$. 
 
@@ -70,7 +74,7 @@ end
 
 # ╔═╡ cb996baa-8ee5-4dd9-9d61-463ae320eafe
 md"""
-### Exponential growth
+## Exponential growth
 
 There is a unique function of time whose instantaneous velocity equals its position.
 It is the exponential.
@@ -116,7 +120,7 @@ end
 
 # ╔═╡ ef4720b7-dee8-4617-b121-1e939b3061ad
 md"""
-### Exponential decay (negative rate)
+## Exponential decay (negative rate)
 
 If we now choose $a<0$ the velocity points opposite to the position on the line.
 The motion shrinks towards $0$ with an exponential envelope.
@@ -143,7 +147,7 @@ end
 
 # ╔═╡ 976c393e-a42e-44fc-8029-932a43565a04
 md"""
-### Imaginary exponent. Rotation in complex plane
+## Imaginary exponent. Rotation in complex plane
 
 Growth and decay (stretching and squishing) can be described with real numbers and take place in the line.
 
@@ -179,7 +183,7 @@ end
 
 # ╔═╡ 3416f2c9-f202-44c1-b46f-8fc127eb05cd
 md"""
-### Complex exponent. Rotation and stretching/squeezing
+## Complex exponent. Rotation and stretching/squeezing
 
 We now generalize to a complex rate $z=\alpha + i\omega$
 
@@ -241,6 +245,7 @@ input[type*="range"] {
 """
 
 # ╔═╡ Cell order:
+# ╟─3a648014-0a41-4c5e-a4af-5dec0e549e79
 # ╟─240f065d-067b-4888-b9db-0dcfae91b81d
 # ╟─b3488a41-98c0-4816-91e8-8a9d867689fd
 # ╟─a321b881-11e7-408c-a71e-8ba2ddb632ff

@@ -24,6 +24,7 @@ begin
 end
 
 # ╔═╡ f701ab61-2512-4f2a-a182-a6f2b23e0bd2
+# ╠═╡ show_logs = false
 include("../iii_utils.jl");
 
 # ╔═╡ 83f8450d-3225-4f37-ba5d-9f510cf0d497
