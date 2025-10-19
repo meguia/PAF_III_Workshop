@@ -589,7 +589,7 @@ function taylor_plot5(f::Num, x::Num, a::Real,N::Int64,x1::Real,x2::Real,ylimit:
 	ftaylor_subs = substitute(ftaylor,Dict(a=>a))
 	taylor_plot = plot(f,label=latexify(f,env=:inline))
 	plot!(ftaylor_subs,label=latexstring(lstring))
-	scatter!([par.a],[fP],ms=4,c=:black,label="")
+	scatter!([a],[fP],ms=4,c=:black,label="")
 	xlims!(x1,x2)
 	plot!([x1,x2],[0,0],ls=:dash,c=:black,label="")
 	if ylimit
@@ -603,3 +603,58 @@ function taylor_plot5(f::Num, x::Num, a::Real,N::Int64,x1::Real,x2::Real,ylimit:
 	plot!(foreground_color_legend = RGBA(0,0,0,0.3))
     return taylor_plot, lstring
 end
+
+function plot_derivative(f::Num, x::Num, a::Real,N::Int64,x1::Real,x2::Real,ylimit::Bool,plott::Bool)
+	dx = Differential(x);
+	dfdx = expand_derivatives(dx(f))
+	dfdx2 = expand_derivatives(dx(dfdx))
+	dfdx3 = expand_derivatives(dx(dfdx2))
+	dfdx4 = expand_derivatives(dx(dfdx3))
+	dfdx5 = expand_derivatives(dx(dfdx4))
+	f0 = substitute(f,Dict(x=>a))
+	dfdx0 = substitute(dfdx,Dict(x=>a))
+	dfdx20 = substitute(dfdx2,Dict(x=>a))
+	dfdx30 = substitute(dfdx3,Dict(x=>a))
+	dfdx40 = substitute(dfdx4,Dict(x=>a))
+	dfdx50 = substitute(dfdx5,Dict(x=>a))
+	sa = Symbolics.value(dfdx0)
+	fa = Symbolics.value(f0)
+	Ta = fa + sa*(x-a)
+	plot_derivative = plot(f,c=:blue,label=latexify(f,env=:inline))
+	if (plott)
+		plot!(Ta,c=:green,label="")
+	end
+	scatter!([a],[fa],ms=4,c=:black,label="")
+	annotate!(a+0.5, fa, latexify(string(round(sa,sigdigits=3))), :red)
+	if (N==1)
+		plot!(dfdx,c=:red,label=latexify(dfdx,env=:inline))
+	end
+	if (N==2)
+		plot!(dfdx2,c=:red,label=latexify(dfdx2,env=:inline))
+	end
+	if (N==3)
+		plot!(dfdx3,c=:red,label=latexify(dfdx3,env=:inline))
+	end
+	if (N==4)
+		plot!(dfdx4,c=:red,label=latexify(dfdx4,env=:inline))
+	end
+	if (N==5)
+		plot!(dfdx5,c=:red,label=latexify(dfdx5,env=:inline))
+	end
+	farr = [Symbolics.value(substitute(f, Dict(x=>y))) for y in x1:0.01:x2]
+	maxf = maximum(farr[.!isnan.(farr)])
+	minf= minimum(farr[.!isnan.(farr)])
+	margin = 0.1*(maxf-minf)
+	plot!([x1,x2],[0,0],ls=:dash,c=:black,label="")
+	xlims!(x1,x2)
+	if ylimit
+		ylims!(x1,x2)
+		plot!([0,0],[x1,x2],ls=:dash,c=:black,label="")
+	else	
+		ylims!(minf-margin,maxf+margin)
+		plot!([0,0],[minf-margin,maxf+margin],ls=:dash,c=:black,label="")
+	end
+	plot!(background_color_legend = RGBA(0,0,0,0.1))
+	plot!(foreground_color_legend = RGBA(0,0,0,0.3))
+	return plot_derivative
+end	

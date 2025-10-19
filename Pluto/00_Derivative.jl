@@ -26,18 +26,43 @@ begin
 	using PlutoUI, Plots, Symbolics, Latexify, LaTeXStrings;
 end
 
-# ╔═╡ 8002c179-ca6f-41fc-b13b-46c5423fa3bc
-@variables x a b c;
+# ╔═╡ fcf313fe-afda-459e-91c8-f8ffa019eb86
+# ╠═╡ show_logs = false
+include("../iii_utils.jl");
 
 # ╔═╡ c5b7b753-6fd7-45fa-ac08-50cba417c3ac
 md"""
 # Derivative 
-write the function here using x as a variable here with up to three parameters: a, b ,c
-for example f=a*x^2+bx+c
+
+## Polynomial Functions
 """	
 
 # ╔═╡ 98ffe15a-be1f-44bb-94b8-074b8530a65b
-f = sin(a*x);
+md"""
+a0 = $(@bind a0 Slider(-2:0.02:2,default=0.0;show_value=true)) \
+a1 = $(@bind a1 Slider(-2:0.02:2,default=1.0;show_value=true)) \
+a2 = $(@bind a2 Slider(-1:0.02:1,default=0.0;show_value=true)) \
+a3 = $(@bind a3 Slider(-1:0.02:1,default=0.0;show_value=true)) \
+a4 = $(@bind a4 Slider(-0.2:0.01:0.2,default=0.0;show_value=true)) \
+a5 = $(@bind a5 Slider(-0.1:0.005:0.1,default=0.0;show_value=true)) 
+"""
+
+# ╔═╡ f0d4d3f0-8c96-4b35-9815-eac5f1d1649f
+md"""
+## Trigonometric and Exponential Functions
+
+Choose the function here using x as a variable here without parameters.
+
+"""
+
+# ╔═╡ 8002c179-ca6f-41fc-b13b-46c5423fa3bc
+@variables x;
+
+# ╔═╡ 6d9b5e19-ede8-40dc-b90d-2286f7697898
+@bind f2 Select([sin(x), cos(x), exp(x)])
+
+# ╔═╡ 9f1cc852-1b38-4e33-b868-2e221424cbb5
+f = a0+a1*x+a2*x^2+a3*x^3+a4*x^4+a5*x^5;
 
 # ╔═╡ 7fb84e83-cdf1-4fad-849d-f55a7898bb5c
 dx = Differential(x);
@@ -45,8 +70,8 @@ dx = Differential(x);
 # ╔═╡ 904864b4-b6ac-4aa6-a630-26127730bd72
 dfdx = simplify(expand_derivatives(dx(f)));
 
-# ╔═╡ 6dddcd75-96df-4fab-be2b-1728f268adf5
-npars = size(Symbolics.get_variables(f))[1]-1;
+# ╔═╡ 679c3188-4930-4364-8f56-6a2d0a688c37
+dfdx2 = simplify(expand_derivatives(dx(f2)));
 
 # ╔═╡ 65db4e7d-7306-4136-a414-bb69a77f435a
 tex_widget = PlutoUI.ExperimentalLayout.vbox([
@@ -54,8 +79,11 @@ tex_widget = PlutoUI.ExperimentalLayout.vbox([
 		latexstring("\\frac{df}{dx}(x) = ",latexify(dfdx))
 	]);
 
-# ╔═╡ ca01ea8f-4b35-4971-af37-31fbeaaa6762
-par_range = 0.01:0.01:1.0;
+# ╔═╡ 1e4dd018-1bca-446d-ab21-029a5944b5e9
+tex_widget2 = PlutoUI.ExperimentalLayout.vbox([
+		latexstring("f(x) = ",latexify(f2)),
+		latexstring("\\frac{df}{dx}(x) = ",latexify(dfdx2))
+	]);
 
 # ╔═╡ 0a51519a-0faf-4997-b230-b79d18902b69
 sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
@@ -69,82 +97,20 @@ window_widget = @bind wind PlutoUI.combine() do Child
 	""" 
 end;
 
-# ╔═╡ e77f1171-c489-4a81-849a-16e107b3bb50
-if size(Symbolics.get_variables(f))[1] == 2
-	par_widget = @bind par PlutoUI.combine() do Child
-		md"""
-		a : $(Child("a", Slider(par_range,default=0.1;show_value=true))) \
-		P : $(Child("P", Slider(wind.x1:0.01:wind.x2,default=1.0;show_value=true))) $sp
-		plot derivative : $(Child("plotd", CheckBox()))
-		""" 
-	end;
-elseif size(Symbolics.get_variables(f))[1] == 3
-	par_widget = @bind par PlutoUI.combine() do Child
-		md"""
-		a : $(Child("a", Slider(par_range,default=0.1;show_value=true))) $sp
-		b : $(Child("b", Slider(par_range,default=0.1;show_value=true))) \
-		P : $(Child("P", Slider(wind.x1:0.01:wind.x2,default=1.0;show_value=true))) $sp
-		plot derivative : $(Child("plotd", CheckBox()))
-		""" 
-	end;
-elseif size(Symbolics.get_variables(f))[1] == 4
-	par_widget = @bind par PlutoUI.combine() do Child
-		md"""
-		a : $(Child("a", Slider(par_range,default=0.1;show_value=true))) $sp
-		b : $(Child("b", Slider(par_range,default=0.1;show_value=true))) $sp
-		c : $(Child("c", Slider(par_range,default=0.1;show_value=true))) \
-		P : $(Child("P", Slider(wind.x1:0.01:wind.x2,default=1.0;show_value=true))) $sp
-		plot derivative : $(Child("plotd", CheckBox()))
-		""" 
-	end;
+# ╔═╡ 39cb292d-4b3e-47b2-818b-e476bfe1f96b
+par_widget = @bind par PlutoUI.combine() do Child
+	md"""
+	Then slide the value of a to evauate the Derivative (up to order N) on that point \
+	a : $(Child("a", Slider(wind.x1:0.01:wind.x2,default=1.0;show_value=true))) $sp
+	N : $(Child("N", Slider(0:1:5,default=0;show_value=true)))
+	tangent : $(Child("tangent", CheckBox())) 
+	""" 
 end;
 
-# ╔═╡ b654e63f-6d00-439a-9c12-3260e38a2b56
-begin
-	if npars==1
-		f_subs = substitute(f, Dict(a=>par.a))
-		dfdx_subs = substitute(dfdx, Dict(a=>par.a))
-	elseif npars==2	
-		f_subs = substitute(f, Dict(a=>par.a,b=>par.b))
-		dfdx_subs = substitute(dfdx, Dict(a=>par.a,b=>par.b))
-	elseif npars==3	
-		f_subs = substitute(f, Dict(a=>par.a,b=>par.b,c=>par.c))
-		dfdx_subs = substitute(dfdx, Dict(a=>par.a,b=>par.b,c=>par.c))
-	end	
-	sP = Symbolics.value(substitute(dfdx_subs, Dict(x=>par.P)))
-	fP = Symbolics.value(substitute(f_subs, Dict(x=>par.P)))
-	TP = fP + sP*(x-par.P)
-end;
+# ╔═╡ 36aedde5-55ee-4c2d-b376-c48873796224
+plot_widget = plot_derivative(f,x,par.a,par.N,wind.x1,wind.x2,wind.ylimit,par.tangent);
 
-# ╔═╡ 7ceea0d1-8939-4b3b-bf2b-a1b1760cfa4a
-begin
-	plot_widget = plot(f_subs,label=latexify(f_subs,env=:inline))
-	plot!(TP,c=:red,label=latexify("tangent"))
-	scatter!([par.P],[fP],ms=4,c=:black,label="")
-	annotate!(par.P+0.5, fP, latexify(string(round(sP,sigdigits=3))), :red)
-	if (par.plotd)
-		plot!(dfdx_subs,c=:red,ls=:dash,label=latexify(dfdx_subs,env=:inline))
-		dfdxP = Symbolics.value(substitute(dfdx_subs, Dict(x=>par.P)))
-		scatter!([par.P],[dfdxP],ms=3,c=:red,label="")
-	end
-	farr = [Symbolics.value(substitute(f_subs, Dict(x=>y))) for y in wind.x1:0.01:wind.x2]
-	maxf = maximum(farr[.!isnan.(farr)])
-	minf= minimum(farr[.!isnan.(farr)])
-	margin = 0.1*(maxf-minf)
-	plot!([wind.x1,wind.x2],[0,0],ls=:dash,c=:black,label="")
-	xlims!(wind.x1,wind.x2)
-	if wind.ylimit
-		ylims!(wind.x1,wind.x2)
-		plot!([0,0],[wind.x1,wind.x2],ls=:dash,c=:black,label="")
-	else	
-		ylims!(minf-margin,maxf+margin)
-		plot!([0,0],[minf-margin,maxf+margin],ls=:dash,c=:black,label="")
-	end
-	plot!(background_color_legend = RGBA(0,0,0,0.1))
-	plot!(foreground_color_legend = RGBA(0,0,0,0.3))
-end;
-
-# ╔═╡ 935cb98a-7268-4de1-86f4-24b7dd1b5549
+# ╔═╡ f81b743d-3039-4548-a539-9b0d52f85e6c
 begin 
 	#dash_cell =  PlutoRunner.currently_running_cell_id[] |> string
 	PlutoUI.ExperimentalLayout.vbox([
@@ -152,6 +118,39 @@ begin
 		par_widget,
 		plot_widget,
 		window_widget
+	])
+end
+
+# ╔═╡ 3fc151bc-ca62-4271-8b0d-6bdb97b5c112
+par_widget2 = @bind par2 PlutoUI.combine() do Child
+	md"""
+	Then slide the value of a to evauate the Derivative (up to order N) on that point \
+	a : $(Child("a", Slider(wind.x1:0.01:wind.x2,default=1.0;show_value=true))) $sp
+	N : $(Child("N", Slider(0:1:5,default=0;show_value=true)))
+	tangent : $(Child("tangent", CheckBox()))
+	""" 
+end;
+
+# ╔═╡ 2f8118f7-e946-4cb2-9243-17c6450c40fc
+window_widget2 = @bind wind2 PlutoUI.combine() do Child
+	md"""
+	xmin : $(Child("x1", Slider(-4.0:0.1:-0.01,default=-3;show_value=true))) $sp
+	xmax : $(Child("x2", Slider(0.01:0.1:4.0,default=3.0;show_value=true))) $sp
+	ylimit : $(Child("ylimit", CheckBox())) 
+	""" 
+end;
+
+# ╔═╡ c0ab9c85-6e48-4892-afcd-50530ff1925d
+plot_widget2 = plot_derivative(f2,x,par2.a,par2.N,wind2.x1,wind2.x2,wind2.ylimit,par2.tangent);
+
+# ╔═╡ fee8169e-2aeb-485b-b2b1-53faa2133cf4
+begin 
+	#dash_cell =  PlutoRunner.currently_running_cell_id[] |> string
+	PlutoUI.ExperimentalLayout.vbox([
+		tex_widget2,
+		par_widget2,
+		plot_widget2,
+		window_widget2
 	])
 end
 
@@ -168,19 +167,26 @@ input[type*="range"] {
 """
 
 # ╔═╡ Cell order:
-# ╠═8002c179-ca6f-41fc-b13b-46c5423fa3bc
 # ╟─c5b7b753-6fd7-45fa-ac08-50cba417c3ac
-# ╠═98ffe15a-be1f-44bb-94b8-074b8530a65b
-# ╟─935cb98a-7268-4de1-86f4-24b7dd1b5549
+# ╟─98ffe15a-be1f-44bb-94b8-074b8530a65b
+# ╟─f81b743d-3039-4548-a539-9b0d52f85e6c
+# ╟─f0d4d3f0-8c96-4b35-9815-eac5f1d1649f
+# ╟─6d9b5e19-ede8-40dc-b90d-2286f7697898
+# ╟─fee8169e-2aeb-485b-b2b1-53faa2133cf4
+# ╟─8002c179-ca6f-41fc-b13b-46c5423fa3bc
+# ╟─9f1cc852-1b38-4e33-b868-2e221424cbb5
+# ╟─36aedde5-55ee-4c2d-b376-c48873796224
+# ╟─c0ab9c85-6e48-4892-afcd-50530ff1925d
 # ╟─7fb84e83-cdf1-4fad-849d-f55a7898bb5c
 # ╟─904864b4-b6ac-4aa6-a630-26127730bd72
-# ╟─b615a970-8f85-11ef-1c13-e9ed82dd14ce
-# ╟─6dddcd75-96df-4fab-be2b-1728f268adf5
+# ╟─679c3188-4930-4364-8f56-6a2d0a688c37
 # ╟─65db4e7d-7306-4136-a414-bb69a77f435a
-# ╟─b654e63f-6d00-439a-9c12-3260e38a2b56
-# ╟─7ceea0d1-8939-4b3b-bf2b-a1b1760cfa4a
-# ╟─e77f1171-c489-4a81-849a-16e107b3bb50
+# ╟─1e4dd018-1bca-446d-ab21-029a5944b5e9
+# ╟─fcf313fe-afda-459e-91c8-f8ffa019eb86
+# ╟─39cb292d-4b3e-47b2-818b-e476bfe1f96b
+# ╟─3fc151bc-ca62-4271-8b0d-6bdb97b5c112
 # ╟─f95de1fa-fef7-4620-966e-e31dda738ea1
-# ╟─ca01ea8f-4b35-4971-af37-31fbeaaa6762
+# ╟─2f8118f7-e946-4cb2-9243-17c6450c40fc
+# ╟─b615a970-8f85-11ef-1c13-e9ed82dd14ce
 # ╟─0a51519a-0faf-4997-b230-b79d18902b69
 # ╟─afb14697-6bef-4f7e-a39a-fd6ad82b668c

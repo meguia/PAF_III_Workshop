@@ -156,21 +156,16 @@ input[type*="range"] {
 </style>
 """
 
-# ╔═╡ 9796cc0f-6386-423f-8e84-aa55d88f4858
-begin
-	
-end	
-
 # ╔═╡ Cell order:
-# ╟─8002c179-ca6f-41fc-b13b-46c5423fa3bc
 # ╟─c5b7b753-6fd7-45fa-ac08-50cba417c3ac
 # ╟─9e0b5ab0-572b-4a19-bc0d-99b6597d379b
-# ╟─dc8573e0-89d6-48cd-ae1c-b57cdd4d63a2
 # ╟─9a6f56c3-7bf3-4eaf-a299-3be78b3b7442
 # ╟─4e36776a-be45-457d-8310-d49f27769b7b
 # ╟─a4e0dcac-7872-4fdd-a808-f4ca8e9fbe13
 # ╟─98ffe15a-be1f-44bb-94b8-074b8530a65b
 # ╟─4f828fa7-84b7-4092-b51c-fcfd5a54d9c1
+# ╟─dc8573e0-89d6-48cd-ae1c-b57cdd4d63a2
+# ╟─8002c179-ca6f-41fc-b13b-46c5423fa3bc
 # ╟─508c5ff8-add4-4da8-94ac-0590dd4fc971
 # ╟─40e6ea0f-444f-4a0d-be52-fd96a8bec76d
 # ╟─5ee2f847-8755-446a-b3b8-04e6b9bec084
@@ -180,6 +175,5 @@ end
 # ╟─6474ee92-dfde-4531-8a72-ed455ee24fa3
 # ╟─b615a970-8f85-11ef-1c13-e9ed82dd14ce
 # ╟─64a3716c-3d63-4b5b-8d5c-98010d47146c
-# ╟─0a51519a-0faf-4997-b230-b79d18902b69
 # ╟─afb14697-6bef-4f7e-a39a-fd6ad82b668c
-# ╟─9796cc0f-6386-423f-8e84-aa55d88f4858
+# ╟─0a51519a-0faf-4997-b230-b79d18902b69
