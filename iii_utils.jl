@@ -382,7 +382,7 @@ If `plot_trace` is true, also draw the complex plane trace of the sum of the ton
 over the interval [0, 4π].
 Returns two plots: the phasor diagram and the time-domain trace of the imaginary part.
 """
-function plot_ntones(t,amp,ωs,ϕs,Amax;plot_trace=false)
+function plot_ntones(t,amp,ωs,ϕs,Amax;plot_trace=false,ncycles=2)
     tlabel = latexstring("t=$(round(t,digits=2))")
     xs = amp.*cos.(ωs*t .+ ϕs)
 	ys = amp.*sin.(ωs*t .+ ϕs)
@@ -401,10 +401,10 @@ function plot_ntones(t,amp,ωs,ϕs,Amax;plot_trace=false)
 	plot!(p1,[0,Amax],[yc[end],yc[end]],ls=:dash,c=:blue,label="")
 	scatter!(p1,[xc[end]],[yc[end]],c=:red,ms=5,label="")
 	scatter!(p1,[0],[yc[end]],c=:blue,ms=5,label="")
-	tb = (0:pi/40:4*pi)
-    p2 = plot([0,4*pi],[0,0],ls=:dash,c=:black,label="",ylims=(-Amax,Amax))
+	tb = (0:pi/40:ncycles*2*pi)
+    p2 = plot([0,ncycles*2*pi],[0,0],ls=:dash,c=:black,label="",ylims=(-Amax,Amax))
 	plot!(p2,tb,sum(amp'.*sin.(tb*ωs' .+ ϕs'),dims=2),label="",c=:blue,ylims=(-Amax,Amax))
-	scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,4*pi))
+	scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,ncycles*2*pi))
 	plot!(p2,[0,t],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
     annotate!(p2,(0.7*Amax,0.9*Amax,text(tlabel,12,:black,:left)))
     return p1, p2
@@ -414,7 +414,7 @@ end
     plot_ntones_twoaxis(t, amp, ωs, ϕs, Amax; plot_trace=false)
 The same as `plot_ntones` but also returns an additional plot showing the time-domain trace of the real part.
 """
-function plot_ntones_twoaxis(t,amp,ωs,ϕs,Amax;plot_trace=false)
+function plot_ntones_twoaxis(t,amp,ωs,ϕs,Amax;plot_trace=false,ncycles=2)
     tlabel = latexstring("t=$(round(t,digits=2))")
     xs = amp.*cos.(ωs*t .+ ϕs)
 	ys = amp.*sin.(ωs*t .+ ϕs)
@@ -434,15 +434,15 @@ function plot_ntones_twoaxis(t,amp,ωs,ϕs,Amax;plot_trace=false)
 	plot!(p1,[xc[end],xc[end]],[yc[end],-Amax],ls=:dash,c=:red,label="")
 	scatter!(p1,[xc[end]],[yc[end]],c=:red,ms=5,label="")
 	scatter!(p1,[0],[yc[end]],c=:blue,ms=5,label="")
-	tb = (0:pi/40:4*pi)
-    p2 = plot([0,4*pi],[0,0],ls=:dash,c=:black,label="",ylims=(-Amax,Amax))
+	tb = (0:pi/40:ncycles*2)
+    p2 = plot([0,ncycles*2],[0,0],ls=:dash,c=:black,label="",ylims=(-Amax,Amax))
 	plot!(p2,tb,sum(amp'.*sin.(tb*ωs' .+ ϕs'),dims=2),label="",c=:blue,ylims=(-Amax,Amax))
-	scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,4*pi))
+	scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,ncycles*2))
 	plot!(p2,[0,t],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
     annotate!(p2,(0.7*Amax,0.9*Amax,text(tlabel,12,:black,:left)))
-	p3 = plot([0,0],[0,4*pi],ls=:dash,c=:black,label="",xlims=(-Amax,Amax))
+	p3 = plot([0,0],[0,ncycles*2],ls=:dash,c=:black,label="",xlims=(-Amax,Amax))
 	plot!(p3,sum(amp'.*cos.(tb*ωs' .+ ϕs'),dims=2),tb,label="",c=:red,xlims=(-Amax,Amax))
-	scatter!(p3,[sum(xs)],[t],c=:red,ms=5,label="",ylims=(0,4*pi))
+	scatter!(p3,[sum(xs)],[t],c=:red,ms=5,label="",ylims=(0,ncycles*2))
 	plot!(p3,[sum(xs),sum(xs)],[0,t],c=:red,ls=:dash,label="",yflip = true)
     return p1, p2, p3
 end
@@ -502,6 +502,40 @@ function plot_ntones_vertical(t,amp,ωs,ϕs,Amax)
 		end
 	end
     annotate!(p2,(0.7*4*pi,0.9*Amax,text(tlabel,12,:black,:left)))
+    return p1, p2
+end
+
+"""
+    plot_ntones_decay(t, amp, ωs, decays, ϕs, Amax; plot_trace=false)
+Draw the phasor diagram (in the complex plane) for `nt` tones with amplitudes `amp`, frequencies `ωs`,
+decay rates `decays`, and phases `ϕs` at time `t`.
+"""
+function plot_ntones_decay(t,amp,ωs,decays,ϕs,Amax;plot_trace=false,ncycles=2)
+    tlabel = latexstring("t=$(round(t,digits=2))")
+	ampd = amp.*exp.(-decays*t)
+    xs = ampd.*cos.(ωs*t .+ ϕs)
+	ys = ampd.*sin.(ωs*t .+ ϕs)
+    nt = length(ωs)
+    p1 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
+	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,label="",xlabel="",ylabel=latexstring("Amplitude"))
+	plot!(p1,[0,sum(xs)],[sum(ys),sum(ys)],ls=:dash,c=:blue,label="")
+    xc = cumsum([0;xs])
+    yc = cumsum([0;ys])
+    for n=1:nt
+        plot!(p1,[xc[n],xc[n+1]],[yc[n],yc[n+1]],c=:red,label="")
+        plot!(p1,[xc[n].+ampd[n]*cos.(0:pi/15:2*pi)],[yc[n].+ampd[n]*sin.(0:pi/15:2*pi)],c=:green,label="")
+        scatter!(p1,[xc[n]],[yc[n]],c=:red,ms=4,alpha=0.6,label="")
+    end
+	plot!(p1,[0,0],[0,yc[end]],c=:blue,label="")
+	plot!(p1,[0,Amax],[yc[end],yc[end]],ls=:dash,c=:blue,label="")
+	scatter!(p1,[xc[end]],[yc[end]],c=:red,ms=5,label="")
+	scatter!(p1,[0],[yc[end]],c=:blue,ms=5,label="")
+	tb = (0:pi/40:ncycles*2*pi)
+    p2 = plot([0,ncycles*2*pi],[0,0],ls=:dash,c=:black,label="",ylims=(-Amax,Amax))
+	plot!(p2,tb,sum(amp'.*sin.(tb*ωs' .+ ϕs').*exp.(-decays'.*tb),dims=2),label="",c=:blue,ylims=(-Amax,Amax))
+	scatter!(p2,[t],[sum(ys)],c=:blue,ms=5,label="",xlims=(0,ncycles*2*pi))
+	plot!(p2,[0,t],[sum(ys),sum(ys)],c=:blue,ls=:dash,label="")
+    annotate!(p2,(0.7*Amax,0.9*Amax,text(tlabel,12,:black,:left)))
     return p1, p2
 end
 

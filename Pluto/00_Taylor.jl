@@ -30,9 +30,6 @@ end
 # ╠═╡ show_logs = false
 include("../iii_utils.jl");
 
-# ╔═╡ 8002c179-ca6f-41fc-b13b-46c5423fa3bc
-@variables x a;
-
 # ╔═╡ c5b7b753-6fd7-45fa-ac08-50cba417c3ac
 md"""
 # Taylor Series
@@ -51,9 +48,6 @@ a4 = $(@bind a4 Slider(-0.2:0.01:0.2,default=0.0;show_value=true)) \
 a5 = $(@bind a5 Slider(-0.1:0.005:0.1,default=0.0;show_value=true)) 
 """
 
-# ╔═╡ dc8573e0-89d6-48cd-ae1c-b57cdd4d63a2
-f2 = a0+a1*x+a2*x^2+a3*x^3+a4*x^4+a5*x^5;
-
 # ╔═╡ a4e0dcac-7872-4fdd-a808-f4ca8e9fbe13
 md"""
 ## Trigonometric and Exponential Functions
@@ -64,6 +58,24 @@ Choose the function here using x as a variable here without parameters.
 
 # ╔═╡ 98ffe15a-be1f-44bb-94b8-074b8530a65b
 @bind f Select([sin(x), cos(x), exp(x)])
+
+# ╔═╡ dc8573e0-89d6-48cd-ae1c-b57cdd4d63a2
+f2 = a0+a1*x+a2*x^2+a3*x^3+a4*x^4+a5*x^5;
+
+# ╔═╡ 8002c179-ca6f-41fc-b13b-46c5423fa3bc
+@variables x a;
+
+# ╔═╡ afb14697-6bef-4f7e-a39a-fd6ad82b668c
+html"""
+<style>
+pluto-notebook {
+    max-width: 1000px;
+}
+input[type*="range"] {
+	width: 25%;
+}
+</style>
+"""
 
 # ╔═╡ 0a51519a-0faf-4997-b230-b79d18902b69
 sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
@@ -144,18 +156,6 @@ begin
 	])
 end
 
-# ╔═╡ afb14697-6bef-4f7e-a39a-fd6ad82b668c
-html"""
-<style>
-pluto-notebook {
-    max-width: 1000px;
-}
-input[type*="range"] {
-	width: 25%;
-}
-</style>
-"""
-
 # ╔═╡ Cell order:
 # ╟─c5b7b753-6fd7-45fa-ac08-50cba417c3ac
 # ╟─9e0b5ab0-572b-4a19-bc0d-99b6597d379b
@@ -175,5 +175,5 @@ input[type*="range"] {
 # ╟─6474ee92-dfde-4531-8a72-ed455ee24fa3
 # ╟─b615a970-8f85-11ef-1c13-e9ed82dd14ce
 # ╟─64a3716c-3d63-4b5b-8d5c-98010d47146c
-# ╟─afb14697-6bef-4f7e-a39a-fd6ad82b668c
+# ╠═afb14697-6bef-4f7e-a39a-fd6ad82b668c
 # ╟─0a51519a-0faf-4997-b230-b79d18902b69
