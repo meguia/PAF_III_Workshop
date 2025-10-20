@@ -622,24 +622,24 @@ function plot_derivative(f::Num, x::Num, a::Real,N::Int64,x1::Real,x2::Real,ylim
 	Ta = fa + sa*(x-a)
 	plot_derivative = plot(f,c=:blue,label=latexify(f,env=:inline))
 	if (plott)
-		plot!(Ta,c=:green,label="")
+		plot!(Ta,c=:red,label="")
+        annotate!(a+0.5, fa, latexify(string(round(sa,sigdigits=3))), :red)
 	end
 	scatter!([a],[fa],ms=4,c=:black,label="")
-	annotate!(a+0.5, fa, latexify(string(round(sa,sigdigits=3))), :red)
-	if (N==1)
-		plot!(dfdx,c=:red,label=latexify(dfdx,env=:inline))
+	if (N>0)
+		plot!(dfdx,alpha=0.8,label=latexify(dfdx,env=:inline))
 	end
-	if (N==2)
-		plot!(dfdx2,c=:red,label=latexify(dfdx2,env=:inline))
+	if (N>1)
+		plot!(dfdx2,alpha=0.8,label=latexify(dfdx2,env=:inline))
 	end
-	if (N==3)
-		plot!(dfdx3,c=:red,label=latexify(dfdx3,env=:inline))
+	if (N>2)
+		plot!(dfdx3,alpha=0.8,label=latexify(dfdx3,env=:inline))
 	end
-	if (N==4)
-		plot!(dfdx4,c=:red,label=latexify(dfdx4,env=:inline))
+	if (N>3)
+		plot!(dfdx4,alpha=0.8,label=latexify(dfdx4,env=:inline))
 	end
-	if (N==5)
-		plot!(dfdx5,c=:red,label=latexify(dfdx5,env=:inline))
+	if (N>4)
+		plot!(dfdx5,alpha=0.8,label=latexify(dfdx5,env=:inline))
 	end
 	farr = [Symbolics.value(substitute(f, Dict(x=>y))) for y in x1:0.01:x2]
 	maxf = maximum(farr[.!isnan.(farr)])

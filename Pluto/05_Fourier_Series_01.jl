@@ -54,11 +54,6 @@ The complex conjugate of the element is an element with the opposite sign:
 
 $\overline{E_k(t)} = e^{-ikt} = E_{-k}(t)$
 
-## Scalar Product
-
-We define the **scalar product** of two elements as the average over a full period after conjugating the second element
-
-$E_k \cdot E_k = \langle E_k(t) \overline{E_k(t)}\rangle_T = \langle e^{ikt}e^{-ikt} \rangle_T = \langle 1 \rangle_T = 1$ 
 
 """
 
@@ -74,8 +69,8 @@ md"""
 begin
 	t1 = mod(t_1-0.99,400)*(4*pi)/400
 	nmod = 6
-	pps = plot_fasors(t1,ones(2*nmod,),vcat([1:nmod,-1:-1:-nmod]...),zeros(2*nmod,),1.05)
-	plot(pps...,layout=(2,nmod),size=(1200,400),left_margin=[-10mm -10mm])
+	pps = plot_fasors(t1,ones(2*nmod+1,),vcat([nmod:-1:0, -nmod:1:-1]...),zeros(2*nmod+1,),1.05)
+	plot(pps...,layout=(2,nmod+1),size=(1200,400),left_margin=[-10mm -10mm])
 end	
 
 # ╔═╡ 8338e09a-6751-4aaf-b5a1-8c651e6c5cb8
@@ -86,9 +81,21 @@ The average of the elementary oscillation over a full period is zero except for 
 
 $\langle E_k(t) \rangle_T = 0 \quad for \quad k\neq 0$
 
+
+## Inner Product
+
+We define the **inner product** of two elements as the average over a full period after conjugating the second element
+
+
+$E_k \cdot E_j = \langle E_k(t) \overline{E_j(t)}\rangle_T = \langle e^{ikt}e^{-ijt} \rangle_T$ 
+
+The **inner product** of an element with itself is the square of the norm ($=1$):
+
+$E_k \cdot E_k = \langle E_k(t) \overline{E_k(t)}\rangle_T = \langle e^{ikt}e^{-ikt} \rangle_T = \langle 1 \rangle_T = 1$ 
+
 ## Orthogonality 
 
-The scalar product of two elementary oscillations:
+The inner product of two elementary oscillations:
 
 $E_k \cdot E_j = \langle E_k(t)\overline{E_j(t)} \rangle_T = \langle E_{k-j}(t) \rangle_T = 0 \quad if \quad k\neq j$
 
@@ -102,20 +109,26 @@ Therefore, all elementary oscillations are orthogonal. Only equal indices surviv
 md"""
 ## Measuring “how much” of each oscillation
 
-Let $x(t)$ be any $T$-periodic function. To measure the k-th ingredient, first freeze it.
+Let $s(t)$ be any $T$-periodic function. 
 
-Multiply by the conjugate oscillation: 
-$x(t) \cdot E_{-k}(t)$
+To measure the k-th ingredient, first freeze it using the inner product. We define the coefficient as $C_k$ this product:
 
-The k-th component stops spinning and becomes steady.
+$C_k :=  \langle s(t)\overline{E_k(t)} \rangle_T$
 
+The k-th component of $s(t)$ stops spinning and becomes steady. 
 All other components keep spinning and cancel by symmetry when averaged.
 
-Define the coefficient
+"""
 
-$c_k :=  \langle x(t)\overline{E_k(t)} \rangle_T$
+# ╔═╡ e60b57f9-d4d0-47f1-8705-5f6858b7211f
 
+md"""
 
+## Example
+
+We can try with a triangular signal of period $2\pi$
+
+$s(t) = -1+2t/\pi$ 
 """
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
@@ -165,6 +178,7 @@ end
 # ╟─4f029a92-bcb9-4b11-908c-68688f9d4a6a
 # ╟─fd653582-1eef-4069-a102-315badc98a70
 # ╟─706bd63b-25d8-4fe8-94cf-217e0f60cc09
+# ╟─e60b57f9-d4d0-47f1-8705-5f6858b7211f
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
