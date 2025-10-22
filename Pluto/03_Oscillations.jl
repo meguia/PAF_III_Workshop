@@ -149,6 +149,7 @@ pluto-notebook {
 input[type*="range"] {
 	width: 25%;
 }
+pluto-helpbox { display: none; } 
 </style>
 """
 
@@ -225,5 +226,5 @@ end
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
-# ╠═18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
 # ╟─234a88c7-314b-419e-9092-7d00be674b2b

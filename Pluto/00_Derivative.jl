@@ -181,6 +181,7 @@ pluto-notebook {
 input[type*="range"] {
 	width: 25%;
 }
+pluto-helpbox { display: none; } 
 </style>
 """
 

@@ -80,6 +80,7 @@ pluto-notebook {
 input[type*="range"] {
 	width: 25%;
 }
+pluto-helpbox { display: none; } 
 </style>
 """
 
@@ -170,10 +171,10 @@ end
 # ╟─a2f57914-6a31-4e3b-ab6d-2dadfc76938d
 # ╟─c36b7f32-cc93-41ae-88d8-dfc5fb61eaec
 # ╟─f795c84a-6531-4ef5-998c-b71f0be9918c
+# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─624a94c0-f33e-402d-9401-f7d0c90cb3b0
 # ╟─21c750d4-9bc2-4002-a8c8-606856479415
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
-# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
 # ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795

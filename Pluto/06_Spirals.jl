@@ -20,7 +20,7 @@ end
 # ╠═╡ show_logs = false
 begin
 	import Pkg; Pkg.activate(Base.current_project()); Pkg.instantiate();
-	using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot
+	using Plots, PlutoUI, LaTeXStrings, PlutoEditorColorThemes, Latexify, Measures, ProjectRoot, WAV
 end
 
 # ╔═╡ 2ca3355a-58d6-4323-a697-16e486524d9a
@@ -29,7 +29,15 @@ include("../iii_utils.jl");
 
 # ╔═╡ 7e060b26-118c-445b-be90-8034517ec277
 md"""
-# Sum of Oscillations
+# Non-periodic Oscillations
+
+We can extend the elementary oscillations to non-integer indices:
+
+$E_{\omega} = C(\omega)e^{-i\omega t}$
+
+with $\omega \in \mathbb{R}$ and $C(\omega) \in \mathbb{C}$
+
+Then, every element is periodic with a period $T=2\pi/\omega$ but a sum of elementary oscillations of this type is no longer periodic because in general the periods are non conmensurable
 """
 
 # ╔═╡ c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
@@ -43,6 +51,107 @@ begin
 	ncycles2 = 5
 	@bind t_2 Clock(0.1,true,false,200*ncycles2+1,false)
 end	
+
+# ╔═╡ 19a48894-1887-4564-a814-4d2e833a18b2
+md"""
+# Decaying Oscillations
+
+A further generalization is to make the exponent complex instead of purely imaginary.
+
+As we have seen before these means that the amplitude of the oscillations can grow or decay exponentially in time.
+
+$E_{\omega} = C(\omega)e^{-\alpha(\omega)t}e^{i\omega t}$
+"""
+
+# ╔═╡ 1bec2bdb-961a-4c41-ae04-7616d408dc56
+md"""
+## Bells
+
+$$\begin{aligned}
+\begin{array}{|c|c|}
+\hline \hline  Big Bell (D)  & Small Bell (A)  \\
+\begin{array}{|c|c|c|c|}
+\hline\hline
+\# & \text{frequency (Hz)} & \text{amplitude} & \text{decay (s)}\\
+\hline
+1 & 296 & 1.00 & 3.0 \\
+2 & 595 & 0.50 & 2.1 \\
+3 & 696 & 0.40 & 1.9 \\
+4 & 899 & 0.01 & 0.7 \\
+5 & 1149 & 0.25 & 0.9 \\
+6 & 1533 & 0.02 & 0.5 \\
+7 & 1611 & 0.03 & 0.5 \\
+8 & 1716 & 0.20 & 0.7 \\
+9 & 1968 & 0.02 & 0.6 \\
+10 & 2362 & 0.02 & 0.7 \\
+11 & 2465 & 0.02 & 0.6 \\
+12 & 3069 & 0.07 & 0.7 \\
+\hline
+\end{array}
+& \begin{array}{|c|c|c|c|}
+\hline\hline
+\# & \text{frequency (Hz)} & \text{amplitude} & \text{decay (s)}\\
+\hline
+1 & 441  & 1.00 & 2.0 \\
+2 & 935  & 0.71 & 1.5 \\
+3 & 1080 & 0.71 & 1.2 \\
+4 & 1353 & 0.22 & 0.4 \\
+5 & 1799 & 0.40 & 0.5 \\
+6 & 2307 & 0.16 & 0.3 \\
+7 & 2454 & 0.11 & 0.3 \\
+8 & 2689 & 0.22 & 0.3 \\
+9 & 3694 & 0.40 & 0.4 \\
+\hline
+\end{array}
+\end{array}
+\end{aligned}$$
+
+
+
+"""
+
+# ╔═╡ c2914d60-04d6-4545-92f1-d5ddf7c649ae
+begin
+	ncycles3 = 10
+	@bind t_3 Clock(0.1,true,false,200*ncycles3+1,false)
+end	
+
+# ╔═╡ db0af527-3f1b-43ee-a088-089207e313f6
+begin
+	t3 = (t_3-1)*(4*pi)/400
+	AB1 = [1.0 0.5 0.4 0.25 0.2 0.07]
+	fB1 = [296 595 696 1149 1716 3096]
+	dB1 = [3.0 2.1 1.9 0.9 0.7 0.7]
+	AmaxB1 = 2
+	ωB1 = fB1/100
+	pB1, pB2 = plot_ntones_decay(t3,AB1[1,:],ωB1[1,:],dB1[1,:]/100,AB1[1,:]*0,AmaxB1; ncycles=ncycles3)
+	plot(pB1,pB2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+end
+
+# ╔═╡ 4c226e12-0d7c-4ccc-a5ce-36817ce4a768
+md"""
+$(@bind play CounterButton("Play"))
+"""
+
+# ╔═╡ 15b2aac7-f89b-4949-9a1c-3b440835312f
+let 
+	play 
+	wavplay("audio.wav")
+end
+
+# ╔═╡ 3f183134-2a68-4bb2-83de-53fa0903a349
+begin
+	fs = 44100
+	dt = 1/fs
+	dur = 5.0
+	ts = collect(0:dt:dur)
+	components = AB1.*sin.(2*pi*fB1.*ts).*exp.(-dB1.*ts)
+	snd = sum(components,dims=2)
+	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
+end
+
+# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
+plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
 
 # ╔═╡ 4e156f4c-8425-41fd-9abb-64261ab3cda2
 begin
@@ -60,6 +169,7 @@ main {
 input[type*="range"] {
 	width: 20%;
 }
+pluto-helpbox { display: none; } 
 </style>
 """
 
@@ -114,7 +224,7 @@ begin
 	ωsb = [ω1b,ω2b,ω3b]
 	ddb = [d1b,d2b,d3b]
 	Amaxb = 6
-	p1b,p2b = plot_ntones_decay(t2,Ampsb,ωsb,ddb,ϕsb,Amaxb; ncycles=5)
+	p1b,p2b = plot_ntones_decay(t2,Ampsb,ωsb,ddb,ϕsb,Amaxb; ncycles=ncycles2)
 	plot(p1b,p2b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
 end	
 
@@ -124,8 +234,16 @@ end
 # ╟─0e34247d-671a-46b3-be5b-3f4545d848f0
 # ╟─52f0eb33-18b6-452d-a250-65a54d96080f
 # ╟─560c2913-06c2-401b-a9bc-895159fdeacd
+# ╟─19a48894-1887-4564-a814-4d2e833a18b2
 # ╟─4542c858-9fc8-494b-9d5d-f1ad8c65791b
 # ╟─9e4ea208-108c-49e2-a098-38e00a0d8fcb
+# ╟─1bec2bdb-961a-4c41-ae04-7616d408dc56
+# ╟─c2914d60-04d6-4545-92f1-d5ddf7c649ae
+# ╟─db0af527-3f1b-43ee-a088-089207e313f6
+# ╟─4c226e12-0d7c-4ccc-a5ce-36817ce4a768
+# ╟─ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╟─15b2aac7-f89b-4949-9a1c-3b440835312f
+# ╟─3f183134-2a68-4bb2-83de-53fa0903a349
 # ╟─2ca3355a-58d6-4323-a697-16e486524d9a
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─4e156f4c-8425-41fd-9abb-64261ab3cda2
