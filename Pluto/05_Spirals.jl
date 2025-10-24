@@ -124,8 +124,8 @@ begin
 	dB1 = [3.0 2.1 1.9 0.9 0.7 0.7]
 	AmaxB1 = 2
 	ωB1 = fB1/100
-	pB1, pB2 = plot_ntones_decay(t3,AB1[1,:],ωB1[1,:],dB1[1,:]/100,AB1[1,:]*0,AmaxB1; ncycles=ncycles3)
-	plot(pB1,pB2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	pB1, pB2 = plot_ntones_decay(t3,AB1[1,:],ωB1[1,:],dB1[1,:]/100,AB1[1,:]*0,AmaxB1;ncycles=ncycles3)
+	plot(pB1,pB2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
 end
 
 # ╔═╡ 4c226e12-0d7c-4ccc-a5ce-36817ce4a768
@@ -133,11 +133,20 @@ md"""
 $(@bind play CounterButton("Play"))
 """
 
+# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╠═╡ disabled = true
+#=╠═╡
+plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
+  ╠═╡ =#
+
 # ╔═╡ 15b2aac7-f89b-4949-9a1c-3b440835312f
+# ╠═╡ disabled = true
+#=╠═╡
 let 
 	play 
 	wavplay("audio.wav")
 end
+  ╠═╡ =#
 
 # ╔═╡ 3f183134-2a68-4bb2-83de-53fa0903a349
 begin
@@ -150,9 +159,6 @@ begin
 	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
 end
 
-# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
-plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
-
 # ╔═╡ 4e156f4c-8425-41fd-9abb-64261ab3cda2
 begin
 	# this is a comment
@@ -163,7 +169,7 @@ end
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
 <style>
-main {
+pluto-notebook {
     max-width: 1000px;
 }
 input[type*="range"] {
@@ -196,8 +202,8 @@ begin
 	ϕs = [ϕ1,ϕ2,ϕ3]
 	ωs = [ω1,ω2,ω3]
 	Amax = 6
-	p1,p2 = plot_ntones(t1,Amps,ωs,ϕs,Amax;ncycles=ncycles)
-	plot(p1,p2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	p1,p2 = plot_ntones(t1,Amps,ωs,ϕs,Amax;plot_trace=true, ncycles=ncycles)
+	plot(p1,p2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
 end	
 
 # ╔═╡ 4542c858-9fc8-494b-9d5d-f1ad8c65791b
@@ -224,8 +230,8 @@ begin
 	ωsb = [ω1b,ω2b,ω3b]
 	ddb = [d1b,d2b,d3b]
 	Amaxb = 6
-	p1b,p2b = plot_ntones_decay(t2,Ampsb,ωsb,ddb,ϕsb,Amaxb; ncycles=ncycles2)
-	plot(p1b,p2b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	p1b,p2b = plot_ntones_decay(t2,Ampsb,ωsb,ddb,ϕsb,Amaxb; plot_trace=true, ncycles=ncycles2)
+	plot(p1b,p2b, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
 end	
 
 # ╔═╡ Cell order:
@@ -241,8 +247,8 @@ end
 # ╟─c2914d60-04d6-4545-92f1-d5ddf7c649ae
 # ╟─db0af527-3f1b-43ee-a088-089207e313f6
 # ╟─4c226e12-0d7c-4ccc-a5ce-36817ce4a768
-# ╟─ae1d669e-f57b-458c-9eb5-09ba61c39878
-# ╟─15b2aac7-f89b-4949-9a1c-3b440835312f
+# ╠═ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╠═15b2aac7-f89b-4949-9a1c-3b440835312f
 # ╟─3f183134-2a68-4bb2-83de-53fa0903a349
 # ╟─2ca3355a-58d6-4323-a697-16e486524d9a
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5

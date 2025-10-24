@@ -43,7 +43,7 @@ The instantaneous velocity is, by definition, its first derivative $v(t) = s^{\p
 
 On the number line, we can draw an arrow from $0$ to $s(t)$ to indicate the position (red)
 
-The velocity $v(t)$ is the rate of change of that distance at time t and it can also be indicade by an arrow (blue)
+The velocity $v(t)$ is the rate of change of that distance at time t and it can also be representated by an arrow (blue). Its magnitude corresponds to the speed (always positive) in the same scale, and its orientation (positive to the right negative to the left) the direction of the movement.
 
 Let start with the simples case: constant velocity
 
@@ -91,9 +91,9 @@ More generally, if we set a constant rate $\alpha$:
 
 $s(t)=e^{\alpha t}$ 
 
-then the velocityt is proportional to the position
+then the velocity (by the chain rule) is proportional to the position
 
-$v(t)=\alpha e^{\alpha t} = \alpha s(t)$
+$v(t)= s^{\prime}(t) = \alpha e^{\alpha t} = \alpha s(t)$
 
 The motion growths exponentially if $\alpha>0$.
 
@@ -151,7 +151,7 @@ md"""
 
 Growth and decay (stretching and squishing) can be described with real numbers and take place in the line.
 
-What happen if we generalize to the complex domain?
+What happens if we generalize to the complex domain?
 
 We start by the simplest example:
 
@@ -268,5 +268,5 @@ pluto-helpbox { display: none; }
 # ╟─9981a256-a8a2-4c3d-94ce-c4a6b8e4cbe8
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─a2d86fe0-6496-4dbb-88d1-2e8ca514a765
-# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2
+# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795

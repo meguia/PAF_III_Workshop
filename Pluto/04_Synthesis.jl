@@ -37,7 +37,7 @@ $E_1(t) = A_1e^{i\phi_1}e^{it}$
 
 is periodic with period $T=2\pi$. That means that it repeats itself after an arbitrary numbers of periods $nT$ with $n \in \mathbb{Z}$
 
-$E_1(t+nT) = $E_1(t+n2\pi) = E_1(t)$
+$E_1(t+nT) = E_1(t+n2\pi) = E_1(t)$
 
 We will consider all elementary oscillations of angular frequency $\omega = k$ with $k \in \mathbb{Z}$
 
@@ -59,9 +59,27 @@ Therefore, if we add an arbitrary number of elementary oscillations $E_k(t)$ tha
 
 # ╔═╡ f795c84a-6531-4ef5-998c-b71f0be9918c
 md"""
-The set of radii & starting angles = the spectrum (the ingredient list). 
+The set of radii (amplitudes) and starting angles (phases) it is called the spectrum of s(t) (the ingredient list). 
+and can be represented in a graph of amplitud vs frequency and phase vs frequency
+"""
 
-Any smooth curve can be approximated to arbitrary accuracy with a sufficient number of epicycles "
+# ╔═╡ e5569cd6-5e04-421d-bc96-bbdd08b7f94f
+md"""
+Fourier bold claim:
+
+"Every periodic function is (exactly or to arbitrary accuracy) a sum of constant-frequency oscillations (elementary oscillations) with uniquely determined amplitudes and phases."
+
+Ptolomeus trick:
+
+"Any smooth curve in the plane can be approximated to arbitrary accuracy with a sufficient number of epicycles"
+
+"""
+
+# ╔═╡ a9392111-1aa7-46a4-9d54-8a12c4bc91fa
+md"""
+## Turning the oscillations into sound
+
+We can turn these oscillations into sound by scaling the frequency into the audible range. Here $\f_0$ stands for the **base frequency**, the inverse of the period $T$.
 """
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
@@ -95,10 +113,13 @@ $(@bind play CounterButton("Play"))
 """
 
 # ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╠═╡ disabled = true
+#=╠═╡
 let 
 	play 
 	wavplay("audio.wav")
 end
+  ╠═╡ =#
 
 # ╔═╡ 21c750d4-9bc2-4002-a8c8-606856479415
 par_widget = @bind par PlutoUI.combine() do Child
@@ -136,16 +157,6 @@ begin
 	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
 end
 
-# ╔═╡ 73860e95-58ae-432c-abf4-99a0dbe2429c
-begin
-	ns = Int(floor(fs*wdw/1000))
-	plot(1000*(1:ns)/fs,snd[1:ns]/maximum(abs.(snd)),c=:blue,size=(1200,300),label="",xlabel="time(ms)",xlims=(0,wdw),grid=true)
-	for n=1:7
-		plot!(1000*(1:ns)/fs,components[1:ns,n]/maximum(abs.(snd)),c=:gray,label="")
-	end	
-	plot!([0,wdw],[0,0],c=:black,ls=:dash,label="")
-end	
-
 # ╔═╡ a2f57914-6a31-4e3b-ab6d-2dadfc76938d
 begin
 	t1 = mod(t_1-0.99,400)*(4*pi)/400
@@ -158,19 +169,39 @@ end
 begin
 	Am = 6.0
 	tlabel = latexstring("t=$(round(t1,digits=2))")
-	p1, p2 = plot_ntones(t1,Amps[1,:],frq[1,:],ϕs[1,:],Am)
-	plot(p1,p2,layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	p1, p2 = plot_ntones(t1,Amps[1,:],frq[1,:],ϕs[1,:],Am;plot_trace=true)
+	plot(p1,p2,layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
+end	
+
+# ╔═╡ 26916ca7-2996-4256-bc29-c962b68308ab
+begin
+	p1b = plot(bar(frq[1,:],Amps[1,:],bar_width = 0.2, c=:red, label=""), xlabel=latexstring("\\omega"),xguidefontsize=18,ylabel=latexstring("Amplitude"),yguidefontsize=18)
+	p2b = plot(bar(frq[1,:],ϕs[1,:],bar_width = 0.2,c=:blue, label=""), xlabel=latexstring("\\omega"),xguidefontsize=18,ylabel=latexstring("Phase"),yguidefontsize=18)
+	plot(p1b,p2b,layout=(1,2),left_margin=[10mm 10mm],bottom_margin=[7mm 7mm],size=(1200,400))
+end	
+
+# ╔═╡ 73860e95-58ae-432c-abf4-99a0dbe2429c
+begin
+	ns = Int(floor(fs*wdw/1000))
+	plot(1000*(1:ns)/fs,snd[1:ns]/maximum(abs.(snd)),c=:blue,size=(1200,300),label="",xlabel="time(ms)",xlims=(0,wdw),grid=true)
+	for n=1:7
+		plot!(1000*(1:ns)/fs,components[1:ns,n]/maximum(abs.(snd)),c=:gray,label="")
+	end	
+	plot!([0,wdw],[0,0],c=:black,ls=:dash,label="",bottom_margin=7mm)
 end	
 
 # ╔═╡ Cell order:
 # ╟─83f8450d-3225-4f37-ba5d-9f510cf0d497
-# ╟─f6138348-b17a-40a1-95d7-056191b7a852
-# ╟─350c15e0-09a8-4c98-98cf-02069d7ce5b3
-# ╟─73860e95-58ae-432c-abf4-99a0dbe2429c
 # ╟─263affc0-a928-4d6f-97e9-48aa6126d1f3
+# ╟─f6138348-b17a-40a1-95d7-056191b7a852
 # ╟─a2f57914-6a31-4e3b-ab6d-2dadfc76938d
 # ╟─c36b7f32-cc93-41ae-88d8-dfc5fb61eaec
 # ╟─f795c84a-6531-4ef5-998c-b71f0be9918c
+# ╟─26916ca7-2996-4256-bc29-c962b68308ab
+# ╟─e5569cd6-5e04-421d-bc96-bbdd08b7f94f
+# ╟─a9392111-1aa7-46a4-9d54-8a12c4bc91fa
+# ╟─350c15e0-09a8-4c98-98cf-02069d7ce5b3
+# ╟─73860e95-58ae-432c-abf4-99a0dbe2429c
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─624a94c0-f33e-402d-9401-f7d0c90cb3b0
 # ╟─21c750d4-9bc2-4002-a8c8-606856479415

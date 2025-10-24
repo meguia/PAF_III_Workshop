@@ -56,14 +56,14 @@ Choose the function here using x as a variable here without parameters.
 
 """
 
+# ╔═╡ 8002c179-ca6f-41fc-b13b-46c5423fa3bc
+@variables x a;
+
 # ╔═╡ 98ffe15a-be1f-44bb-94b8-074b8530a65b
 @bind f Select([sin(x), cos(x), exp(x)])
 
 # ╔═╡ dc8573e0-89d6-48cd-ae1c-b57cdd4d63a2
 f2 = a0+a1*x+a2*x^2+a3*x^3+a4*x^4+a5*x^5;
-
-# ╔═╡ 8002c179-ca6f-41fc-b13b-46c5423fa3bc
-@variables x a;
 
 # ╔═╡ afb14697-6bef-4f7e-a39a-fd6ad82b668c
 html"""

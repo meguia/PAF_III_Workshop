@@ -53,11 +53,9 @@ And the imaginary part is the "shadow" on the wall:
 
 $Im(s(t)) = A \sin(\omega t)$
 
-Elementary Oscillations are eigenfunctions of time-shifts: Shifting only re-phases them.
+They are periodic with period $T=2\pi/\omega$, since:
 
-As a consequence any time-invariant linear process (a filter) make no change on PT
-
-A pure tone is that constant-rate U(1) rotation (the circle group).
+$s(t+T)=s(t+2\pi/\omega)=A e^{i\omega (t+2\pi/\omega)} = A e^{i\omega t}e^{i 2\pi} = A e^{i\omega t}1 = s(t)$
 
 """
 
@@ -78,7 +76,7 @@ begin
 	x1 = Amp*cos(ω*t1)
 	y1 = Amp*sin(ω*t1)
 	p1, p2 = plot_ntones(t1,[Amp],[1],[0],2.1)
-	plot(p1,p2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	plot(p1,p2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
 end	
 
 # ╔═╡ 181f52a6-d355-4d7b-8f4f-46614c6d1647
@@ -173,14 +171,14 @@ begin
 	Amps = [A1, A2, A3]
 	ωs = [1,2,3]
 	ϕs = [ϕ1,ϕ2,ϕ3]
-	p1b, p2b = plot_ntones(t2,Amps,ωs,ϕs,Amax)
-	plot(p1b,p2b,layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,400))
+	p1b, p2b = plot_ntones(t2,Amps,ωs,ϕs,Amax;plot_trace=true)
+	plot(p1b,p2b,layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
 end	
 
 # ╔═╡ 49bac738-151a-40c0-b64f-8d52dba998d3
 begin
 	p1c, p2c = plot_ntones_vertical(t2,Amps,ωs,ϕs,Amax)
-	plot(p1c,p2c, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],size=(1200,700))
+	plot(p1c,p2c, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm], bottom_margin=[7mm 7mm],size=(1200,730))
 end	
 
 # ╔═╡ bf3be160-d8f8-4302-8ece-b4f9826c94be
@@ -202,7 +200,7 @@ end
 # ╔═╡ c2893d7b-8c84-44cb-8a8f-3b72a93e3450
 begin
 	l2 = @layout [[a{0.33w, 0.33h} b{0.66w}]; c{0.33w, 0.66h} _{0.66w}]
-	plts = plot_ntones_twoaxis(t1,[Amp],[1],[0],2.1)
+	plts = plot_ntones_twoaxis(t1,[Amp],[1],[0],2.1;ncycles=1)
 	plot(plts...,layout=l, left_margin=[10mm -13mm],top_margin=[-10mm 13mm],size=(1200,1200))
 end	
 
