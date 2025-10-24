@@ -23,61 +23,6 @@ begin
 	using Plots, PlutoUI,Symbolics, Latexify, LaTeXStrings, Measures, ProjectRoot, PlutoEditorColorThemes
 end
 
-# ╔═╡ 8fb0fb30-6b05-4fda-8f4c-1716c04317ba
-md"""
-# Derivatives of Trigonometric and Exponential Functions
-
-$$\begin{aligned}
-&\begin{array}{|c|c|c|c|c}
-\hline \hline  f(x)  & f^{\prime}(x) & f^{\prime\prime}(x) & f^{\prime\prime\prime}(x) & f^{\prime\prime\prime\prime}(x) \\
-\hline sin(x) & cos(x) & -sin(x) & -cos(x) & sin(x) \\
-cos(x) & -sin(x) & -cos(x) & sin(x) & cos(x)\\
-e^x & e^x & e^x & e^x & e^x \\
-e^{ax} & a e^{ax} & a^2 e^{ax} & a^3 e^{ax} & a^4 e^{ax} \\
-e^{ix} & i e^{ix} & -e^{ix} & -i e^{ix} & e^{ix} \\
-\hline
-\end{array}
-\end{aligned}$$
-
-
-"""
-
-# ╔═╡ 0cb016b6-c2fa-4ffb-9047-1869b7e11a91
-md"""
-# Taylor Series of Trigonometric Functions
-
-$sin(x) = \cancel{sin(0)} + cos(0)x - \cancel{\frac{sin(0)}{2!} x^2} - \frac{cos(0)}{3!} x^3 + \cancel{\frac{sin(0)}{4!} x^4} + \frac{cos(0)}{5!} x^5 - \cancel{\frac{sin(0)}{6!} x^6} - \frac{cos(0)}{7!} x^7 + ...$
-$cos(x) = cos(0) - \cancel{sin(0)x} - \frac{cos(0)}{2!} x^2 + \cancel{\frac{sin(0)}{3!} x^3} + \frac{cos(0)}{4!} x^4 - \cancel{\frac{sin(0)}{5!} x^5} - \frac{cos(0)}{6!} x^6 + \cancel{\frac{sin(0)}{7!} x^7} + ...$
-
-$\sin(0)=0$
-$\cos(0)=1$
-
-$sin(x) = x - \frac{1}{3!} x^3 + \frac{1}{5!} x^5 - \frac{1}{7!} x^7 + ...$
-$cos(x) = 1 - \frac{1}{2!} x^2 + \frac{1}{4!} x^4 - \frac{1}{6!} x^6 + ...$
-$$\require{cancel}$$  
-"""
-
-# ╔═╡ 9aed1478-bb99-4f89-afee-bd6c146782f2
-md"""
-# Taylor Series of Exponential Function
-
-$e^x = e^0 + e^0 x + \frac{e^0}{2!} x^2 + \frac{e^0}{3!} x^3 + \frac{e^0}{4!} x^4 + \frac{e^0}{5!} x^5 + \frac{e^0}{6!} x^6 + \frac{e^0}{7!} x^7 + ...$ 
-
-$e^x = 1 + x + \frac{1}{2!} x^2 + \frac{1}{3!} x^3 + \frac{1}{4!} x^4 + \frac{1}{5!} x^5 + \frac{1}{6!} x^6 + \frac{1}{7!} x^7 + ...$ 
-
-$e^{ix} = 1 + ix - \frac{1}{2!} x^2 - i\frac{1}{3!} x^3 + \frac{1}{4!} x^4 + i\frac{1}{5!} x^5 - \frac{1}{6!} x^6 - i\frac{1}{7!} x^7 + ...$
-
-$e^{ix} = \left( 1  - \frac{1}{2!} x^2 + \frac{1}{4!} x^4  - \frac{1}{6!} x^6  + ... \right)
-+ i \left( x - \frac{1}{3!} x^3 + \frac{1}{5!} x^5 - \frac{1}{7!} x^7 + ... \right)$
-
-$e^{ix} = \cos(x) + i \sin(x)$
-
-
-
-
-
-"""
-
 # ╔═╡ 66ed5572-84d7-4780-a983-161b854a9cc1
 md"""
 # Euler's Formula
@@ -107,8 +52,7 @@ r $(@bind A Slider(0:0.01:2,default=1.0;show_value=true)) \
 begin
 	x0 = A*cos(θ)
 	y0 = A*sin(θ)
-	
-	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(500,500))
+	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
 	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginary")
 	plot!([0,x0],[0,y0],c=:black,label="")
 	plot!([x0,x0],[0,y0],ls=:dash,c=:red,label="")
@@ -154,7 +98,7 @@ r $(@bind A2 Slider(0:0.01:1.41,default=1.0;show_value=true)) \
 begin
 	x02 = A2*cos(θ2)
 	y02 = A2*sin(θ2)
-	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(500,500))
+	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
 	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginary")
 	plot!([0,x02],[0,y02],c=:black,label="")
 	plot!([x02,x02],[0,y02],ls=:dash,c=:red,label="")
@@ -186,8 +130,8 @@ end
 # ╔═╡ 18267cb1-99b8-4ed4-8558-1de0bdae4795
 html"""
 <style>
-main {
-    max-width: 1000px 
+pluto-notebook {
+    max-width: 1000px;
 }
 input[type*="range"] {
 	width: 40%;
@@ -197,9 +141,6 @@ pluto-helpbox { display: none; }
 """
 
 # ╔═╡ Cell order:
-# ╟─8fb0fb30-6b05-4fda-8f4c-1716c04317ba
-# ╟─0cb016b6-c2fa-4ffb-9047-1869b7e11a91
-# ╟─9aed1478-bb99-4f89-afee-bd6c146782f2
 # ╟─66ed5572-84d7-4780-a983-161b854a9cc1
 # ╟─86558140-3c35-4e7d-b534-4e71389b81f3
 # ╟─4fdc6730-94d7-4b83-b346-d620c7e92bb6

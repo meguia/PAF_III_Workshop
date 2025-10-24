@@ -61,7 +61,7 @@ $s(t+T)=s(t+2\pi/\omega)=A e^{i\omega (t+2\pi/\omega)} = A e^{i\omega t}e^{i 2\p
 
 # ╔═╡ 8ba30273-6d98-439f-910c-f0bd589d543d
 begin
-	@bind t_1 Clock(0.1,true,false,101,true)
+	@bind t_1 Clock(0.1,true,false,401,true)
 end
 
 # ╔═╡ a0af0068-1933-4760-9fc1-c7959b3f74b8
@@ -75,7 +75,7 @@ begin
 	t1 = (t_1-1)*(2*pi)/100
 	x1 = Amp*cos(ω*t1)
 	y1 = Amp*sin(ω*t1)
-	p1, p2 = plot_ntones(t1,[Amp],[1],[0],2.1)
+	p1, p2 = plot_ntones(t1,[Amp],[ω],[0],2.1)
 	plot(p1,p2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
 end	
 
@@ -200,7 +200,7 @@ end
 # ╔═╡ c2893d7b-8c84-44cb-8a8f-3b72a93e3450
 begin
 	l2 = @layout [[a{0.33w, 0.33h} b{0.66w}]; c{0.33w, 0.66h} _{0.66w}]
-	plts = plot_ntones_twoaxis(t1,[Amp],[1],[0],2.1;ncycles=1)
+	plts = plot_ntones_twoaxis(t1,[Amp],[ω],[0],2.1;ncycles=1)
 	plot(plts...,layout=l, left_margin=[10mm -13mm],top_margin=[-10mm 13mm],size=(1200,1200))
 end	
 

@@ -172,13 +172,14 @@ The real part of the position is $cos(t)$ and the imaginary part is $sin(t)$.
 
 # ╔═╡ 0d5cca05-aaa7-47ce-91b5-1ede5f1b8dde
 begin
-	@bind t0_4 Clock(0.1,true,false,61,false)
+	@bind t0_4 Clock(0.1,true,false,121,false)
 end
 
 # ╔═╡ 6770a7ed-aeb2-40cd-9ec0-c6a48cde1ee8
 begin
 	t04 = mod(t0_4-0.99,60)*pi/30
-	plot_velocity_complex(t04,im,3,2)
+	pp = plot_velocity_complex(t04,im,3,2)
+	plot(pp,size=(600,500))
 end
 
 # ╔═╡ 3416f2c9-f202-44c1-b46f-8fc127eb05cd
@@ -211,19 +212,20 @@ $\theta(t) = \omega t$
 
 # ╔═╡ 9981a256-a8a2-4c3d-94ce-c4a6b8e4cbe8
 md"""
-ω $(@bind ω Slider(0.7:0.1:2.0,default=1.0;show_value=true)) \
+ω $(@bind ω Slider(-2.0:0.1:2.0,default=1.0;show_value=true)) \
 α $(@bind a3 Slider(-0.3:0.1:0.3,default=0.0;show_value=true)) \
 """
 
 # ╔═╡ 8088bb52-c94d-4816-b0cd-1cb62158b698
 begin
-	@bind t0_5 Clock(0.1,true,false,floor(Int,120/ω)+ceil(Int,abs(a3)),false)
+	@bind t0_5 Clock(0.1,true,false,floor(Int,120/abs(ω))+ceil(Int,abs(a3)),false)
 end
 
 # ╔═╡ 2d9a9e10-5f64-409f-82aa-bfe8442e9c02
 begin
 	t05 = (t0_5-1)*pi/30
-	plot_velocity_complex(t05,a3+ω*im,3,2;drawpath=true)
+	pp2 = plot_velocity_complex(t05,a3+ω*im,3,2;drawpath=true)
+	plot(pp2,size=(600,500))
 end
 
 # ╔═╡ a2d86fe0-6496-4dbb-88d1-2e8ca514a765

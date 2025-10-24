@@ -38,6 +38,8 @@ $E_{\omega} = C(\omega)e^{-i\omega t}$
 with $\omega \in \mathbb{R}$ and $C(\omega) \in \mathbb{C}$
 
 Then, every element is periodic with a period $T=2\pi/\omega$ but a sum of elementary oscillations of this type is no longer periodic because in general the periods are non conmensurable
+
+This leads to inharmonic sounds (without a stable intonation).
 """
 
 # ╔═╡ c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
@@ -58,7 +60,7 @@ md"""
 
 A further generalization is to make the exponent complex instead of purely imaginary.
 
-As we have seen before these means that the amplitude of the oscillations can grow or decay exponentially in time.
+As we have seen before these means that the amplitude of the oscillations can grow or decay exponentially in time, tracing spirals in the complex plane. We will consider decaying oscillations only given by $-\alpha$ with $\alpha>0$
 
 $E_{\omega} = C(\omega)e^{-\alpha(\omega)t}e^{i\omega t}$
 """
@@ -67,12 +69,16 @@ $E_{\omega} = C(\omega)e^{-\alpha(\omega)t}e^{i\omega t}$
 md"""
 ## Bells
 
+A simple resynthesis of the P.A.F. Bells can be made using just only five to seven generalized elementary oscillations with given frequency, amplitude and decay.
+
+Here is a table of the main frequencies present in the bells. 
+
 $$\begin{aligned}
 \begin{array}{|c|c|}
 \hline \hline  Big Bell (D)  & Small Bell (A)  \\
 \begin{array}{|c|c|c|c|}
 \hline\hline
-\# & \text{frequency (Hz)} & \text{amplitude} & \text{decay (s)}\\
+\# & \text{freq. (Hz)} & \text{amplitude} & \text{decay (s)}\\
 \hline
 1 & 296 & 1.00 & 3.0 \\
 2 & 595 & 0.50 & 2.1 \\
@@ -90,7 +96,7 @@ $$\begin{aligned}
 \end{array}
 & \begin{array}{|c|c|c|c|}
 \hline\hline
-\# & \text{frequency (Hz)} & \text{amplitude} & \text{decay (s)}\\
+\# & \text{freq. (Hz)} & \text{amplitude} & \text{decay (s)}\\
 \hline
 1 & 441  & 1.00 & 2.0 \\
 2 & 935  & 0.71 & 1.5 \\
@@ -108,6 +114,11 @@ $$\begin{aligned}
 
 
 
+"""
+
+# ╔═╡ ec81f3ed-2840-430f-85d5-05eca5a779b6
+md"""
+We synthesize a "minimal" D Bell using the strongest 6 elementary oscillations (also called **partials**)
 """
 
 # ╔═╡ c2914d60-04d6-4545-92f1-d5ddf7c649ae
@@ -138,7 +149,7 @@ $(@bind play CounterButton("Play"))
 #=╠═╡
 let 
 	play 
-	wavplay("audio.wav")
+	wavplay("bell.wav")
 end
   ╠═╡ =#
 
@@ -146,11 +157,11 @@ end
 begin
 	fs = 44100
 	dt = 1/fs
-	dur = 5.0
+	dur = 8.0
 	ts = collect(0:dt:dur)
 	components = AB1.*sin.(2*pi*fB1.*ts).*exp.(-ts./dB1)
 	snd = sum(components,dims=2)
-	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
+	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "bell.wav", Fs=fs, nbits=16)
 end
 
 # ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
@@ -244,6 +255,7 @@ end
 # ╟─4542c858-9fc8-494b-9d5d-f1ad8c65791b
 # ╟─9e4ea208-108c-49e2-a098-38e00a0d8fcb
 # ╟─1bec2bdb-961a-4c41-ae04-7616d408dc56
+# ╟─ec81f3ed-2840-430f-85d5-05eca5a779b6
 # ╟─c2914d60-04d6-4545-92f1-d5ddf7c649ae
 # ╟─db0af527-3f1b-43ee-a088-089207e313f6
 # ╟─4c226e12-0d7c-4ccc-a5ce-36817ce4a768
