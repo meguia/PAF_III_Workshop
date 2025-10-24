@@ -119,12 +119,12 @@ end
 # ╔═╡ db0af527-3f1b-43ee-a088-089207e313f6
 begin
 	t3 = (t_3-1)*(4*pi)/400
-	AB1 = [1.0 0.5 0.4 0.25 0.2 0.07]
+	AB1 = [1.0 0.7 0.4 0.25 0.2 0.07]
 	fB1 = [296 595 696 1149 1716 3096]
-	dB1 = [3.0 2.1 1.9 0.9 0.7 0.7]
+	dB1 = [3.0 2.1 1.9 1.0 0.8 0.8]
 	AmaxB1 = 2
 	ωB1 = fB1/100
-	pB1, pB2 = plot_ntones_decay(t3,AB1[1,:],ωB1[1,:],dB1[1,:]/100,AB1[1,:]*0,AmaxB1;ncycles=ncycles3)
+	pB1, pB2 = plot_ntones_decay(t3,AB1[1,:],ωB1[1,:],0.01./dB1[1,:],AB1[1,:]*0,AmaxB1;ncycles=ncycles3)
 	plot(pB1,pB2, layout=grid(1,2, widths=(1/3,2/3)), left_margin=[10mm -13mm],bottom_margin=[7mm 7mm],size=(1200,430))
 end
 
@@ -132,12 +132,6 @@ end
 md"""
 $(@bind play CounterButton("Play"))
 """
-
-# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
-# ╠═╡ disabled = true
-#=╠═╡
-plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
-  ╠═╡ =#
 
 # ╔═╡ 15b2aac7-f89b-4949-9a1c-3b440835312f
 # ╠═╡ disabled = true
@@ -154,10 +148,16 @@ begin
 	dt = 1/fs
 	dur = 5.0
 	ts = collect(0:dt:dur)
-	components = AB1.*sin.(2*pi*fB1.*ts).*exp.(-dB1.*ts)
+	components = AB1.*sin.(2*pi*fB1.*ts).*exp.(-ts./dB1)
 	snd = sum(components,dims=2)
 	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
 end
+
+# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╠═╡ disabled = true
+#=╠═╡
+plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
+  ╠═╡ =#
 
 # ╔═╡ 4e156f4c-8425-41fd-9abb-64261ab3cda2
 begin
@@ -248,7 +248,7 @@ end
 # ╟─db0af527-3f1b-43ee-a088-089207e313f6
 # ╟─4c226e12-0d7c-4ccc-a5ce-36817ce4a768
 # ╠═ae1d669e-f57b-458c-9eb5-09ba61c39878
-# ╠═15b2aac7-f89b-4949-9a1c-3b440835312f
+# ╟─15b2aac7-f89b-4949-9a1c-3b440835312f
 # ╟─3f183134-2a68-4bb2-83de-53fa0903a349
 # ╟─2ca3355a-58d6-4323-a697-16e486524d9a
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
