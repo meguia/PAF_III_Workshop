@@ -187,8 +187,7 @@ end
 html"""
 <style>
 main {
-    max-width: 1000px !important;
-    margin-right: 100px !important;`
+    max-width: 1000px 
 }
 input[type*="range"] {
 	width: 40%;
@@ -210,4 +209,4 @@ pluto-helpbox { display: none; }
 # ╟─0b08da7d-117f-49f4-8bc5-edfb7ed7602c
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─f57150d3-14af-4c28-b2d7-cc293a3f93c4
-# ╠═18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
