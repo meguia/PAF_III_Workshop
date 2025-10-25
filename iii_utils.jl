@@ -587,19 +587,20 @@ function plot_fasor_product(t, a1, a2, ω1, ω2, ϕ1, ϕ2, Amax)
 	plot!([0,xs[1]],[0,ys[1]],c=:red,label="")
     plot!(a1*cos.(0:pi/20:2*pi),a1*sin.(0:pi/20:2*pi),c=:green,label="")
 	scatter!([xs[1]],[ys[1]],c=:red,ms=4,alpha=0.6,label="")
-	annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ω1)))"),12,:black,:right))
+	annotate!(0.85*Amax,0.9*Amax,text(latexstring("E_$(Int(round(ω1)))"),12,:black,:right))
     p2 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
 	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,axis=false,label="")
 	plot!([0,xs[2]],[0,ys[2]],c=:red,label="")
     plot!(a2*cos.(0:pi/20:2*pi),a2*sin.(0:pi/20:2*pi),c=:green,label="")
 	scatter!([xs[2]],[ys[2]],c=:red,ms=4,alpha=0.6,label="")
-	annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ω2)))"),12,:black,:right))
+	annotate!(0.85*Amax,0.9*Amax,text(latexstring("\\overline{E_$(Int(round(ω2)))}"),12,:black,:right))
     p3 = plot([-Amax,Amax],[0,0],ls=:dash,c=:gray,label="",xlims=(-Amax,Amax),ylims=(-Amax,Amax))
-	plot!([0,0],[-Amax,Amax],ls=:dash,c=:gray,axis=false,label="")
+	plot!([0,0],[-Amax,0.8*Amax],ls=:dash,c=:gray,axis=false,label="")
 	plot!([0,xs[3]],[0,ys[3]],c=:red,label="")
     plot!(a1*a2*cos.(0:pi/20:2*pi),a1*a2*sin.(0:pi/20:2*pi),c=:green,label="")
 	scatter!([xs[3]],[ys[3]],c=:red,ms=4,alpha=0.6,label="")
-	annotate!(0.85*Amax,0.9*Amax,text(latexstring("$(Int(round(ω1-ω2)))"),12,:black,:right))
+	longstring = latexstring("\\langle E_$(Int(round(ω1)))\\overline{E_$(Int(round(ω2)))} \\rangle_{T} = E_{$(Int(round(ω1-ω2)))}")
+	annotate!(0.85*Amax,0.9*Amax,text(longstring,12,:black,:right))
     return p1, p2, p3
 end
 
@@ -617,8 +618,12 @@ function taylor_plot5(f::Num, x::Num, a::Real,N::Int64,x1::Real,x2::Real,ylimit:
 	dfdx40 = substitute(dfdx4,Dict(x=>a))
 	dfdx50 = substitute(dfdx5,Dict(x=>a))
     flist = [f0,simplify(dfdx0),simplify(dfdx20),simplify(dfdx30),simplify(dfdx40),simplify(dfdx50)]
-	xlist = ["","(x-a)","\\frac{(x-a)^2}{2!}","\\frac{(x-a)^3}{3!}","\\frac{(x-a)^4}{4!}","\\frac{(x-a)^5}{5!}"]
-	lstring = ""	
+    if (a==0)
+	    xlist = ["","x","\\frac{x^2}{2!}","\\frac{x^3}{3!}","\\frac{x^4}{4!}","\\frac{x^5}{5!}"]
+	else
+        xlist = ["","(x-a)","\\frac{(x-a)^2}{2!}","\\frac{(x-a)^3}{3!}","\\frac{(x-a)^4}{4!}","\\frac{(x-a)^5}{5!}"]
+    end    
+    lstring = ""	
 	ftaylor = 0
 	for n = 1:N+1
 		s1 = latexify(flist[n],env=:raw)

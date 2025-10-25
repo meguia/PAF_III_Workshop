@@ -144,6 +144,12 @@ md"""
 $(@bind play CounterButton("Play"))
 """
 
+# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╠═╡ disabled = true
+#=╠═╡
+plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
+  ╠═╡ =#
+
 # ╔═╡ 15b2aac7-f89b-4949-9a1c-3b440835312f
 # ╠═╡ disabled = true
 #=╠═╡
@@ -161,13 +167,12 @@ begin
 	ts = collect(0:dt:dur)
 	components = AB1.*sin.(2*pi*fB1.*ts).*exp.(-ts./dB1)
 	snd = sum(components,dims=2)
-	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "bell.wav", Fs=fs, nbits=16)
-end
+end;
 
-# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╔═╡ b536fcec-f092-4b96-9718-218ea446e748
 # ╠═╡ disabled = true
 #=╠═╡
-plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
+wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "bell.wav", Fs=fs, nbits=16)
   ╠═╡ =#
 
 # ╔═╡ 4e156f4c-8425-41fd-9abb-64261ab3cda2
@@ -262,6 +267,7 @@ end
 # ╠═ae1d669e-f57b-458c-9eb5-09ba61c39878
 # ╟─15b2aac7-f89b-4949-9a1c-3b440835312f
 # ╟─3f183134-2a68-4bb2-83de-53fa0903a349
+# ╟─b536fcec-f092-4b96-9718-218ea446e748
 # ╟─2ca3355a-58d6-4323-a697-16e486524d9a
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─4e156f4c-8425-41fd-9abb-64261ab3cda2

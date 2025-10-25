@@ -65,7 +65,7 @@ and can be represented in a graph of amplitud vs frequency and phase vs frequenc
 
 # ╔═╡ e5569cd6-5e04-421d-bc96-bbdd08b7f94f
 md"""
-Fourier bold claim:
+## Fourier bold claim:
 
 "Every periodic function is (exactly or to arbitrary accuracy) a sum of constant-frequency oscillations (elementary oscillations) with uniquely determined amplitudes and phases."
 
@@ -81,6 +81,15 @@ md"""
 
 We can turn these oscillations into sound by scaling the frequency into the audible range. Here $\f_0$ stands for the **base frequency**, the inverse of the period $T$.
 """
+
+# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╠═╡ disabled = true
+#=╠═╡
+let 
+	play 
+	wavplay("audio.wav")
+end
+  ╠═╡ =#
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
@@ -111,15 +120,6 @@ f₀ = $(@bind f0 Slider(100:440,default=220;show_value=true)) $sp
 window (ms) = $sp $(@bind wdw Slider(5:100,default=20;show_value=true)) $sp
 $(@bind play CounterButton("Play"))
 """
-
-# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-# ╠═╡ disabled = true
-#=╠═╡
-let 
-	play 
-	wavplay("audio.wav")
-end
-  ╠═╡ =#
 
 # ╔═╡ 21c750d4-9bc2-4002-a8c8-606856479415
 par_widget = @bind par PlutoUI.combine() do Child
@@ -154,8 +154,7 @@ begin
 	ϕs = [par.ϕ1 par.ϕ2 par.ϕ3 par.ϕ4 par.ϕ5 par.ϕ6 par.ϕ7]
 	components = Amps.*sin.(ωs.*ts .+ ϕs)
 	snd = sum(components,dims=2)
-	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
-end
+end;
 
 # ╔═╡ a2f57914-6a31-4e3b-ab6d-2dadfc76938d
 begin
@@ -190,6 +189,12 @@ begin
 	plot!([0,wdw],[0,0],c=:black,ls=:dash,label="",bottom_margin=7mm)
 end	
 
+# ╔═╡ e969de73-6dea-45e1-ae02-8f2c91276902
+# ╠═╡ disabled = true
+#=╠═╡
+wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
+  ╠═╡ =#
+
 # ╔═╡ Cell order:
 # ╟─83f8450d-3225-4f37-ba5d-9f510cf0d497
 # ╟─263affc0-a928-4d6f-97e9-48aa6126d1f3
@@ -202,8 +207,9 @@ end
 # ╟─a9392111-1aa7-46a4-9d54-8a12c4bc91fa
 # ╟─350c15e0-09a8-4c98-98cf-02069d7ce5b3
 # ╟─73860e95-58ae-432c-abf4-99a0dbe2429c
-# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─624a94c0-f33e-402d-9401-f7d0c90cb3b0
+# ╠═e969de73-6dea-45e1-ae02-8f2c91276902
+# ╠═1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─21c750d4-9bc2-4002-a8c8-606856479415
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
