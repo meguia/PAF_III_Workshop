@@ -599,7 +599,7 @@ function plot_fasor_product(t, a1, a2, ω1, ω2, ϕ1, ϕ2, Amax)
 	plot!([0,xs[3]],[0,ys[3]],c=:red,label="")
     plot!(a1*a2*cos.(0:pi/20:2*pi),a1*a2*sin.(0:pi/20:2*pi),c=:green,label="")
 	scatter!([xs[3]],[ys[3]],c=:red,ms=4,alpha=0.6,label="")
-	longstring = latexstring("\\langle E_$(Int(round(ω1)))\\overline{E_$(Int(round(ω2)))} \\rangle_{T} = E_{$(Int(round(ω1-ω2)))}")
+	longstring = latexstring("E_$(Int(round(ω1)))\\overline{E_$(Int(round(ω2)))} = E_{$(Int(round(ω1-ω2)))}")
 	annotate!(0.85*Amax,0.9*Amax,text(longstring,12,:black,:right))
     return p1, p2, p3
 end

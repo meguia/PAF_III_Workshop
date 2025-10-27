@@ -86,7 +86,7 @@ We can try with a square signal of period $2\pi$
 $s(t) = \begin{cases} 1 & \text{if }  t<\pi\\ -1 & \text{if } t>\pi  \end{cases}$ 
 
 
-$C_k = \frac{1}{2\pi}\int_0^{2\pi} s(t)e^{-ikt} dt = \frac{1}{\pi}\int_0^{\pi} 1e^{-ikt} dt + \frac{1}{\pi}\int_{\pi}^{2\pi} (-1)e^{-ikt} dt$
+$C_k = \frac{1}{2\pi}\int_0^{2\pi} s(t)e^{-ikt} dt = \frac{1}{2\pi}\int_0^{\pi} 1e^{-ikt} dt + \frac{1}{2\pi}\int_{\pi}^{2\pi} (-1)e^{-ikt} dt$
 
 so now we are averaging over half a period. How is this average? First visually:
 """
@@ -109,23 +109,23 @@ In this case when we take the average over half a period all even terms dissapea
 
 # ╔═╡ 851958fd-bcbd-4c6a-ac63-f6a5f190662c
 md"""
-$\int_0^{\pi} e^{-ikt} dt =  \frac{1}{ik}(e^{-ik\pi}-e^{-ik0}) = -\frac{i}{k}(-1-1) = \begin{cases} i\frac{2}{k} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
+$\int_0^{\pi} e^{-ikt} dt =  \frac{i}{k}(e^{-ik\pi}-e^{-ik0}) = \frac{i}{k}(-1-1) = \begin{cases} -i\frac{2}{k} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
 
 similarly:
 
-$\int_{\pi}^{2\pi} e^{-ikt} dt =  \frac{1}{ik}(e^{-ik2\pi}-e^{-ik\pi}) = -\frac{i}{k}(1+1) = \begin{cases} -i\frac{2}{k} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
+$\int_{\pi}^{2\pi} (-1) e^{-ikt} dt =  -\frac{i}{k}(e^{-ik2\pi}-e^{-ik\pi}) = -\frac{i}{k}(1+1) = \begin{cases} -i\frac{2}{k} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
 
 Then finally:
 
-$C_k = \frac{1}{\pi}\int_0^{\pi} e^{-ikt} dt - \frac{1}{\pi}\int_{\pi}^{2\pi} e^{-ikt} dt = \begin{cases} i\frac{4}{k\pi} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
+$C_k = \frac{1}{2\pi}\int_0^{\pi} e^{-ikt} dt - \frac{1}{2\pi}\int_{\pi}^{2\pi} e^{-ikt} dt = \begin{cases} -i\frac{2}{k\pi} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
 
 and the series is:
 
-$s(t) =$
+$s(t) = \ldots i\frac{2}{3\pi}e^{-i3t}+i\frac{2}{\pi}e^{-it}-i\frac{2}{\pi}e^{it}-i\frac{2}{3\pi}e^{i3t}+ \ldots$
 """
 
 # ╔═╡ 1ebb82c2-7d93-4784-a54d-eaf0f5e365f7
-@bind t_2 Clock(0.1,true,false,401,false)
+@bind t_2 Clock(0.1,true,false,401,true)
 
 # ╔═╡ 52b6dde8-227d-41c8-99d5-99b23b7fed21
 md"""
@@ -136,13 +136,19 @@ N $(@bind nmax Slider(1:2:21,default=1;show_value=true))
 begin 
 	t2 = mod(t_2-0.99,400)*(4*pi)/400
 	frq = -nmax:2:nmax
-	Amps = 4 ./(pi*frq)
+	Amps = 2 ./(pi*frq)
 	ϕs = -pi/2*ones(size(Amps))
-	Am = 4.0
+	Am = 2.0
 	l2 = @layout [[a{0.33w, 0.33h} b{0.66w}]; c{0.33w, 0.66h} _{0.66w}]
 	plts = plot_ntones_twoaxis(t2,Amps,frq,ϕs,Am;plot_trace=true)
 	plot(plts...,layout=l2, left_margin=[10mm -13mm],top_margin=[-10mm 13mm],size=(1200,1200))
 end	
+
+# ╔═╡ 5d27b8a6-6e2c-4264-8406-06f7b5514a31
+# ╠═╡ disabled = true
+#=╠═╡
+plot(snd[1:1000],label="",size=(1200,300))
+  ╠═╡ =#
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
@@ -175,8 +181,6 @@ $(@bind play CounterButton("Play"))
 """
 
 # ╔═╡ ae2cf833-8618-4622-9218-6b3c6498f469
-# ╠═╡ disabled = true
-#=╠═╡
 begin
 	fs = 44100
 	dt = 1/fs
@@ -185,15 +189,13 @@ begin
 	AM = reshape(Amps[N2+1:end],1,N2)
 	ωM = reshape(frq[N2+1:end],1,N2)*2*pi*f0
 	components = AM.*sin.(ωM.*ts)
-	snd = sum(components,dims=2)
-	wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "square.wav", Fs=fs, nbits=16)
-end	
-  ╠═╡ =#
+	snd = sum(components,dims=2)	
+end;
 
-# ╔═╡ 5d27b8a6-6e2c-4264-8406-06f7b5514a31
+# ╔═╡ 81a93524-596a-4053-b1bf-88ad64ae9022
 # ╠═╡ disabled = true
 #=╠═╡
-plot(snd[1:1000],label="",size=(1200,300))
+wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "square.wav", Fs=fs, nbits=16)
   ╠═╡ =#
 
 # ╔═╡ 6f966a00-7a71-4c4e-92ce-e95ec0f7c264
@@ -218,9 +220,10 @@ end
 # ╟─52b6dde8-227d-41c8-99d5-99b23b7fed21
 # ╟─8c3a84be-5b4d-4dec-b75d-f388307a9148
 # ╟─62758eff-a3c9-4858-8b96-69205658b154
-# ╠═ae2cf833-8618-4622-9218-6b3c6498f469
-# ╠═5d27b8a6-6e2c-4264-8406-06f7b5514a31
-# ╠═6f966a00-7a71-4c4e-92ce-e95ec0f7c264
+# ╟─5d27b8a6-6e2c-4264-8406-06f7b5514a31
+# ╟─ae2cf833-8618-4622-9218-6b3c6498f469
+# ╟─81a93524-596a-4053-b1bf-88ad64ae9022
+# ╟─6f966a00-7a71-4c4e-92ce-e95ec0f7c264
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
 # ╟─f701ab61-2512-4f2a-a182-a6f2b23e0bd2

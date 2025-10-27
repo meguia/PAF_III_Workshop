@@ -121,7 +121,7 @@ Changes in $A_k$ and $\phi_k$ don't affect the base period, that stays $2\pi$
 """
 
 # ╔═╡ c8bf120f-b2dc-4e90-90e7-12d2fdb1c660
-@bind t_2 Clock(0.1,true,false,401,false)
+@bind t_2 Clock(0.1,true,false,401, true)
 
 # ╔═╡ e23c472d-fcfd-4183-8849-11b14f8aeaca
 md"""

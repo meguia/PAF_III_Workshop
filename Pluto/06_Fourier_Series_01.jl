@@ -113,7 +113,7 @@ and "observe its behavior". If it rotates then $k \neq j$. If it "freezes" then 
 """
 
 # ╔═╡ 2924bbc2-e3d5-4a80-a8e0-f44f7e7fb6aa
-@bind t_2 Clock(0.1,true,false,401,false)
+@bind t_2 Clock(0.1,true,false,401,true)
 
 # ╔═╡ d2ac89ac-a0b8-49aa-8830-521b5bcba681
 md"""

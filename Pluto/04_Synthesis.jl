@@ -73,6 +73,7 @@ Ptolomeus trick:
 
 "Any smooth curve in the plane can be approximated to arbitrary accuracy with a sufficient number of epicycles"
 
+
 """
 
 # ╔═╡ a9392111-1aa7-46a4-9d54-8a12c4bc91fa
@@ -81,15 +82,6 @@ md"""
 
 We can turn these oscillations into sound by scaling the frequency into the audible range. Here $\f_0$ stands for the **base frequency**, the inverse of the period $T$.
 """
-
-# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-# ╠═╡ disabled = true
-#=╠═╡
-let 
-	play 
-	wavplay("audio.wav")
-end
-  ╠═╡ =#
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
@@ -120,6 +112,15 @@ f₀ = $(@bind f0 Slider(100:440,default=220;show_value=true)) $sp
 window (ms) = $sp $(@bind wdw Slider(5:100,default=20;show_value=true)) $sp
 $(@bind play CounterButton("Play"))
 """
+
+# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╠═╡ disabled = true
+#=╠═╡
+let 
+	play 
+	wavplay("audio.wav")
+end
+  ╠═╡ =#
 
 # ╔═╡ 21c750d4-9bc2-4002-a8c8-606856479415
 par_widget = @bind par PlutoUI.combine() do Child
@@ -208,8 +209,8 @@ wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbit
 # ╟─350c15e0-09a8-4c98-98cf-02069d7ce5b3
 # ╟─73860e95-58ae-432c-abf4-99a0dbe2429c
 # ╟─624a94c0-f33e-402d-9401-f7d0c90cb3b0
-# ╠═e969de73-6dea-45e1-ae02-8f2c91276902
-# ╠═1f093de0-9501-11ef-30d2-4f854ecfb2e5
+# ╟─e969de73-6dea-45e1-ae02-8f2c91276902
+# ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─21c750d4-9bc2-4002-a8c8-606856479415
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5
