@@ -144,6 +144,12 @@ md"""
 $(@bind play CounterButton("Play"))
 """
 
+# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╠═╡ disabled = true
+#=╠═╡
+plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
+  ╠═╡ =#
+
 # ╔═╡ 15b2aac7-f89b-4949-9a1c-3b440835312f
 # ╠═╡ disabled = true
 #=╠═╡
@@ -162,12 +168,6 @@ begin
 	components = AB1.*sin.(2*pi*fB1.*ts).*exp.(-ts./dB1)
 	snd = sum(components,dims=2)
 end;
-
-# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
-# ╠═╡ disabled = true
-#=╠═╡
-plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
-  ╠═╡ =#
 
 # ╔═╡ b536fcec-f092-4b96-9718-218ea446e748
 # ╠═╡ disabled = true
