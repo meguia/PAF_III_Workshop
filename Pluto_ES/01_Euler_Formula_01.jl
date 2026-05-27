@@ -25,27 +25,32 @@ end
 
 # ╔═╡ 66ed5572-84d7-4780-a983-161b854a9cc1
 md"""
-# Euler's Formula
+# Formula de Euler
 """
 
 # ╔═╡ 86558140-3c35-4e7d-b534-4e71389b81f3
 md"""
-Every complex number $z$ can be expressed through their radius (or modulus) $r$ and angle $\theta$ 
-as:
+Todo numero complejo $z$ puede describirse por su radio o modulo $r$ y por su angulo $\theta$:
 
 $z = r e^{i\theta}$
 
-using Euler
+La formula de Euler dice que
 
-$z = r \cos(\theta) + i r \sin(\theta)$
+$e^{i\theta}=\cos(\theta)+i\sin(\theta)$
 
-the real part is the projection on the real axis $r \cos(\theta)$ and the imaginary part is the projection on the imaginary axis $r \sin(\theta)$
+por lo tanto
+
+$z = r\cos(\theta) + i r\sin(\theta)$.
+
+La parte real es la proyeccion sobre el eje real y la parte imaginaria es la proyeccion sobre el eje imaginario. El numero complejo puede leerse entonces como un vector que sale del origen.
 """
 
 # ╔═╡ f46c59db-3ddc-4683-aaa2-4e443558901e
 md"""
 r $(@bind A Slider(0:0.01:2,default=1.0;show_value=true)) \
-θ $(@bind θ Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
+theta $(@bind θ Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
+
+Mueve el radio y el angulo para ver como cambian las proyecciones real e imaginaria.
 """
 
 # ╔═╡ 4fdc6730-94d7-4b83-b346-d620c7e92bb6
@@ -77,21 +82,25 @@ end
 
 # ╔═╡ 7172ae6c-910c-46c2-8f8b-e1f04703fce0
 md"""
-## Complex conjugate
+## Conjugado complejo
 
-The complex conjugate of z can be obtained by changing the sign of the angle $\theta$
+El conjugado complejo de $z$ se obtiene cambiando el signo del angulo:
 
-$\overline{z} = re^{-i\theta} = r\cos(\theta) + ir\sin(-i\theta) = r\cos(\theta) - ir\sin(i\theta)$
+$\overline{z}=re^{-i\theta}=r\cos(\theta)-ir\sin(\theta)$
 
-The product of z by its complex conjugate is equal to the square of the radius:
+Geometricamente es una reflexion respecto del eje real. Al multiplicar un numero por su conjugado, las rotaciones se cancelan:
 
-$z\overline{z} = re^{i\theta}re^{-i\theta} = rr e^{i\theta-i\theta} = r^2 e^0 = r^2$
+$z\overline{z}=re^{i\theta}re^{-i\theta}=r^2$
+
+El resultado queda sobre el eje real y vale el cuadrado del modulo.
 """
 
 # ╔═╡ 0b08da7d-117f-49f4-8bc5-edfb7ed7602c
 md"""
 r $(@bind A2 Slider(0:0.01:1.41,default=1.0;show_value=true)) \
-θ $(@bind θ2 Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
+theta $(@bind θ2 Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
+
+El punto azul es el conjugado y el punto negro representa $z\overline{z}$.
 """
 
 # ╔═╡ 8af8012f-15e0-4b93-81fa-b3dc37ec919b

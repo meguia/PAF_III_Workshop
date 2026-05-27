@@ -30,38 +30,32 @@ include("../iii_utils.jl");
 
 # ╔═╡ 83f8450d-3225-4f37-ba5d-9f510cf0d497
 md"""
-# Fourier Series (part I)
+# Series de Fourier, parte I
 
-## Elementary Oscillations 
+## Oscilaciones elementales
 
-We will define the k-th elementary oscillation
+Definimos la k-esima oscilacion elemental:
 
-$E_k(t) = e^{ikt}$
+$E_k(t)=e^{ikt}$, con $k\in\mathbb{Z}$.
 
-with $k \in \mathbb{Z}$. For simplicity we are keeping the fundamental period $T=2\pi$, but a more general k-th elementary oscillation for an arbitrary period $T$ can be defined by setting $\omega_0 = 2\pi/T$ and then $E_k(t) = e^{ik\omega_0 t}$.
+Tomamos periodo fundamental $T=2\pi$. Para otro periodo $T$, se usa $\omega_0=2\pi/T$ y $E_k(t)=e^{ik\omega_0t}$.
 
-## Properties 
+Propiedades importantes:
 
-Product of two elements add indices:
+$E_k(t)E_j(t)=E_{k+j}(t)$
 
-$E_k(t)E_j(t) = e^{ikt}e^{ijt} = = e^{i(k+j)t} = E_{k+j}(t)$
+$\overline{E_k(t)}=E_{-k}(t)$
 
-The complex conjugate of the element is an element with the opposite sign:
+$\frac{d}{dt}e^{ikt}=ike^{ikt}$
 
-$\overline{E_k(t)} = e^{-ikt} = E_{-k}(t)$
-
-Derivation equals multiplying by $ik$
-
-$\frac{d}{dt} e^{ikt} = ike^{ikt}$
-
-The antiderivative corresponds to multiplying by $-i/k$
-
-$\int_{t_1}^{t_2} e^{ikt} dt = -\frac{i}{k}(e^{ikt_2} - e^{ikt_1})$ 
+Estas reglas hacen que las oscilaciones elementales funcionen como una base algebraica para senales periodicas.
 """
 
 # ╔═╡ 74ac1574-8b21-499c-891d-70c6e510cfa0
 md"""
-## Elementary Oscillations from k=-6 to k=6
+## Oscilaciones elementales de k=-6 a k=6
+
+Las frecuencias negativas giran en sentido contrario. La frecuencia $k=0$ no gira: es una constante.
 """
 
 # ╔═╡ 263affc0-a928-4d6f-97e9-48aa6126d1f3
@@ -77,39 +71,26 @@ end
 
 # ╔═╡ 8338e09a-6751-4aaf-b5a1-8c651e6c5cb8
 md"""
-## Averages 
+## Promedios
 
-The average of the elementary oscillation over a full period ($T=2\pi$ in our simplified case) is zero except for $k=0$
+El promedio de una oscilacion elemental en un periodo completo es cero, excepto para $k=0$:
 
-$\langle E_k(t) \rangle_{2\pi} = 0 \quad for \quad k\neq 0$
+$\langle E_k(t)\rangle_{2\pi}=0$ si $k\neq0$, y $\langle E_0(t)\rangle_{2\pi}=1$.
 
-We can compute this average over a full period using the integral of the time differential from $0$ to $2\pi$. 
-
-for $k\neq 0$: 
-
-$\langle E_k(t) \rangle_{2\pi} =\frac{1}{2\pi}\int_0^{2\pi} e^{ikt} dt =  -\frac{i}{k2\pi} (e^{ik2\pi} - e^{ik0}) = -\frac{i}{k2\pi}(1 - 1) = 0$
-
-and for $k=0$:
-
-$\langle E_0(t) \rangle_{2\pi} = \frac{1}{2\pi}\int_0^{2\pi} dt = \frac{1}{2\pi}(2\pi-0)= 1$
+La razon geometrica es que una vuelta completa alrededor del circulo se cancela: las contribuciones en direcciones opuestas suman cero.
 """
 
 
 
 # ╔═╡ ecb1db55-62ed-4afa-bc29-ee1950e50f46
 md"""
-## Product with the conjugate to "freeze"
+## Multiplicar por el conjugado para "congelar"
 
-Suppose that we have one element $E_k(t)$ and we don't know the index $k$. 
+Si tenemos $E_k(t)$ y queremos detectar su indice, lo multiplicamos por el conjugado de una oscilacion conocida $E_j(t)$:
 
-One way to discover $k$ is to multiply $E_k(t)$ by the conjugate of an element with an index $j$ that we know:
+$E_k(t)\overline{E_j(t)}=E_{k-j}(t)$.
 
-
-$E_k(t)\overline{E_j(t)}=E_k(t)E_{-j}(t)=E_{k-j}(t)$ 
-
-and "observe its behavior". If it rotates then $k \neq j$. If it "freezes" then we matched the index $k=j$. 
-
-
+Si $k=j$, queda $E_0(t)=1$, que no gira. Si $k\neq j$, sigue girando y su promedio es cero.
 """
 
 # ╔═╡ 2924bbc2-e3d5-4a80-a8e0-f44f7e7fb6aa
@@ -117,20 +98,13 @@ and "observe its behavior". If it rotates then $k \neq j$. If it "freezes" then 
 
 # ╔═╡ d2ac89ac-a0b8-49aa-8830-521b5bcba681
 md"""
-# Averaged product between elements
+# Producto promediado entre elementos
 
-Taking this into account it would be useful to define the "product" between two elements, as the product of the first and the conjugate of the second averaged over one period:
+Definimos un producto interno como el promedio de una oscilacion por el conjugado de otra:
 
-$\langle E_k,E_j \rangle \doteq \langle E_k(t)\overline{E_j(t)} \rangle_T = \langle E_{k-j}(t) \rangle_T$
+$\langle E_k,E_j\rangle=\langle E_k(t)\overline{E_j(t)}\rangle_T$.
 
-This product will be:
-
-$\langle E_k,E_j \rangle = 0 \quad for \quad k\neq j$
-
-$\langle E_k,E_j \rangle = 1 \quad for \quad k = j$
-
-Therefore, all elementary oscillations are orthogonal. Only equal indices survive.
-
+El resultado es $0$ si $k\neq j$ y $1$ si $k=j$. Esto significa que las oscilaciones elementales son ortogonales: solo coinciden consigo mismas.
 """
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
@@ -161,6 +135,8 @@ sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 md"""
 k $(@bind k Slider(-6:1:6,default=1;show_value=true)) $sp
 j $(@bind j Slider(-6:1:6,default=3;show_value=true))
+
+Prueba valores iguales y distintos para ver cuando el producto queda quieto.
 """
 
 # ╔═╡ 4f029a92-bcb9-4b11-908c-68688f9d4a6a

@@ -30,32 +30,29 @@ include("../iii_utils.jl");
 # ╔═╡ 3a648014-0a41-4c5e-a4af-5dec0e549e79
 
 md"""
-# Euler Formula (Geometrical Interpretation)
+# Formula de Euler: interpretacion geometrica
 """
 
 # ╔═╡ 240f065d-067b-4888-b9db-0dcfae91b81d
 md"""
-## Position and velocity. 
+## Posicion y velocidad
 
-If we define the position of a particle as a function of time $s(t)$. 
+Si la posicion de una particula es $s(t)$, su velocidad instantanea es la derivada $v(t)=s'(t)$.
 
-The instantaneous velocity is, by definition, its first derivative $v(t) = s^{\prime}(t)$. 
+En la recta numerica dibujamos la posicion como una flecha roja desde $0$ hasta $s(t)$. La velocidad es otra flecha: su longitud indica rapidez y su direccion indica hacia donde se mueve la particula.
 
-On the number line, we can draw an arrow from $0$ to $s(t)$ to indicate the position (red)
+El caso mas simple es velocidad constante:
 
-The velocity $v(t)$ is the rate of change of that distance at time t and it can also be representated by an arrow (blue). Its magnitude corresponds to the speed (always positive) in the same scale, and its orientation (positive to the right negative to the left) the direction of the movement.
+$s(t)=s(0)+vt$
 
-Let start with the simples case: constant velocity
-
-$s(t) = s(0) + vt$ 
-
-where $s(0)$ is the position at the initial time $t=0$
-
+donde $s(0)$ es la posicion inicial. Si $v>0$ la posicion crece; si $v<0$ decrece.
 """
 
 # ╔═╡ e5e55559-3aab-4fd4-b7a2-ad3a512bb376
 md"""
 v $(@bind v01 Slider(-1.0:0.1:1.0,default=1.0;show_value=true)) \
+
+Cambia el signo de $v$ para invertir la direccion del movimiento.
 """
 
 # ╔═╡ b3488a41-98c0-4816-91e8-8a9d867689fd
@@ -74,34 +71,22 @@ end
 
 # ╔═╡ cb996baa-8ee5-4dd9-9d61-463ae320eafe
 md"""
-## Exponential growth
+## Crecimiento exponencial
 
-There is a unique function of time whose instantaneous velocity equals its position.
-It is the exponential.
+La funcion exponencial tiene una propiedad especial: su velocidad es proporcional a su posicion.
 
-$s(t) = e^t$
+$s(t)=e^{\alpha t}$
 
-$v(t)= s^{\prime}(t) = e^t$
+$v(t)=s'(t)=\alpha e^{\alpha t}=\alpha s(t)$
 
-At $t=0$, $e^0=1$. Position is $1$. Velocity is also $1$. 
-
-They always match in length and direction. This property characterizes the exponential.
-
-More generally, if we set a constant rate $\alpha$:
-
-$s(t)=e^{\alpha t}$ 
-
-then the velocity (by the chain rule) is proportional to the position
-
-$v(t)= s^{\prime}(t) = \alpha e^{\alpha t} = \alpha s(t)$
-
-The motion growths exponentially if $\alpha>0$.
-
+Si $\alpha>0$, cuanto mas grande es la posicion, mas rapido crece. Por eso el crecimiento se acelera.
 """
 
 # ╔═╡ 667886da-feaf-4bdc-b2d7-9860ce651b8a
 md"""
-α $(@bind a1 Slider(0.1:0.1:1.0,default=0.5;show_value=true)) \
+alpha $(@bind a1 Slider(0.1:0.1:1.0,default=0.5;show_value=true)) \
+
+El parametro $\alpha$ controla la tasa de crecimiento.
 """
 
 # ╔═╡ 3bfe1b5b-0aa0-4171-9469-99401c09afda
@@ -120,15 +105,18 @@ end
 
 # ╔═╡ ef4720b7-dee8-4617-b121-1e939b3061ad
 md"""
-## Exponential decay (negative rate)
+## Decaimiento exponencial
 
-If we now choose $a<0$ the velocity points opposite to the position on the line.
-The motion shrinks towards $0$ with an exponential envelope.
+Si $\alpha<0$, la velocidad apunta en sentido contrario a la posicion. El movimiento se acerca a $0$ con una envolvente exponencial:
+
+$s(t)=e^{\alpha t}, \quad \alpha<0$
 """
 
 # ╔═╡ 523b78c2-02b2-4736-8f89-2f0430a88b02
 md"""
-α $(@bind a2 Slider(-1.0:0.1:-0.1,default=-0.5;show_value=true)) \
+alpha $(@bind a2 Slider(-1.0:0.1:-0.1,default=-0.5;show_value=true)) \
+
+Valores mas negativos decaen mas rapido.
 """
 
 # ╔═╡ b389d61c-95e3-488b-887d-86edc2d1da9b
@@ -147,27 +135,17 @@ end
 
 # ╔═╡ 976c393e-a42e-44fc-8029-932a43565a04
 md"""
-## Imaginary exponent. Rotation in complex plane
+## Exponente imaginario: rotacion en el plano complejo
 
-Growth and decay (stretching and squishing) can be described with real numbers and take place in the line.
+El crecimiento y el decaimiento ocurren sobre una recta cuando la tasa es real. Si usamos una tasa imaginaria:
 
-What happens if we generalize to the complex domain?
+$s(t)=e^{it}$
 
-We start by the simplest example:
+$v(t)=s'(t)=ie^{it}=is(t)$
 
-$s(t) = e^{it}$
+Multiplicar por $i$ rota un cuarto de vuelta. Entonces la velocidad es siempre perpendicular a la posicion. Como no apunta hacia afuera ni hacia adentro, el radio no cambia: el movimiento queda sobre el circulo unidad.
 
-$v(t) = s^{\prime}(t) = ie^{it} = i s(t)$
-
-At $t=0$: $s(t) = 1$ and $v(t) = i$
-
-Then the "velocity" is pointing a quarter of turn, perpendicular to the position, out of the line in the complex plane.
-
-At all times $v(t)=is(t)$ and multiplying by $i$ corresponds to a rotation of quarter of turn in the complex plane. 
-
-So the velocity is **always** perpendicular to the position. Therefore the motion takes place in the **unit circle** (in green), courterclockwise at constant speed. At any time the angle in radians is equal to the elapsed time. 
-
-The real part of the position is $cos(t)$ and the imaginary part is $sin(t)$. 
+La parte real es $\cos(t)$ y la parte imaginaria es $\sin(t)$.
 """
 
 # ╔═╡ 0d5cca05-aaa7-47ce-91b5-1ede5f1b8dde
@@ -184,36 +162,23 @@ end
 
 # ╔═╡ 3416f2c9-f202-44c1-b46f-8fc127eb05cd
 md"""
-## Complex exponent. Rotation and stretching/squeezing
+## Exponente complejo: rotacion y estiramiento
 
-We now generalize to a complex rate $z=\alpha + i\omega$
+Con una tasa compleja $z=\alpha+i\omega$:
 
-$s(t) = e^{zt} = e^{(\alpha+i\omega)t} = e^{\alpha t}e^{i\omega t}$
+$s(t)=e^{zt}=e^{\alpha t}e^{i\omega t}$
 
-$v(t) = s^{\prime}(t) = z s(t)$
+La parte real $\alpha$ controla si el radio crece o decrece. La parte imaginaria $\omega$ controla la velocidad angular. Por eso la trayectoria general es una espiral:
 
-At $t=0$: $s(t)=1$ and $v(t)=\alpha + i\omega$. 
-
-The velocity has a real part that is radial: inward if $\alpha<0$ or outward (if $\alpha>0$), relative to the unit circle.
-The real part will be responsible of the stretching/squeezing in the complex plane. 
-The imaginary part is tangential and corresponds to a pure rotation (counterclockwise if $\omega$ is positive). 
-
-It is more simple to describe the motion in the polar form $s(t)=r(t)e^{\theta(t)}$
-
-The motion will take place in a spiral (inward if $\alpha<0$ and outward if $\alpha>0$). The radius of the position will be at any moment:
-
-$r(t)=e^{\alpha t}$
-
-The imaginary part $\omega$ sets the angular velocity of the motion (radians per second). The angle will be always
-
-$\theta(t) = \omega t$
-
+$r(t)=e^{\alpha t}, \quad \theta(t)=\omega t$
 """
 
 # ╔═╡ 9981a256-a8a2-4c3d-94ce-c4a6b8e4cbe8
 md"""
-ω $(@bind ω Slider(-2.0:0.1:2.0,default=1.0;show_value=true)) \
-α $(@bind a3 Slider(-0.3:0.1:0.3,default=0.0;show_value=true)) \
+omega $(@bind ω Slider(-2.0:0.1:2.0,default=1.0;show_value=true)) \
+alpha $(@bind a3 Slider(-0.3:0.1:0.3,default=0.0;show_value=true)) \
+
+Prueba $\alpha=0$ para una circunferencia, $\alpha>0$ para una espiral hacia afuera y $\alpha<0$ para una espiral hacia adentro.
 """
 
 # ╔═╡ 8088bb52-c94d-4816-b0cd-1cb62158b698

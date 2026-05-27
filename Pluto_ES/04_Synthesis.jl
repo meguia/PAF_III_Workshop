@@ -29,29 +29,17 @@ include("../iii_utils.jl");
 
 # ╔═╡ 83f8450d-3225-4f37-ba5d-9f510cf0d497
 md"""
-# Periodic oscillations
+# Oscilaciones periodicas
 
-The Oscillation of angular frequency $\omega=1$, amplitude (or radius) $A_1$ and initial phase $\phi_1$:
+La oscilacion de frecuencia angular $\omega=1$, amplitud $A_1$ y fase inicial $\phi_1$ es
 
-$E_1(t) = A_1e^{i\phi_1}e^{it}$
+$E_1(t)=A_1e^{i\phi_1}e^{it}$.
 
-is periodic with period $T=2\pi$. That means that it repeats itself after an arbitrary numbers of periods $nT$ with $n \in \mathbb{Z}$
+Tiene periodo $T=2\pi$: despues de una vuelta completa vuelve al mismo valor. Si usamos frecuencias enteras $k$, cada componente
 
-$E_1(t+nT) = E_1(t+n2\pi) = E_1(t)$
+$E_k(t)=A_ke^{i\phi_k}e^{ikt}$
 
-We will consider all elementary oscillations of angular frequency $\omega = k$ with $k \in \mathbb{Z}$
-
-$E_k(t) = A_ke^{i\phi_k}e^{ikt}$
-
-All these elementary oscillations have their "own" period $T=2\pi/k$ but they 
-also have period $T=2\pi$, since:
-
-$E_k(t+n2\pi) = A_ke^{i\phi_k}e^{ik(t+n2\pi)} = A_ke^{i\phi_k}e^{ikt}e^{n2\pi} = A_ke^{i\phi_k}e^{ikt} = E_k(t)$ 
-
-because $e^{n2\pi}$ only "adds" $n$ full turns and is equal to 1.
-
-Therefore, if we add an arbitrary number of elementary oscillations $E_k(t)$ that are periodic in $2\pi$, the result will also be periodic in $2\pi$.
-
+tambien repite cada $2\pi$ (aunque pueda completar varias vueltas dentro de ese intervalo). Por eso una suma de estas componentes sigue siendo periodica.
 """
 
 # ╔═╡ 263affc0-a928-4d6f-97e9-48aa6126d1f3
@@ -59,28 +47,23 @@ Therefore, if we add an arbitrary number of elementary oscillations $E_k(t)$ tha
 
 # ╔═╡ f795c84a-6531-4ef5-998c-b71f0be9918c
 md"""
-The set of radii (amplitudes) and starting angles (phases) it is called the spectrum of s(t) (the ingredient list). 
-and can be represented in a graph of amplitud vs frequency and phase vs frequency
+El conjunto de amplitudes y fases se llama espectro de $s(t)$: es la lista de ingredientes de la senal. Se puede graficar amplitud vs. frecuencia y fase vs. frecuencia.
 """
 
 # ╔═╡ e5569cd6-5e04-421d-bc96-bbdd08b7f94f
 md"""
-## Fourier bold claim:
+## Afirmacion fuerte de Fourier
 
-"Every periodic function is (exactly or to arbitrary accuracy) a sum of constant-frequency oscillations (elementary oscillations) with uniquely determined amplitudes and phases."
+Toda funcion periodica puede describirse, exactamente o con precision arbitraria, como una suma de oscilaciones elementales de frecuencia constante con amplitudes y fases determinadas.
 
-Ptolomeus trick:
-
-"Any smooth curve in the plane can be approximated to arbitrary accuracy with a sufficient number of epicycles"
-
-
+La intuicion de los epiciclos es parecida: una curva puede aproximarse con suficientes circulos giratorios.
 """
 
 # ╔═╡ a9392111-1aa7-46a4-9d54-8a12c4bc91fa
 md"""
-## Turning the oscillations into sound
+## Convertir oscilaciones en sonido
 
-We can turn these oscillations into sound by scaling the frequency into the audible range. Here $\f_0$ stands for the **base frequency**, the inverse of the period $T$.
+Para escuchar una suma de oscilaciones, escalamos la frecuencia al rango audible. Aqui $f_0$ es la frecuencia base; las componentes $1,2,3,\ldots$ son armonicos de esa base.
 """
 
 # ╔═╡ e969de73-6dea-45e1-ae02-8f2c91276902
@@ -123,29 +106,31 @@ sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 
 # ╔═╡ 350c15e0-09a8-4c98-98cf-02069d7ce5b3
 md"""
-f₀ = $(@bind f0 Slider(100:440,default=220;show_value=true)) $sp 
-window (ms) = $sp $(@bind wdw Slider(5:100,default=20;show_value=true)) $sp
-$(@bind play CounterButton("Play"))
+f0 = $(@bind f0 Slider(100:440,default=220;show_value=true)) $sp
+ventana (ms) = $sp $(@bind wdw Slider(5:100,default=20;show_value=true)) $sp
+$(@bind play CounterButton("Reproducir"))
+
+La ventana controla cuantos milisegundos de la forma de onda se muestran.
 """
 
 # ╔═╡ 21c750d4-9bc2-4002-a8c8-606856479415
 par_widget = @bind par PlutoUI.combine() do Child
 	md"""
-	ω = 1 : $sp A₁ = $(Child("A1", Slider(0:0.02:1,default=1.0;show_value=true))) $sp
-	ϕ₁  = $(Child("ϕ1", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2))))\
-	ω = 2 : $sp A₂ = $(Child("A2", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-	ϕ₂ = $(Child("ϕ2", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-	ω = 3 : $sp A₃ = $(Child("A3", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-	ϕ₃ = $(Child("ϕ3", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-	ω = 4 : $sp A₄ = $(Child("A4", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-	ϕ₄ = $(Child("ϕ4", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-	ω = 5 : $sp A₅ = $(Child("A5", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-	ϕ₅ = $(Child("ϕ5", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-	ω = 6 : $sp A₆ = $(Child("A6", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-	ϕ₆ = $(Child("ϕ6", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-	ω = 7 : $sp A₇ = $(Child("A7", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-	ϕ₇ = $(Child("ϕ7", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) 
-	"""
+omega = 1 : $sp A1 = $(Child("A1", Slider(0:0.02:1,default=1.0;show_value=true))) $sp
+phi1 = $(Child("ϕ1", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2))))\
+omega = 2 : $sp A2 = $(Child("A2", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+phi2 = $(Child("ϕ2", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+omega = 3 : $sp A3 = $(Child("A3", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+phi3 = $(Child("ϕ3", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+omega = 4 : $sp A4 = $(Child("A4", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+phi4 = $(Child("ϕ4", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+omega = 5 : $sp A5 = $(Child("A5", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+phi5 = $(Child("ϕ5", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+omega = 6 : $sp A6 = $(Child("A6", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+phi6 = $(Child("ϕ6", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+omega = 7 : $sp A7 = $(Child("A7", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+phi7 = $(Child("ϕ7", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2))))
+"""
 end;
 
 # ╔═╡ f6138348-b17a-40a1-95d7-056191b7a852

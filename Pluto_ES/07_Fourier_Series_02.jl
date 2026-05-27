@@ -30,65 +30,51 @@ include("../iii_utils.jl");
 
 # ╔═╡ 83f8450d-3225-4f37-ba5d-9f510cf0d497
 md"""
-# Fourier Series (part II)
-
+# Series de Fourier, parte II
 """
 
 # ╔═╡ 706bd63b-25d8-4fe8-94cf-217e0f60cc09
 md"""
-## Measuring “how much” of each oscillation
+## Medir cuanto hay de cada oscilacion
 
-The averaged product can be also used to extract "how much" of each oscillation (with the frequency of $E_k(t)=e^{ikt}$) is present in any periodic function.
+El producto promediado sirve para extraer cuanta cantidad de una frecuencia $E_k(t)=e^{ikt}$ hay dentro de una funcion periodica $s(t)$.
 
-Let $s(t)$ be any $T$-periodic function. We are assuming that $s(t)$ can be composed by many (possibly infinite) different components (elementary oscillation)
+Multiplicamos por el conjugado:
 
-To measure the k-th ingredient, first freeze it by multiplying with the complex conjugate of $E_k(t)$. 
+$s(t)\overline{E_k(t)}$.
 
-$s(t)\overline{E_k(t)}$
+La componente k-esima deja de girar; las otras siguen girando. Al promediar durante un periodo, las que siguen girando se cancelan. El promedio define el coeficiente complejo:
 
-The k-th component of $s(t)$ stops spinning and becomes steady. 
-All other components keep spinning. 
+$C_k=\langle s(t)\overline{E_k(t)}\rangle_T$.
 
-Then we take the average over a period and use that average to define a complex coefficient $C_k$:
-
-
-$C_k \doteq  \langle s(t)\overline{E_k(t)} \rangle_T$
-
-This coefficient measures "how much" of $E_k$ is present, not only in amplitude but also with which phase because $C_k$ is complex so it has a angle:
-
-$C_k = A_k e^{i\phi_k}$
-
-where $A_k$ is the amplitude of the k-th component and $\phi_k$ its initial phase.
+Como $C_k$ es complejo, contiene amplitud y fase: $C_k=A_ke^{i\phi_k}$.
 """
 
 # ╔═╡ 836adee0-bd41-4391-9831-09c18e4081e3
 md"""
-## Fourier Series
+## Serie de Fourier
 
-Any (reasonably continuous) $T=2\pi$-periodic function $s(t+2\pi)=s(t)$ may be expressed as a series (infinte sum) of $k-th$ components $E_k(t)$ with complex coefficients $C_k$
+Una funcion periodica razonablemente regular, con periodo $2\pi$, puede escribirse como
 
-$s(t) = \sum_{k=-\infty}^{\infty} C_k E_k(t) = \sum_{k=-\infty}^{\infty} C_k e^{ikt}$ 
+$s(t)=\sum_{k=-\infty}^{\infty}C_ke^{ikt}$,
 
-where:
+donde
 
-$C_k = \langle s(t)\overline{E_k(t)} \rangle_{2\pi} = \frac{1}{2\pi}\int_0^{2\pi} s(t)e^{-ikt} dt$
+$C_k=\frac{1}{2\pi}\int_0^{2\pi}s(t)e^{-ikt}\,dt$.
 
+La integral es la operacion de medicion: pregunta cuanto de la frecuencia $k$ esta presente en la senal.
 """
 
 # ╔═╡ e60b57f9-d4d0-47f1-8705-5f6858b7211f
 
 md"""
+## Ejemplo: senal cuadrada
 
-## Example
+Tomamos una senal cuadrada de periodo $2\pi$:
 
-We can try with a square signal of period $2\pi$
+$s(t)=1$ si $t<\pi$ y $s(t)=-1$ si $t>\pi$.
 
-$s(t) = \begin{cases} 1 & \text{if }  t<\pi\\ -1 & \text{if } t>\pi  \end{cases}$ 
-
-
-$C_k = \frac{1}{2\pi}\int_0^{2\pi} s(t)e^{-ikt} dt = \frac{1}{2\pi}\int_0^{\pi} 1e^{-ikt} dt + \frac{1}{2\pi}\int_{\pi}^{2\pi} (-1)e^{-ikt} dt$
-
-so now we are averaging over half a period. How is this average? First visually:
+Los coeficientes se calculan promediando por partes: una integral en la primera mitad del periodo y otra en la segunda. Visualmente, esto equivale a ver que contribuciones se cancelan y cuales quedan.
 """
 
 # ╔═╡ 2924bbc2-e3d5-4a80-a8e0-f44f7e7fb6aa
@@ -104,24 +90,20 @@ end
 
 # ╔═╡ 3aea4336-0be8-4d67-8102-90574813afec
 md"""
-In this case when we take the average over half a period all even terms dissapear!
+En este caso, al promediar sobre medio periodo, todos los terminos pares desaparecen.
 """
 
 # ╔═╡ 851958fd-bcbd-4c6a-ac63-f6a5f190662c
 md"""
-$\int_0^{\pi} e^{-ikt} dt =  \frac{i}{k}(e^{-ik\pi}-e^{-ik0}) = \frac{i}{k}(-1-1) = \begin{cases} -i\frac{2}{k} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
+$\int_0^{\pi} e^{-ikt} dt = \frac{i}{k}(e^{-ik\pi}-1)$.
 
-similarly:
+Para $k$ par, $e^{-ik\pi}=1$ y la contribucion es cero. Para $k$ impar, $e^{-ik\pi}=-1$ y queda una contribucion distinta de cero.
 
-$\int_{\pi}^{2\pi} (-1) e^{-ikt} dt =  -\frac{i}{k}(e^{-ik2\pi}-e^{-ik\pi}) = -\frac{i}{k}(1+1) = \begin{cases} -i\frac{2}{k} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
+Finalmente:
 
-Then finally:
+$C_k=\begin{cases}-i\frac{2}{k\pi}, & k\ \text{impar}\\0, & k\ \text{par}\end{cases}$
 
-$C_k = \frac{1}{2\pi}\int_0^{\pi} e^{-ikt} dt - \frac{1}{2\pi}\int_{\pi}^{2\pi} e^{-ikt} dt = \begin{cases} -i\frac{2}{k\pi} \quad \text{if k odd}\\ 0 \quad \text{if k even} \end{cases}$
-
-and the series is:
-
-$s(t) = \ldots i\frac{2}{3\pi}e^{-i3t}+i\frac{2}{\pi}e^{-it}-i\frac{2}{\pi}e^{it}-i\frac{2}{3\pi}e^{i3t}+ \ldots$
+La senal cuadrada se reconstruye sumando solo armonicos impares. Al aumentar $N$, la aproximacion mejora, aunque cerca del salto aparece el fenomeno de Gibbs.
 """
 
 # ╔═╡ 1ebb82c2-7d93-4784-a54d-eaf0f5e365f7
@@ -130,6 +112,8 @@ $s(t) = \ldots i\frac{2}{3\pi}e^{-i3t}+i\frac{2}{\pi}e^{-it}-i\frac{2}{\pi}e^{it
 # ╔═╡ 52b6dde8-227d-41c8-99d5-99b23b7fed21
 md"""
 N $(@bind nmax Slider(1:2:21,default=1;show_value=true))
+
+Usa solo valores impares para agregar armonicos impares a la reconstruccion.
 """
 
 # ╔═╡ 8c3a84be-5b4d-4dec-b75d-f388307a9148
@@ -192,7 +176,9 @@ sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 # ╔═╡ 62758eff-a3c9-4858-8b96-69205658b154
 md"""
 f0 $(@bind f0 Slider(100:10:200,default=100;show_value=true)) $sp
-$(@bind play CounterButton("Play"))
+$(@bind play CounterButton("Reproducir"))
+
+El sonido resultante se acerca a una onda cuadrada al agregar mas armonicos.
 """
 
 # ╔═╡ ae2cf833-8618-4622-9218-6b3c6498f469
