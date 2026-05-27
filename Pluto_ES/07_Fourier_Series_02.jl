@@ -128,27 +128,6 @@ begin
 	plot(plts...,layout=l2, left_margin=[10mm -13mm],top_margin=[-10mm 13mm],size=(1200,1200))
 end	
 
-# ╔═╡ 5d27b8a6-6e2c-4264-8406-06f7b5514a31
-# ╠═╡ disabled = true
-#=╠═╡
-plot(snd[1:1000],label="",size=(1200,300))
-  ╠═╡ =#
-
-# ╔═╡ 81a93524-596a-4053-b1bf-88ad64ae9022
-# ╠═╡ disabled = true
-#=╠═╡
-wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "square.wav", Fs=fs, nbits=16)
-  ╠═╡ =#
-
-# ╔═╡ 6f966a00-7a71-4c4e-92ce-e95ec0f7c264
-# ╠═╡ disabled = true
-#=╠═╡
-let 
-	play 
-	wavplay("square.wav")
-end
-  ╠═╡ =#
-
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
 	stylefile = joinpath(@projectroot,"Pluto","light_33.css")
@@ -192,6 +171,18 @@ begin
 	components = AM.*sin.(ωM.*ts)
 	snd = sum(components,dims=2)	
 end;
+
+# ╔═╡ 5d27b8a6-6e2c-4264-8406-06f7b5514a31
+plot(snd[1:1000],label="",size=(1200,300))
+
+# ╔═╡ 81a93524-596a-4053-b1bf-88ad64ae9022
+wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "square.wav", Fs=fs, nbits=16)
+
+# ╔═╡ 6f966a00-7a71-4c4e-92ce-e95ec0f7c264
+let 
+	play 
+	wavplay("square.wav")
+end
 
 # ╔═╡ Cell order:
 # ╟─83f8450d-3225-4f37-ba5d-9f510cf0d497
