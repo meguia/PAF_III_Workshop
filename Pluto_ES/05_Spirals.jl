@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.19
+# v0.20.27
 
 using Markdown
 using InteractiveUtils
@@ -100,22 +100,15 @@ $(@bind play CounterButton("Reproducir"))
 El boton reproduce la resintesis cuando el audio esta habilitado.
 """
 
-# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
-# ╠═╡ disabled = true
-#=╠═╡
-plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
-  ╠═╡ =#
-
 # ╔═╡ 15b2aac7-f89b-4949-9a1c-3b440835312f
-# ╠═╡ disabled = true
-#=╠═╡
 let 
 	play 
 	wavplay("bell.wav")
 end
-  ╠═╡ =#
 
 # ╔═╡ 3f183134-2a68-4bb2-83de-53fa0903a349
+# ╠═╡ disabled = true
+#=╠═╡
 begin
 	fs = 44100
 	dt = 1/fs
@@ -124,6 +117,13 @@ begin
 	components = AB1.*sin.(2*pi*fB1.*ts).*exp.(-ts./dB1)
 	snd = sum(components,dims=2)
 end;
+  ╠═╡ =#
+
+# ╔═╡ ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╠═╡ disabled = true
+#=╠═╡
+plot(ts,snd,size=(1200,300),xlabel="time (s)",bottom_margin=10mm,label="")
+  ╠═╡ =#
 
 # ╔═╡ b536fcec-f092-4b96-9718-218ea446e748
 # ╠═╡ disabled = true
@@ -156,15 +156,15 @@ sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 
 # ╔═╡ 0e34247d-671a-46b3-be5b-3f4545d848f0
 md"""
-omega1 = $(@bind ω1 Slider(0:0.02:3,default=1.0;show_value=true)) $sp
+ω1 = $(@bind ω1 Slider(0:0.02:3,default=1.0;show_value=true)) $sp
 A1 = $(@bind A1 Slider(0:0.02:2,default=1.0;show_value=true)) $sp
-phi1 = $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-omega2 = $(@bind ω2 Slider(0:0.02:3,default=1.0;show_value=true)) $sp
+ϕ1 = $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω2 = $(@bind ω2 Slider(0:0.02:3,default=1.0;show_value=true)) $sp
 A2 = $(@bind A2 Slider(0:0.02:2,default=1.0;show_value=true)) $sp
-phi2 = $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-omega3 = $(@bind ω3 Slider(0:0.02:3,default=1.0;show_value=true)) $sp
+ϕ2 = $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω3 = $(@bind ω3 Slider(0:0.02:3,default=1.0;show_value=true)) $sp
 A3 = $(@bind A3 Slider(0:0.02:2,default=1.0;show_value=true)) $sp
-phi3 = $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ϕ3 = $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
 
 Usa frecuencias no enteras para ver que la forma deja de repetirse limpiamente.
 """
@@ -182,20 +182,20 @@ end
 
 # ╔═╡ 4542c858-9fc8-494b-9d5d-f1ad8c65791b
 md"""
-omega1 = $(@bind ω1b Slider(0:0.02:3,default=1.0;show_value=true)) $sp
+ω1 = $(@bind ω1b Slider(0:0.02:3,default=1.0;show_value=true)) $sp
 A1 = $(@bind A1b Slider(0:0.02:2,default=1.0;show_value=true)) \
-alpha1 = $(@bind d1b Slider(0:0.002:0.2,default=0.0;show_value=true)) $sp
-phi1 = $(@bind ϕ1b Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-omega2 = $(@bind ω2b Slider(0:0.02:3,default=1.0;show_value=true)) $sp
+α1 = $(@bind d1b Slider(0:0.002:0.2,default=0.0;show_value=true)) $sp
+ϕ1 = $(@bind ϕ1b Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω2 = $(@bind ω2b Slider(0:0.02:3,default=1.0;show_value=true)) $sp
 A2 = $(@bind A2b Slider(0:0.02:2,default=1.0;show_value=true)) \
-alpha2 = $(@bind d2b Slider(0:0.002:0.2,default=0.0;show_value=true)) $sp
-phi2 = $(@bind ϕ2b Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-omega3 = $(@bind ω3b Slider(0:0.02:3,default=1.0;show_value=true)) $sp
+α2 = $(@bind d2b Slider(0:0.002:0.2,default=0.0;show_value=true)) $sp
+ϕ2 = $(@bind ϕ2b Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω3 = $(@bind ω3b Slider(0:0.02:3,default=1.0;show_value=true)) $sp
 A3 = $(@bind A3b Slider(0:0.02:2,default=1.0;show_value=true)) \
-alpha3 = $(@bind d3b Slider(0:0.002:0.2,default=0.0;show_value=true)) $sp
-phi3 = $(@bind ϕ3b Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+α3 = $(@bind d3b Slider(0:0.002:0.2,default=0.0;show_value=true)) $sp
+ϕ3 = $(@bind ϕ3b Slider(0:0.02:6.28,default=0.0;show_value=true)) \
 
-Cada alpha controla que tan rapido se apaga una componente.
+Cada α controla que tan rapido se apaga una componente.
 """
 
 # ╔═╡ 9e4ea208-108c-49e2-a098-38e00a0d8fcb
@@ -224,7 +224,7 @@ end
 # ╟─c2914d60-04d6-4545-92f1-d5ddf7c649ae
 # ╟─db0af527-3f1b-43ee-a088-089207e313f6
 # ╟─4c226e12-0d7c-4ccc-a5ce-36817ce4a768
-# ╠═ae1d669e-f57b-458c-9eb5-09ba61c39878
+# ╟─ae1d669e-f57b-458c-9eb5-09ba61c39878
 # ╟─15b2aac7-f89b-4949-9a1c-3b440835312f
 # ╟─3f183134-2a68-4bb2-83de-53fa0903a349
 # ╟─b536fcec-f092-4b96-9718-218ea446e748

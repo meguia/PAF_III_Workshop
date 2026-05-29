@@ -30,9 +30,9 @@ md"""
 
 # ╔═╡ 86558140-3c35-4e7d-b534-4e71389b81f3
 md"""
-Todo numero complejo $z$ puede describirse por su radio o modulo $r$ y por su angulo $\theta$:
+Todo numero complejo $z$ puede describirse por su radio o modulo $|z|$ y por su angulo $\theta$:
 
-$z = r e^{i\theta}$
+$z = |z| e^{i\theta}$
 
 La formula de Euler dice que
 
@@ -40,17 +40,17 @@ $e^{i\theta}=\cos(\theta)+i\sin(\theta)$
 
 por lo tanto
 
-$z = r\cos(\theta) + i r\sin(\theta)$.
+$z = |z|\cos(\theta) + i |z|\sin(\theta)$
 
-La parte real es la proyeccion sobre el eje real y la parte imaginaria es la proyeccion sobre el eje imaginario. El numero complejo puede leerse entonces como un vector que sale del origen.
+La parte real es la proyeccion sobre el eje real y la parte imaginaria es la proyeccion sobre el eje imaginario. El numero complejo puede leerse entonces como un vector de modulo $|z|$ que sale del origen y que apunta en la direccion $\theta$.
 """
 
 # ╔═╡ f46c59db-3ddc-4683-aaa2-4e443558901e
 md"""
-r $(@bind A Slider(0:0.01:2,default=1.0;show_value=true)) \
+|z| $(@bind A Slider(0:0.01:2,default=1.0;show_value=true)) \
 theta $(@bind θ Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
 
-Mueve el radio y el angulo para ver como cambian las proyecciones real e imaginaria.
+Mover el modulo (radio) y el angulo para ver como cambian las proyecciones real e imaginaria.
 """
 
 # ╔═╡ 4fdc6730-94d7-4b83-b346-d620c7e92bb6
@@ -70,14 +70,80 @@ begin
 		annotate!(0.3*A*cos(θ/2),0.3*A*sin(θ/2),text(latexstring("\\theta"),:green))
 	end
 	if A>0.1
-		annotate!(0.7*x0,0.7*y0+0.1,text(latexstring("r")))
+		annotate!(0.7*x0,0.7*y0+0.1,text(latexstring("|z|")))
 	end	
-	annotate!(x0,-0.1*sign(y0),text(latexstring("r\\cos(\\theta)")))
+	annotate!(x0,-0.1*sign(y0),text(latexstring("|z|\\cos(\\theta)")))
 	if x0>0
-		annotate!(0,y0+0.1,text(latexstring("r\\sin(\\theta)"),:right))
+		annotate!(0,y0+0.1,text(latexstring("|z|\\sin(\\theta)"),:right))
 	else
-		annotate!(0,y0+0.1,text(latexstring("r\\sin(\\theta)"),:left))
+		annotate!(0,y0+0.1,text(latexstring("|z|\\sin(\\theta)"),:left))
 	end	
+end	
+
+# ╔═╡ 12553b12-a46d-4b46-850c-a738f2b246cb
+md"""
+## Multiplicacion de Complejos
+
+Dos complejos $z_1$, $z_2$ expresados en la forma de Euler se multiplican siguiendo las reglas de la potencia:
+
+$z_1 = |z_1| e^{\theta_1}$
+
+$z_2 = |z_2| e^{\theta_2}$
+
+$z_1\, z_2 = |z_1||z_2| e^{\theta_1}\, e^{\theta_2} = |z_1||z_2| e^{\theta_1+\theta_2}$
+
+Es decir, los modulos se multiplican entre si, pero los angulos se suman. Esto geometricamente equivale a decir: "primero rotamos en la direccion $\theta_1$ y luego en la direccion $\theta_2$". Probar con los ejemplos abajo:
+"""
+
+# ╔═╡ 1f7971af-5bfc-461f-babd-7d339a736c2b
+md"""
+|z₁| $(@bind A1 Slider(0:0.01:2,default=1.0;show_value=true)) 
+θ₁ $(@bind θ1 Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2))) \
+|z₂| $(@bind A2 Slider(0:0.01:2,default=1.0;show_value=true)) 
+θ₂ $(@bind θ2 Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
+"""
+
+# ╔═╡ 995a22c9-4f0e-484c-a3a3-b5733b07385c
+begin
+	x01 = A1*cos(θ1)
+	y01 = A1*sin(θ1)
+	x02 = A2*cos(θ2)
+	y02 = A2*sin(θ2)
+	x012 = A1*A2*cos(θ1+θ2)
+	y012 = A1*A2*sin(θ1+θ2)
+	pp = plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
+	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginary")
+	plot!([0,x01],[0,y01],c=:black,label="")
+	#plot!([x01,x01],[0,y01],ls=:dash,c=:red,label="")
+	#plot!([0,x01],[y01,y01],ls=:dash,c=:red,label="")
+	scatter!([x01],[y01],c=:red,ms=5,label=latexstring("z_1"))
+	if abs(θ1)>pi/50
+		arcx1 = A1/3*cos.(0:sign(θ1)*pi/100:θ1)
+		arcy1 = A1/3*sin.(0:sign(θ1)*pi/100:θ1)
+		plot!(arcx1,arcy1,ls=:dash,c=:green,label="")
+		annotate!(0.3*A1*cos(θ1/2),0.3*A1*sin(θ1/2),text(latexstring("\\theta_1"),:green))
+	end
+	plot!([0,x02],[0,y02],c=:black,label="")
+	#plot!([x02,x02],[0,y02],ls=:dash,c=:blue,label="")
+	#plot!([0,x02],[y02,y02],ls=:dash,c=:blue,label="")
+	scatter!([x02],[y02],c=:blue,ms=5,label=latexstring("z_2"))
+	if abs(θ2)>pi/50
+		arcx2 = A2/3*cos.(0:sign(θ2)*pi/100:θ2)
+		arcy2 = A2/3*sin.(0:sign(θ2)*pi/100:θ2)
+		plot!(arcx2,arcy2,ls=:dash,c=:green,label="")
+		annotate!(0.3*A2*cos(θ2/2),0.3*A2*sin(θ2/2),text(latexstring("\\theta_2"),:green))
+	end
+	plot!([0,x012],[0,y012],c=:black,label="")
+	#plot!([x02,x02],[0,y02],ls=:dash,c=:magenta,label="")
+	#plot!([0,x02],[y02,y02],ls=:dash,c=:magenta,label="")
+	scatter!([x012],[y012],c=:magenta,ms=5,label=latexstring("z_1 z_2"))
+	if abs(θ2+θ1)>pi/50
+		arcx12 = A1*A2/1.5*cos.(0:sign(θ1+θ2)*pi/100:θ1+θ2)
+		arcy12 = A1*A2/1.5*sin.(0:sign(θ1+θ2)*pi/100:θ1+θ2)
+		plot!(arcx12,arcy12,ls=:dash,c=:green,label="")
+		annotate!(A1*A2*cos((θ1+θ2)/2),A1*A2*sin((θ1+θ2)/2),text(latexstring("\\theta_1+\\theta_2"),:green))
+	end
+	pp
 end	
 
 # ╔═╡ 7172ae6c-910c-46c2-8f8b-e1f04703fce0
@@ -97,36 +163,36 @@ El resultado queda sobre el eje real y vale el cuadrado del modulo.
 
 # ╔═╡ 0b08da7d-117f-49f4-8bc5-edfb7ed7602c
 md"""
-r $(@bind A2 Slider(0:0.01:1.41,default=1.0;show_value=true)) \
-theta $(@bind θ2 Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
+|z| $(@bind A3 Slider(0:0.01:1.41,default=1.0;show_value=true)) \
+θ $(@bind θ3 Slider(-pi:pi/12:pi,default=0.0;show_value=x->round(x,digits=2)))
 
-El punto azul es el conjugado y el punto negro representa $z\overline{z}$.
+El punto azul es el conjugado y el punto negro representa $z\overline{z} = |z|^2$.
 """
 
 # ╔═╡ 8af8012f-15e0-4b93-81fa-b3dc37ec919b
 begin
-	x02 = A2*cos(θ2)
-	y02 = A2*sin(θ2)
+	x03 = A3*cos(θ3)
+	y03 = A3*sin(θ3)
 	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
 	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginary")
-	plot!([0,x02],[0,y02],c=:black,label="")
-	plot!([x02,x02],[0,y02],ls=:dash,c=:red,label="")
-	plot!([0,x02],[y02,y02],ls=:dash,c=:red,label="")
-	scatter!([x02],[y02],c=:red,ms=5,label=latexstring("z"))
-	plot!([0,x02],[0,-y02],c=:black,label="")
-	if abs(θ2)>pi/50
-		arcx2 = A2/3*cos.(0:sign(θ2)*pi/100:θ2)
-		arcy2 = A2/3*sin.(0:sign(θ2)*pi/100:θ2)
-		plot!(arcx2,arcy2,ls=:dash,c=:green,label="")
-		plot!(arcx2,-arcy2,ls=:dash,c=:green,label="")
-		annotate!(0.3*A*cos(θ2/2),0.3*A*sin(θ2/2),text(latexstring("\\theta"),:green))
-		annotate!(0.3*A*cos(θ2/2),-0.3*A*sin(θ2/2),text(latexstring("-\\theta"),:green))
+	plot!([0,x03],[0,y03],c=:black,label="")
+	plot!([x03,x03],[0,y03],ls=:dash,c=:red,label="")
+	plot!([0,x03],[y03,y03],ls=:dash,c=:red,label="")
+	scatter!([x03],[y03],c=:red,ms=5,label=latexstring("z"))
+	plot!([0,x03],[0,-y03],c=:black,label="")
+	if abs(θ3)>pi/50
+		arcx3 = A3/3*cos.(0:sign(θ3)*pi/100:θ3)
+		arcy3 = A3/3*sin.(0:sign(θ3)*pi/100:θ3)
+		plot!(arcx3,arcy3,ls=:dash,c=:green,label="")
+		plot!(arcx3,-arcy3,ls=:dash,c=:green,label="")
+		annotate!(0.3*A*cos(θ3/2),0.3*A*sin(θ3/2),text(latexstring("\\theta"),:green))
+		annotate!(0.3*A3*cos(θ3/2),-0.3*A3*sin(θ3/2),text(latexstring("-\\theta"),:green))
 	end
-	plot!([x02,x02],[0,-y02],ls=:dash,c=:blue,label="")
-	plot!([0,x02],[-y02,-y02],ls=:dash,c=:blue,label="")
-	scatter!([x02],[-y02],c=:blue,ms=5,label=latexstring("\\overline{z}"))
-	plot!([0,A2^2],[0,0],c=:black,label="")
-	scatter!([A2^2],[0],c=:black,ms=5,label=latexstring("z\\overline{z}"))
+	plot!([x03,x03],[0,-y03],ls=:dash,c=:blue,label="")
+	plot!([0,x03],[-y03,-y03],ls=:dash,c=:blue,label="")
+	scatter!([x03],[-y03],c=:blue,ms=5,label=latexstring("\\overline{z}"))
+	plot!([0,A3^2],[0,0],c=:black,label="")
+	scatter!([A3^2],[0],c=:black,ms=5,label=latexstring("z\\overline{z}"))
 end	
 
 # ╔═╡ f57150d3-14af-4c28-b2d7-cc293a3f93c4
@@ -140,7 +206,7 @@ end
 html"""
 <style>
 pluto-notebook {
-    max-width: 1000px;
+    max-width: 1200px;
 }
 input[type*="range"] {
 	width: 40%;
@@ -149,14 +215,27 @@ pluto-helpbox { display: none; }
 </style>
 """
 
+# ╔═╡ 89061a23-d01a-4b5d-a861-5dfd85d1d168
+sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+
+# ╔═╡ 0c304f71-c0d1-4154-b264-e476f0d16e0d
+md"""
+|z₁||z₂| = $(round(A1*A2,digits=2))  $sp $sp $sp $sp $sp θ₁+θ₂ = $(round(θ1+θ2,digits=2))
+"""
+
 # ╔═╡ Cell order:
 # ╟─66ed5572-84d7-4780-a983-161b854a9cc1
 # ╟─86558140-3c35-4e7d-b534-4e71389b81f3
 # ╟─4fdc6730-94d7-4b83-b346-d620c7e92bb6
-# ╟─f46c59db-3ddc-4683-aaa2-4e443558901e
+# ╠═f46c59db-3ddc-4683-aaa2-4e443558901e
+# ╟─12553b12-a46d-4b46-850c-a738f2b246cb
+# ╟─995a22c9-4f0e-484c-a3a3-b5733b07385c
+# ╟─1f7971af-5bfc-461f-babd-7d339a736c2b
+# ╟─0c304f71-c0d1-4154-b264-e476f0d16e0d
 # ╟─7172ae6c-910c-46c2-8f8b-e1f04703fce0
 # ╟─8af8012f-15e0-4b93-81fa-b3dc37ec919b
 # ╟─0b08da7d-117f-49f4-8bc5-edfb7ed7602c
 # ╟─1f093de0-9501-11ef-30d2-4f854ecfb2e5
 # ╟─f57150d3-14af-4c28-b2d7-cc293a3f93c4
-# ╟─18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╠═18267cb1-99b8-4ed4-8558-1de0bdae4795
+# ╠═89061a23-d01a-4b5d-a861-5dfd85d1d168

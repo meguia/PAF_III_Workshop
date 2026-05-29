@@ -37,7 +37,7 @@ md"""
 md"""
 ## Posicion y velocidad
 
-Si la posicion de una particula es $s(t)$, su velocidad instantanea es la derivada $v(t)=s'(t)$.
+Si la posicion de una objeto es $s(t)$, su velocidad instantanea es la derivada $v(t)=s'(t)$.
 
 En la recta numerica dibujamos la posicion como una flecha roja desde $0$ hasta $s(t)$. La velocidad es otra flecha: su longitud indica rapidez y su direccion indica hacia donde se mueve la particula.
 
@@ -50,9 +50,7 @@ donde $s(0)$ es la posicion inicial. Si $v>0$ la posicion crece; si $v<0$ decrec
 
 # ╔═╡ e5e55559-3aab-4fd4-b7a2-ad3a512bb376
 md"""
-v $(@bind v01 Slider(-1.0:0.1:1.0,default=1.0;show_value=true)) \
-
-Cambia el signo de $v$ para invertir la direccion del movimiento.
+v $(@bind v01 Slider(-1.0:0.1:1.0,default=1.0;show_value=true)) 
 """
 
 # ╔═╡ b3488a41-98c0-4816-91e8-8a9d867689fd
@@ -65,9 +63,20 @@ begin
 	s0 = 1.0
 	t01 = (t0_1-1)*0.1
 	s01 = s0+t01*v01
-	plot_velocity(t01,s01,v01,min(s01+v01,-2),max(s01+v01,7))
+	p1a = plot_velocity(t01,s01,v01,min(s01+v01,-2),max(s01+v01,7))
 	annotate!((0.0,-0.3,text(latexstring("s(t)=1+vt"),15,:black,:left)))
+	tp1 = 0:0.01:5/(abs(v01)+0.1)
+	d1 = 1/(abs(v01)+0.1)
+	p1b = plot(tp1,s0.+tp1*v01,c=:black,label="")
+	scatter!([t01],[s01],xlims=(0,5/abs(v01)),c=:red,label="")
+	plot!([t01-d1,t01+d1],[s01-v01*d1,s01+v01*d1],c=:blue,label="")
+	plot(p1a,p1b, layout = grid(2, 1, heights = [0.4, 0.6]),size=(1200,600))
 end	
+
+# ╔═╡ 483fc9b2-cccb-46bc-8c8f-1502ae43ec8c
+md"""
+Cambia el signo de $v$ para invertir la direccion del movimiento.
+"""
 
 # ╔═╡ cb996baa-8ee5-4dd9-9d61-463ae320eafe
 md"""
@@ -84,14 +93,14 @@ Si $\alpha>0$, cuanto mas grande es la posicion, mas rapido crece. Por eso el cr
 
 # ╔═╡ 667886da-feaf-4bdc-b2d7-9860ce651b8a
 md"""
-alpha $(@bind a1 Slider(0.1:0.1:1.0,default=0.5;show_value=true)) \
+α $(@bind a1 Slider(0.1:0.1:1.0,default=0.5;show_value=true)) \
 
-El parametro $\alpha$ controla la tasa de crecimiento.
+El parametro α controla la tasa de crecimiento.
 """
 
 # ╔═╡ 3bfe1b5b-0aa0-4171-9469-99401c09afda
 begin
-	@bind t0_2 Clock(0.1,true,false,floor(Int,46/a1),false)
+	@bind t0_2 Clock(0.1,true,false,floor(Int,50/a1),false)
 end
 
 # ╔═╡ 3870562d-e580-4f5d-83d5-804da16432ff
@@ -99,8 +108,14 @@ begin
 	t02 = (t0_2-1)*0.1
 	s02 = exp(a1*t02)
 	v02 = a1*exp(a1*t02)
-	plot_velocity(t02,s02,v02,min(s02,-1),max(s02+v02,11))
+	p2a = plot_velocity(t02,s02,v02,min(s02,-1),max(s02+v02,11))
 	annotate!((0.0,-0.3,text(latexstring("s(t)=e^{$(a1)t} \\ \\ \\ v(t)=$(a1)e^{$(a1)t}"),15,:black,:left)))
+	tp2 = 0:0.01:5/a1
+	d2 = 1/a1
+	p2b = plot(tp2,exp.(a1*tp2),c=:black,label="")
+	scatter!([t02],[s02],xlims=(0,5/a1),ylims=(0,exp(5.0)),c=:red,label="")
+	plot!([t02-d2,t02+d2],[s02-v02*d2,s02+v02*d2],c=:blue,label="")
+	plot(p2a,p2b, layout = grid(2, 1, heights = [0.4, 0.6]),size=(1200,600))
 end	
 
 # ╔═╡ ef4720b7-dee8-4617-b121-1e939b3061ad
@@ -114,7 +129,7 @@ $s(t)=e^{\alpha t}, \quad \alpha<0$
 
 # ╔═╡ 523b78c2-02b2-4736-8f89-2f0430a88b02
 md"""
-alpha $(@bind a2 Slider(-1.0:0.1:-0.1,default=-0.5;show_value=true)) \
+α $(@bind a2 Slider(-1.0:0.1:-0.1,default=-0.5;show_value=true)) \
 
 Valores mas negativos decaen mas rapido.
 """
@@ -129,8 +144,14 @@ begin
 	t03 = (t0_3-1)*0.1
 	s03 = exp(a2*t03)
 	v03 = a2*exp(a2*t03)
-	plot_velocity(t03,s03,v03,-0.1,1.15;centerpos=1.0,voffset=-0.01)
+	p3a = plot_velocity(t03,s03,v03,-0.1,1.15;centerpos=1.0,voffset=-0.01)
 	annotate!((0.0,-0.3,text(latexstring("s(t)=e^{$(a2)t} \\ \\ \\ v(t)=$(a2)e^{$(a2)t}"),15,:black,:left)))
+	tp3 = 0:0.01:3.5/(-a2)
+	d3 = -1/a2
+	p3b = plot(tp3,exp.(a2*tp3),c=:black,label="")
+	scatter!([t03],[s03],xlims=(0,3.5/(-a2)),ylims=(0,1),c=:red,label="")
+	plot!([t03-d3,t03+d3],[s03-v03*d3,s03+v03*d3],c=:blue,label="")
+	plot(p3a,p3b, layout = grid(2, 1, heights = [0.4, 0.6]),size=(1200,600))
 end	
 
 # ╔═╡ 976c393e-a42e-44fc-8029-932a43565a04
@@ -168,17 +189,17 @@ Con una tasa compleja $z=\alpha+i\omega$:
 
 $s(t)=e^{zt}=e^{\alpha t}e^{i\omega t}$
 
-La parte real $\alpha$ controla si el radio crece o decrece. La parte imaginaria $\omega$ controla la velocidad angular. Por eso la trayectoria general es una espiral:
+La parte real $\alpha$ controla si el radio (o modulo) crece o decrece. La parte imaginaria $\omega$ controla la velocidad angular. Por eso la trayectoria general es una espiral:
 
-$r(t)=e^{\alpha t}, \quad \theta(t)=\omega t$
+$|s|(t)=e^{\alpha t}, \quad \theta(t)=\omega t$
 """
 
 # ╔═╡ 9981a256-a8a2-4c3d-94ce-c4a6b8e4cbe8
 md"""
-omega $(@bind ω Slider(-2.0:0.1:2.0,default=1.0;show_value=true)) \
-alpha $(@bind a3 Slider(-0.3:0.1:0.3,default=0.0;show_value=true)) \
+ω $(@bind ω Slider(-2.0:0.1:2.0,default=1.0;show_value=true)) \
+α $(@bind a3 Slider(-0.3:0.1:0.3,default=0.0;show_value=true)) \
 
-Prueba $\alpha=0$ para una circunferencia, $\alpha>0$ para una espiral hacia afuera y $\alpha<0$ para una espiral hacia adentro.
+Probar α=0 para una circunferencia, α>0 para una espiral hacia afuera y α<0 para una espiral hacia adentro.
 """
 
 # ╔═╡ 8088bb52-c94d-4816-b0cd-1cb62158b698
@@ -203,7 +224,7 @@ end
 html"""
 <style>
 pluto-notebook {
-    max-width: 1000px;
+    max-width: 1200px;
 }
 input[type*="range"] {
 	width: 25%;
@@ -218,12 +239,13 @@ pluto-helpbox { display: none; }
 # ╟─b3488a41-98c0-4816-91e8-8a9d867689fd
 # ╟─a321b881-11e7-408c-a71e-8ba2ddb632ff
 # ╟─e5e55559-3aab-4fd4-b7a2-ad3a512bb376
+# ╟─483fc9b2-cccb-46bc-8c8f-1502ae43ec8c
 # ╟─cb996baa-8ee5-4dd9-9d61-463ae320eafe
 # ╟─3bfe1b5b-0aa0-4171-9469-99401c09afda
 # ╟─3870562d-e580-4f5d-83d5-804da16432ff
 # ╟─667886da-feaf-4bdc-b2d7-9860ce651b8a
-# ╟─b389d61c-95e3-488b-887d-86edc2d1da9b
 # ╟─ef4720b7-dee8-4617-b121-1e939b3061ad
+# ╟─b389d61c-95e3-488b-887d-86edc2d1da9b
 # ╟─dd520bf5-dd7c-4c15-930b-bf7c4c276111
 # ╟─523b78c2-02b2-4736-8f89-2f0430a88b02
 # ╟─976c393e-a42e-44fc-8029-932a43565a04

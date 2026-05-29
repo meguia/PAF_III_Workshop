@@ -52,7 +52,7 @@ end
 # ╔═╡ a0af0068-1933-4760-9fc1-c7959b3f74b8
 md"""
 A $(@bind Amp Slider(0:0.01:2,default=1.0;show_value=true)) \
-omega $(@bind ω Slider(1.0:0.1:5.0,default=1.0;show_value=true))
+ω $(@bind ω Slider(1.0:0.1:5.0,default=1.0;show_value=true))
 
 $A$ cambia el tamano del circulo y $\omega$ cambia la rapidez del giro.
 """
@@ -135,12 +135,12 @@ sp = html"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 
 # ╔═╡ 0e34247d-671a-46b3-be5b-3f4545d848f0
 md"""
-omega = 1 : $sp A1 = $(@bind A1 Slider(0:0.02:1,default=1.0;show_value=true)) $sp
-phi1 = $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-omega = 2 : $sp A2 = $(@bind A2 Slider(0:0.02:1,default=0.0;show_value=true)) $sp
-phi2 = $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-omega = 3 : $sp A3 = $(@bind A3 Slider(0:0.02:1,default=0.0;show_value=true)) $sp
-phi3 = $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 1 : $sp A1 = $(@bind A1 Slider(0:0.02:1,default=1.0;show_value=true)) $sp
+ϕ1 = $(@bind ϕ1 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 2 : $sp A2 = $(@bind A2 Slider(0:0.02:1,default=0.0;show_value=true)) $sp
+ϕ2 = $(@bind ϕ2 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 3 : $sp A3 = $(@bind A3 Slider(0:0.02:1,default=0.0;show_value=true)) $sp
+ϕ3 = $(@bind ϕ3 Slider(0:0.02:6.28,default=0.0;show_value=true)) \
 
 Explora como las componentes se suman en el plano complejo y en la forma de onda.
 """
@@ -164,10 +164,10 @@ end
 
 # ╔═╡ bf3be160-d8f8-4302-8ece-b4f9826c94be
 md"""
-omega = 1 : $sp A1 = $(@bind A1p Slider(0:0.02:1,default=1.0;show_value=true)) $sp
-phi1 = $(@bind ϕ1p Slider(0:0.02:6.28,default=0.0;show_value=true)) \
-omega = -1 : $sp A-1 = $(@bind A1n Slider(0:0.02:1,default=0.0;show_value=true)) $sp
-phi-1 = $(@bind ϕ1n Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = 1 : $sp A1 = $(@bind A1p Slider(0:0.02:1,default=1.0;show_value=true)) $sp
+ϕ1 = $(@bind ϕ1p Slider(0:0.02:6.28,default=0.0;show_value=true)) \
+ω = -1 : $sp A-1 = $(@bind A1n Slider(0:0.02:1,default=0.0;show_value=true)) $sp
+ϕ-1 = $(@bind ϕ1n Slider(0:0.02:6.28,default=0.0;show_value=true)) \
 
 Las frecuencias positiva y negativa giran en sentidos opuestos.
 """

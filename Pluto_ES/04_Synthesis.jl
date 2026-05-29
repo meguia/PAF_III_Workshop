@@ -66,21 +66,6 @@ md"""
 Para escuchar una suma de oscilaciones, escalamos la frecuencia al rango audible. Aqui $f_0$ es la frecuencia base; las componentes $1,2,3,\ldots$ son armonicos de esa base.
 """
 
-# ╔═╡ e969de73-6dea-45e1-ae02-8f2c91276902
-# ╠═╡ disabled = true
-#=╠═╡
-wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
-  ╠═╡ =#
-
-# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
-# ╠═╡ disabled = true
-#=╠═╡
-let 
-	play 
-	wavplay("audio.wav")
-end
-  ╠═╡ =#
-
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
 	# this is a comment
@@ -113,23 +98,29 @@ $(@bind play CounterButton("Reproducir"))
 La ventana controla cuantos milisegundos de la forma de onda se muestran.
 """
 
+# ╔═╡ 1f093de0-9501-11ef-30d2-4f854ecfb2e5
+let 
+	play 
+	wavplay("audio.wav")
+end
+
 # ╔═╡ 21c750d4-9bc2-4002-a8c8-606856479415
 par_widget = @bind par PlutoUI.combine() do Child
 	md"""
-omega = 1 : $sp A1 = $(Child("A1", Slider(0:0.02:1,default=1.0;show_value=true))) $sp
-phi1 = $(Child("ϕ1", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2))))\
-omega = 2 : $sp A2 = $(Child("A2", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-phi2 = $(Child("ϕ2", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-omega = 3 : $sp A3 = $(Child("A3", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-phi3 = $(Child("ϕ3", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-omega = 4 : $sp A4 = $(Child("A4", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-phi4 = $(Child("ϕ4", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-omega = 5 : $sp A5 = $(Child("A5", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-phi5 = $(Child("ϕ5", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-omega = 6 : $sp A6 = $(Child("A6", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-phi6 = $(Child("ϕ6", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
-omega = 7 : $sp A7 = $(Child("A7", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
-phi7 = $(Child("ϕ7", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2))))
+ω = 1 : $sp A1 = $(Child("A1", Slider(0:0.02:1,default=1.0;show_value=true))) $sp
+ϕ1 = $(Child("ϕ1", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2))))\
+ω = 2 : $sp A2 = $(Child("A2", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+ϕ2 = $(Child("ϕ2", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+ω = 3 : $sp A3 = $(Child("A3", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+ϕ3 = $(Child("ϕ3", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+ω = 4 : $sp A4 = $(Child("A4", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+ϕ4 = $(Child("ϕ4", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+ω = 5 : $sp A5 = $(Child("A5", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+ϕ5 = $(Child("ϕ5", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+ω = 6 : $sp A6 = $(Child("A6", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+ϕ6 = $(Child("ϕ6", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2)))) \
+ω = 7 : $sp A7 = $(Child("A7", Slider(0:0.02:1,default=0.0;show_value=true))) $sp
+ϕ7 = $(Child("ϕ7", Slider(0:pi/12:2*pi,default=0.0;show_value=x->round(x, digits=2))))
 """
 end;
 
@@ -180,6 +171,9 @@ begin
 	end	
 	plot!([0,wdw],[0,0],c=:black,ls=:dash,label="",bottom_margin=7mm)
 end	
+
+# ╔═╡ e969de73-6dea-45e1-ae02-8f2c91276902
+wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "audio.wav", Fs=fs, nbits=16)
 
 # ╔═╡ Cell order:
 # ╟─83f8450d-3225-4f37-ba5d-9f510cf0d497
