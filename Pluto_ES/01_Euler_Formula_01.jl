@@ -23,6 +23,34 @@ begin
 	using Plots, PlutoUI,Symbolics, Latexify, LaTeXStrings, Measures, ProjectRoot, PlutoEditorColorThemes
 end
 
+# ╔═╡ 787deed8-b1f3-4730-b90a-ad83a8be409e
+md"""
+# Numeros Complejos
+"""
+
+# ╔═╡ 1050e78f-aafa-4cbc-86ec-15f621771e93
+md"""
+$i = \sqrt{-1}$
+$z = a + b i$
+$|z| = \sqrt{a^2+b^2}$
+"""
+
+# ╔═╡ bb000831-38b3-47bc-8bb4-da355b2b983a
+md"""
+a $(@bind x Slider(-2:0.01:2,default=1.0;show_value=true)) \
+b $(@bind y Slider(-2:0.01:2,default=1.0;show_value=true))
+"""
+
+# ╔═╡ 1f47eb2e-154a-4da8-b9c6-7da4726ac467
+begin
+	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
+	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginario")
+	plot!([0,x],[0,y],c=:black,label="")
+	plot!([x,x],[0,y],ls=:dash,c=:red,label="")
+	plot!([0,x],[y,y],ls=:dash,c=:red,label="")
+	scatter!([x],[y],c=:red,ms=5,label="")
+end	
+
 # ╔═╡ 66ed5572-84d7-4780-a983-161b854a9cc1
 md"""
 # Formula de Euler
@@ -223,6 +251,10 @@ md"""
 """
 
 # ╔═╡ Cell order:
+# ╟─787deed8-b1f3-4730-b90a-ad83a8be409e
+# ╟─1050e78f-aafa-4cbc-86ec-15f621771e93
+# ╟─1f47eb2e-154a-4da8-b9c6-7da4726ac467
+# ╟─bb000831-38b3-47bc-8bb4-da355b2b983a
 # ╟─66ed5572-84d7-4780-a983-161b854a9cc1
 # ╟─86558140-3c35-4e7d-b534-4e71389b81f3
 # ╟─4fdc6730-94d7-4b83-b346-d620c7e92bb6

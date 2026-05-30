@@ -185,10 +185,7 @@ end;
 plot(snd[1:1000],label="",size=(1200,300))
 
 # ╔═╡ 81a93524-596a-4053-b1bf-88ad64ae9022
-# ╠═╡ disabled = true
-#=╠═╡
 wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "square.wav", Fs=fs, nbits=16)
-  ╠═╡ =#
 
 # ╔═╡ 6f966a00-7a71-4c4e-92ce-e95ec0f7c264
 let 
@@ -211,7 +208,7 @@ end
 # ╟─62758eff-a3c9-4858-8b96-69205658b154
 # ╟─5d27b8a6-6e2c-4264-8406-06f7b5514a31
 # ╟─ae2cf833-8618-4622-9218-6b3c6498f469
-# ╠═81a93524-596a-4053-b1bf-88ad64ae9022
+# ╟─81a93524-596a-4053-b1bf-88ad64ae9022
 # ╟─6f966a00-7a71-4c4e-92ce-e95ec0f7c264
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5

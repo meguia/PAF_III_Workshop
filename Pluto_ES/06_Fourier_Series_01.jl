@@ -38,9 +38,19 @@ En esta version vamos a pensar todas las senales como arrays finitos:
 
 $s = [s[0], s[1], \ldots, s[N-1]]$.
 
-Cada entrada $s[n]$ es un sample. Suponemos que esos $N$ samples cubren un periodo completo de la senal. Entonces todo el trabajo matematico se hace con sumas finitas: promedios, mediciones y productos escalares.
+Cada entrada $s[n]$ es un sample. Suponemos que esos $N$ samples cubren un periodo completo de la señal. Entonces todo el trabajo matematico se hace con sumas finitas: promedios, mediciones y productos escalares.
 
-El bloque elemental de Fourier discreto tambien es un array:
+Vamos a calcular primero cuales serian las frecuencias que oscilan un numero **entero** de veces en esos N samples (porque queremos que la señal sea periodica).
+La frecuencia mas baja es la que hace un ciclo completo de $2\pi$ en los N samples, es decir cuando  $n=N$ tenemos la fase igual a $2\pi$ y para cualquier otro sample la fase va a valer 
+
+$\theta[n] = 2\pi n /N$
+
+y la oscilacion elemental correspondiente a esa frecuencia mas baja (o fundamental, que vamos a llamar frecuencia 1) es
+
+$E_1[n] = e^{i\theta} = e^{i 2\pi n/N}$
+
+Las otras frecuencias me van a dar lo que se conoce como 
+bloque elemental (o base) de Fourier discreto y son los multiplos enteros (positivos y negativos) de esta frecuencia fundamental y estan dados por el array:
 
 $E_k[n] = e^{i 2\pi k n/N}$, con $n=0,\ldots,N-1$.
 
@@ -148,7 +158,7 @@ md"""
 k $(@bind k Slider(-6:1:6,default=1;show_value=true)) $sp
 j $(@bind j Slider(-6:1:6,default=3;show_value=true))
 
-Prueba valores iguales y distintos. Si coinciden, el producto deja de girar; si no coinciden, el promedio discreto se cancela.
+Probar valores iguales y distintos. Si coinciden, el producto deja de girar; si no coinciden, el promedio discreto se cancela.
 """
 
 # ╔═╡ 4f029a92-bcb9-4b11-908c-68688f9d4a6a
