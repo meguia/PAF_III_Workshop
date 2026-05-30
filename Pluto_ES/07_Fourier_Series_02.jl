@@ -37,44 +37,47 @@ md"""
 md"""
 ## Medir cuanto hay de cada oscilacion
 
-El producto promediado sirve para extraer cuanta cantidad de una frecuencia $E_k(t)=e^{ikt}$ hay dentro de una funcion periodica $s(t)$.
+Ahora una senal periodica es un array de $N$ samples:
 
-Multiplicamos por el conjugado:
+$s = [s[0], s[1], \ldots, s[N-1]]$.
 
-$s(t)\overline{E_k(t)}$.
+Para medir cuanto del bin $k$ hay en la senal, multiplicamos sample por sample por el conjugado de ese bin y promediamos:
 
-La componente k-esima deja de girar; las otras siguen girando. Al promediar durante un periodo, las que siguen girando se cancelan. El promedio define el coeficiente complejo:
+$C_k = \frac{1}{N}\sum_{n=0}^{N-1}s[n]\overline{E_k[n]}$.
 
-$C_k=\langle s(t)\overline{E_k(t)}\rangle_T$.
+Como $E_k[n]=e^{i2\pi kn/N}$, tambien podemos escribir:
 
-Como $C_k$ es complejo, contiene amplitud y fase: $C_k=A_ke^{i\phi_k}$.
+$C_k = \frac{1}{N}\sum_{n=0}^{N-1}s[n]e^{-i2\pi kn/N}$.
+
+Este numero $C_k$ es complejo. Su modulo indica la amplitud del bin y su angulo indica la fase. En otras palabras: el coeficiente no solo dice "cuanto hay", tambien dice "con que alineacion de fase aparece".
 """
 
 # ╔═╡ 836adee0-bd41-4391-9831-09c18e4081e3
 md"""
-## Serie de Fourier
+## Transformada discreta de Fourier
 
-Una funcion periodica razonablemente regular, con periodo $2\pi$, puede escribirse como
+La DFT toma un array de samples y devuelve otro array: el array de coeficientes de frecuencia.
 
-$s(t)=\sum_{k=-\infty}^{\infty}C_ke^{ikt}$,
+Analisis:
 
-donde
+$C_k = \frac{1}{N}\sum_{n=0}^{N-1}s[n]e^{-i2\pi kn/N}$.
 
-$C_k=\frac{1}{2\pi}\int_0^{2\pi}s(t)e^{-ikt}\,dt$.
+Sintesis:
 
-La integral es la operacion de medicion: pregunta cuanto de la frecuencia $k$ esta presente en la senal.
+$s[n] = \sum_{k=0}^{N-1}C_k e^{i2\pi kn/N}$.
+
+La primera suma mide la senal contra cada bin. La segunda suma reconstruye la senal sumando todos los bins medidos. No estamos pasando por funciones continuas: todo ocurre dentro de arrays finitos.
 """
 
 # ╔═╡ e60b57f9-d4d0-47f1-8705-5f6858b7211f
-
 md"""
-## Ejemplo: senal cuadrada
+## Ejemplo: senal cuadrada sampleada
 
-Tomamos una senal cuadrada de periodo $2\pi$:
+Tomamos un array que representa un periodo de una senal cuadrada:
 
-$s(t)=1$ si $t<\pi$ y $s(t)=-1$ si $t>\pi$.
+$s[n]=1$ para la primera mitad de los samples, y $s[n]=-1$ para la segunda mitad.
 
-Los coeficientes se calculan promediando por partes: una integral en la primera mitad del periodo y otra en la segunda. Visualmente, esto equivale a ver que contribuciones se cancelan y cuales quedan.
+Los coeficientes se calculan con la suma discreta de la DFT. Visualmente, cada bin gira a una velocidad distinta. Cuando multiplicamos la senal por el conjugado del bin correcto, esa componente queda alineada y sobrevive al promedio. Las componentes que no coinciden se cancelan al sumar.
 """
 
 # ╔═╡ 2924bbc2-e3d5-4a80-a8e0-f44f7e7fb6aa
@@ -90,20 +93,22 @@ end
 
 # ╔═╡ 3aea4336-0be8-4d67-8102-90574813afec
 md"""
-En este caso, al promediar sobre medio periodo, todos los terminos pares desaparecen.
+En la senal cuadrada, los bins pares tienden a cancelarse por simetria: la primera mitad positiva y la segunda mitad negativa empujan en direcciones opuestas. Por eso la energia principal aparece en bins impares.
 """
 
 # ╔═╡ 851958fd-bcbd-4c6a-ac63-f6a5f190662c
 md"""
-$\int_0^{\pi} e^{-ikt} dt = \frac{i}{k}(e^{-ik\pi}-1)$.
+La lectura discreta es:
 
-Para $k$ par, $e^{-ik\pi}=1$ y la contribucion es cero. Para $k$ impar, $e^{-ik\pi}=-1$ y queda una contribucion distinta de cero.
+$C_k = \frac{1}{N}\sum_{n=0}^{N-1}s[n]e^{-i2\pi kn/N}$.
 
-Finalmente:
+Si $s[n]$ es cuadrada y simetrica, muchos bins se cancelan exactamente o casi exactamente. Los bins impares son los que mas contribuyen a reconstruir los saltos.
 
-$C_k=\begin{cases}-i\frac{2}{k\pi}, & k\ \text{impar}\\0, & k\ \text{par}\end{cases}$
+Cuando reconstruimos usando solo algunos bins:
 
-La senal cuadrada se reconstruye sumando solo armonicos impares. Al aumentar $N$, la aproximacion mejora, aunque cerca del salto aparece el fenomeno de Gibbs.
+$\hat{s}[n] = \sum_{k\in K}C_k e^{i2\pi kn/N}$,
+
+obtenemos una aproximacion. Al agregar mas bins, la forma se parece mas a la cuadrada. Cerca de los saltos aparece una oscilacion caracteristica: el fenomeno de Gibbs.
 """
 
 # ╔═╡ 1ebb82c2-7d93-4784-a54d-eaf0f5e365f7
@@ -113,20 +118,24 @@ La senal cuadrada se reconstruye sumando solo armonicos impares. Al aumentar $N$
 md"""
 N $(@bind nmax Slider(1:2:21,default=1;show_value=true))
 
-Usa solo valores impares para agregar armonicos impares a la reconstruccion.
+Este control elige cuantos bins impares conservar alrededor de la frecuencia cero. La reconstruccion usa coeficientes calculados desde samples discretos.
 """
 
 # ╔═╡ 8c3a84be-5b4d-4dec-b75d-f388307a9148
 begin 
 	t2 = mod(t_2-0.99,400)*(4*pi)/400
-	frq = -nmax:2:nmax
-	Amps = 2 ./(pi*frq)
-	ϕs = -pi/2*ones(size(Amps))
+	frq = collect(-nmax:2:nmax)
+	Ncoef = 512
+	ncoef = collect(0:Ncoef-1)
+	s_array = ifelse.(ncoef .< Ncoef/2, 1.0, -1.0)
+	Csel = [sum(s_array .* exp.(-im*2*pi*k .* ncoef ./ Ncoef))/Ncoef for k in frq]
+	Amps = abs.(Csel)
+	ϕs = angle.(Csel)
 	Am = 2.0
 	l2 = @layout [[a{0.33w, 0.33h} b{0.66w}]; c{0.33w, 0.66h} _{0.66w}]
 	plts = plot_ntones_twoaxis(t2,Amps,frq,ϕs,Am;plot_trace=true)
 	plot(plts...,layout=l2, left_margin=[10mm -13mm],top_margin=[-10mm 13mm],size=(1200,1200))
-end	
+end
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
 begin
@@ -157,7 +166,7 @@ md"""
 f0 $(@bind f0 Slider(100:10:200,default=100;show_value=true)) $sp
 $(@bind play CounterButton("Reproducir"))
 
-El sonido resultante se acerca a una onda cuadrada al agregar mas armonicos.
+El sonido usa la misma idea: sumar bins discretos medidos de la senal cuadrada sampleada.
 """
 
 # ╔═╡ ae2cf833-8618-4622-9218-6b3c6498f469
@@ -165,10 +174,10 @@ begin
 	fs = 44100
 	dt = 1/fs
 	ts = collect(0:dt:2)
-	N2 = Int((nmax+1)/2)
-	AM = reshape(Amps[N2+1:end],1,N2)
-	ωM = reshape(frq[N2+1:end],1,N2)*2*pi*f0
-	components = AM.*sin.(ωM.*ts)
+	pos = frq .> 0
+	Cpos = Csel[pos]
+	frqpos = frq[pos]
+	components = 2 .* abs.(Cpos)' .* cos.(2*pi*f0 .* ts .* frqpos' .+ angle.(Cpos)')
 	snd = sum(components,dims=2)	
 end;
 
@@ -176,7 +185,10 @@ end;
 plot(snd[1:1000],label="",size=(1200,300))
 
 # ╔═╡ 81a93524-596a-4053-b1bf-88ad64ae9022
+# ╠═╡ disabled = true
+#=╠═╡
 wavwrite(Int.(trunc.(0.9*snd/maximum(abs.(snd))*2^15)), "square.wav", Fs=fs, nbits=16)
+  ╠═╡ =#
 
 # ╔═╡ 6f966a00-7a71-4c4e-92ce-e95ec0f7c264
 let 
@@ -199,7 +211,7 @@ end
 # ╟─62758eff-a3c9-4858-8b96-69205658b154
 # ╟─5d27b8a6-6e2c-4264-8406-06f7b5514a31
 # ╟─ae2cf833-8618-4622-9218-6b3c6498f469
-# ╟─81a93524-596a-4053-b1bf-88ad64ae9022
+# ╠═81a93524-596a-4053-b1bf-88ad64ae9022
 # ╟─6f966a00-7a71-4c4e-92ce-e95ec0f7c264
 # ╟─45d2b2d7-3e53-44c0-a7b9-56c1794ebc2e
 # ╟─b708f59c-905d-45d8-8a48-70b3bb534af5

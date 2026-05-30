@@ -65,10 +65,14 @@ begin
 	s01 = s0+t01*v01
 	p1a = plot_velocity(t01,s01,v01,min(s01+v01,-2),max(s01+v01,7))
 	annotate!((0.0,-0.3,text(latexstring("s(t)=1+vt"),15,:black,:left)))
-	tp1 = 0:0.01:5/(abs(v01)+0.1)
+	tp1 = 0:0.01:5/(abs(v01)+0.01)
 	d1 = 1/(abs(v01)+0.1)
 	p1b = plot(tp1,s0.+tp1*v01,c=:black,label="")
-	scatter!([t01],[s01],xlims=(0,5/abs(v01)),c=:red,label="")
+	if v01>0
+		scatter!([t01],[s01],xlims=(0,5/abs(v01)),ylims=(0,6),c=:red,label="")
+	else
+		scatter!([t01],[s01],xlims=(0,5/abs(v01)),ylims=(-5,1),c=:red,label="")
+	end	
 	plot!([t01-d1,t01+d1],[s01-v01*d1,s01+v01*d1],c=:blue,label="")
 	plot(p1a,p1b, layout = grid(2, 1, heights = [0.4, 0.6]),size=(1200,600))
 end	

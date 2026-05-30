@@ -43,6 +43,8 @@ por lo tanto
 $z = |z|\cos(\theta) + i |z|\sin(\theta)$
 
 La parte real es la proyeccion sobre el eje real y la parte imaginaria es la proyeccion sobre el eje imaginario. El numero complejo puede leerse entonces como un vector de modulo $|z|$ que sale del origen y que apunta en la direccion $\theta$.
+
+Esta forma tambien muestra por que la multiplicacion de complejos tiene una interpretacion geometrica simple: al multiplicar, los modulos se multiplican y los angulos se suman. Es decir, multiplicar por un complejo equivale a estirar o achicar y despues rotar.
 """
 
 # ╔═╡ f46c59db-3ddc-4683-aaa2-4e443558901e
@@ -58,7 +60,7 @@ begin
 	x0 = A*cos(θ)
 	y0 = A*sin(θ)
 	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
-	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginary")
+	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginario")
 	plot!([0,x0],[0,y0],c=:black,label="")
 	plot!([x0,x0],[0,y0],ls=:dash,c=:red,label="")
 	plot!([0,x0],[y0,y0],ls=:dash,c=:red,label="")
@@ -82,17 +84,13 @@ end
 
 # ╔═╡ 12553b12-a46d-4b46-850c-a738f2b246cb
 md"""
-## Multiplicacion de Complejos
+## Visualizacion de la regla anterior
 
-Dos complejos $z_1$, $z_2$ expresados en la forma de Euler se multiplican siguiendo las reglas de la potencia:
+Ya explicamos como se multiplican complejos. Ahora usemos esa regla como herramienta geometrica.
 
-$z_1 = |z_1| e^{\theta_1}$
+En el grafico, $z_1$ esta en rojo, $z_2$ en azul y el producto $z_1z_2$ en magenta. Puedes leer la multiplicacion como una transformacion aplicada a $z_1$: el modulo de $z_2$ estira o achica la flecha roja, y el angulo de $z_2$ la rota.
 
-$z_2 = |z_2| e^{\theta_2}$
-
-$z_1\, z_2 = |z_1||z_2| e^{\theta_1}\, e^{\theta_2} = |z_1||z_2| e^{\theta_1+\theta_2}$
-
-Es decir, los modulos se multiplican entre si, pero los angulos se suman. Esto geometricamente equivale a decir: "primero rotamos en la direccion $\theta_1$ y luego en la direccion $\theta_2$". Probar con los ejemplos abajo:
+Los valores debajo del control muestran el modulo y el angulo que resultan de esa transformacion.
 """
 
 # ╔═╡ 1f7971af-5bfc-461f-babd-7d339a736c2b
@@ -111,8 +109,9 @@ begin
 	y02 = A2*sin(θ2)
 	x012 = A1*A2*cos(θ1+θ2)
 	y012 = A1*A2*sin(θ1+θ2)
-	pp = plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
-	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginary")
+	limprod = max(2.0, A1 + 0.2, A2 + 0.2, A1*A2 + 0.2)
+	pp = plot([-limprod,limprod],[0,0],ls=:dash,c=:gray,label="",xlims=(-limprod,limprod),ylims=(-limprod,limprod),size=(500,500))
+	plot!([0,0],[-limprod,limprod],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginario")
 	plot!([0,x01],[0,y01],c=:black,label="")
 	#plot!([x01,x01],[0,y01],ls=:dash,c=:red,label="")
 	#plot!([0,x01],[y01,y01],ls=:dash,c=:red,label="")
@@ -174,7 +173,7 @@ begin
 	x03 = A3*cos(θ3)
 	y03 = A3*sin(θ3)
 	plot([-2,2],[0,0],ls=:dash,c=:gray,label="",xlims=(-2,2),ylims=(-2,2),size=(400,400))
-	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginary")
+	plot!([0,0],[-2,2],ls=:dash,c=:gray,label="",xlabel="Real",ylabel="Imaginario")
 	plot!([0,x03],[0,y03],c=:black,label="")
 	plot!([x03,x03],[0,y03],ls=:dash,c=:red,label="")
 	plot!([0,x03],[y03,y03],ls=:dash,c=:red,label="")
@@ -185,7 +184,7 @@ begin
 		arcy3 = A3/3*sin.(0:sign(θ3)*pi/100:θ3)
 		plot!(arcx3,arcy3,ls=:dash,c=:green,label="")
 		plot!(arcx3,-arcy3,ls=:dash,c=:green,label="")
-		annotate!(0.3*A*cos(θ3/2),0.3*A*sin(θ3/2),text(latexstring("\\theta"),:green))
+		annotate!(0.3*A3*cos(θ3/2),0.3*A3*sin(θ3/2),text(latexstring("\\theta"),:green))
 		annotate!(0.3*A3*cos(θ3/2),-0.3*A3*sin(θ3/2),text(latexstring("-\\theta"),:green))
 	end
 	plot!([x03,x03],[0,-y03],ls=:dash,c=:blue,label="")
@@ -227,11 +226,11 @@ md"""
 # ╟─66ed5572-84d7-4780-a983-161b854a9cc1
 # ╟─86558140-3c35-4e7d-b534-4e71389b81f3
 # ╟─4fdc6730-94d7-4b83-b346-d620c7e92bb6
-# ╠═f46c59db-3ddc-4683-aaa2-4e443558901e
+# ╟─f46c59db-3ddc-4683-aaa2-4e443558901e
 # ╟─12553b12-a46d-4b46-850c-a738f2b246cb
-# ╟─995a22c9-4f0e-484c-a3a3-b5733b07385c
 # ╟─1f7971af-5bfc-461f-babd-7d339a736c2b
 # ╟─0c304f71-c0d1-4154-b264-e476f0d16e0d
+# ╟─995a22c9-4f0e-484c-a3a3-b5733b07385c
 # ╟─7172ae6c-910c-46c2-8f8b-e1f04703fce0
 # ╟─8af8012f-15e0-4b93-81fa-b3dc37ec919b
 # ╟─0b08da7d-117f-49f4-8bc5-edfb7ed7602c

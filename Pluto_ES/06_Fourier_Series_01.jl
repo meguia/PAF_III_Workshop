@@ -32,30 +32,30 @@ include("../iii_utils.jl");
 md"""
 # Series de Fourier, parte I
 
-## Oscilaciones elementales
+## De funciones continuas a arrays de samples
 
-Definimos la k-esima oscilacion elemental:
+En esta version vamos a pensar todas las senales como arrays finitos:
 
-$E_k(t)=e^{ikt}$, con $k\in\mathbb{Z}$.
+$s = [s[0], s[1], \ldots, s[N-1]]$.
 
-Tomamos periodo fundamental $T=2\pi$. Para otro periodo $T$, se usa $\omega_0=2\pi/T$ y $E_k(t)=e^{ik\omega_0t}$.
+Cada entrada $s[n]$ es un sample. Suponemos que esos $N$ samples cubren un periodo completo de la senal. Entonces todo el trabajo matematico se hace con sumas finitas: promedios, mediciones y productos escalares.
 
-Propiedades importantes:
+El bloque elemental de Fourier discreto tambien es un array:
 
-$E_k(t)E_j(t)=E_{k+j}(t)$
+$E_k[n] = e^{i 2\pi k n/N}$, con $n=0,\ldots,N-1$.
 
-$\overline{E_k(t)}=E_{-k}(t)$
+El indice $k$ indica cuantas vueltas completa esa oscilacion dentro de los $N$ samples. En la DFT, los valores de $k$ son bins de frecuencia. Como el array es finito, los indices se leen modulo $N$: por ejemplo, $k=N-1$ representa la frecuencia $-1$.
 
-$\frac{d}{dt}e^{ikt}=ike^{ikt}$
-
-Estas reglas hacen que las oscilaciones elementales funcionen como una base algebraica para senales periodicas.
+La idea conceptual es esta: medimos una senal comparandola con estos arrays giratorios.
 """
 
 # ╔═╡ 74ac1574-8b21-499c-891d-70c6e510cfa0
 md"""
 ## Oscilaciones elementales de k=-6 a k=6
 
-Las frecuencias negativas giran en sentido contrario. La frecuencia $k=0$ no gira: es una constante.
+La animacion muestra la geometria de varios bins. Las frecuencias positivas giran en un sentido, las negativas en el contrario, y $k=0$ no gira: es el array constante.
+
+Aunque el dibujo usa un parametro continuo para mostrar la rotacion, la interpretacion que usaremos desde ahora es discreta: miramos solamente los valores en los samples $n=0,\ldots,N-1$.
 """
 
 # ╔═╡ 263affc0-a928-4d6f-97e9-48aa6126d1f3
@@ -71,13 +71,19 @@ end
 
 # ╔═╡ 8338e09a-6751-4aaf-b5a1-8c651e6c5cb8
 md"""
-## Promedios
+## Promedios discretos
 
-El promedio de una oscilacion elemental en un periodo completo es cero, excepto para $k=0$:
+El promedio de un array de $N$ samples es
 
-$\langle E_k(t)\rangle_{2\pi}=0$ si $k\neq0$, y $\langle E_0(t)\rangle_{2\pi}=1$.
+$\mathrm{promedio}(x)=\frac{1}{N}\sum_{n=0}^{N-1} x[n]$.
 
-La razon geometrica es que una vuelta completa alrededor del circulo se cancela: las contribuciones en direcciones opuestas suman cero.
+Para una oscilacion elemental:
+
+$\frac{1}{N}\sum_{n=0}^{N-1}E_k[n]=0$ si $k\neq0$ modulo $N$.
+
+Para $k=0$, $E_0[n]=1$ en todos los samples, entonces el promedio vale $1$.
+
+Geometricamente: cuando $k\neq0$, los puntos se reparten alrededor del circulo complejo y se cancelan al sumar. Cuando $k=0$, todos los puntos estan en $1$ y no hay cancelacion.
 """
 
 
@@ -86,11 +92,13 @@ La razon geometrica es que una vuelta completa alrededor del circulo se cancela:
 md"""
 ## Multiplicar por el conjugado para "congelar"
 
-Si tenemos $E_k(t)$ y queremos detectar su indice, lo multiplicamos por el conjugado de una oscilacion conocida $E_j(t)$:
+Si tenemos un bin $E_k$ y queremos saber si coincide con otro bin $E_j$, multiplicamos sample por sample por el conjugado:
 
-$E_k(t)\overline{E_j(t)}=E_{k-j}(t)$.
+$(E_k \cdot \overline{E_j})[n] = E_k[n]\overline{E_j[n]} = E_{k-j}[n]$.
 
-Si $k=j$, queda $E_0(t)=1$, que no gira. Si $k\neq j$, sigue girando y su promedio es cero.
+Si $k=j$, el resultado es $E_0[n]=1$: queda congelado. Su promedio es $1$.
+
+Si $k\neq j$, el resultado sigue girando. Al promediar sobre todos los samples, se cancela y da $0$.
 """
 
 # ╔═╡ 2924bbc2-e3d5-4a80-a8e0-f44f7e7fb6aa
@@ -98,13 +106,17 @@ Si $k=j$, queda $E_0(t)=1$, que no gira. Si $k\neq j$, sigue girando y su promed
 
 # ╔═╡ d2ac89ac-a0b8-49aa-8830-521b5bcba681
 md"""
-# Producto promediado entre elementos
+# Producto escalar discreto entre bins
 
-Definimos un producto interno como el promedio de una oscilacion por el conjugado de otra:
+Definimos el producto escalar entre dos arrays complejos como:
 
-$\langle E_k,E_j\rangle=\langle E_k(t)\overline{E_j(t)}\rangle_T$.
+$\langle x,y\rangle = \frac{1}{N}\sum_{n=0}^{N-1}x[n]\overline{y[n]}$.
 
-El resultado es $0$ si $k\neq j$ y $1$ si $k=j$. Esto significa que las oscilaciones elementales son ortogonales: solo coinciden consigo mismas.
+Para los bins de Fourier:
+
+$\langle E_k,E_j\rangle = \frac{1}{N}\sum_{n=0}^{N-1}E_k[n]\overline{E_j[n]}$.
+
+El resultado es $1$ si $k=j$ modulo $N$, y $0$ si no coinciden. Esta es la ortogonalidad discreta: cada bin mide una direccion independiente dentro del espacio de arrays de longitud $N$.
 """
 
 # ╔═╡ b708f59c-905d-45d8-8a48-70b3bb534af5
@@ -136,7 +148,7 @@ md"""
 k $(@bind k Slider(-6:1:6,default=1;show_value=true)) $sp
 j $(@bind j Slider(-6:1:6,default=3;show_value=true))
 
-Prueba valores iguales y distintos para ver cuando el producto queda quieto.
+Prueba valores iguales y distintos. Si coinciden, el producto deja de girar; si no coinciden, el promedio discreto se cancela.
 """
 
 # ╔═╡ 4f029a92-bcb9-4b11-908c-68688f9d4a6a
